@@ -1,0 +1,61 @@
+============================================================
+REPORTE ESCENARIO 2: Mutualismo fuerte (N↑ P↓ C↑)
+============================================================
+
+CONFIGURACIÓN
+----------------------------------------
+  Versión de parámetros : v2
+  Tiempo de simulación  : 0 – 3600 días
+  Pasos de integración  : 1500
+  Umbral N crítico      : 0.1200
+  Umbral P crítico      : 0.1000
+
+CLASIFICACIÓN FUNCIONAL (Trade Balance Model)
+----------------------------------------
+  Escenario dominante   : III: Comensalismo
+
+  Proporción de tiempo en cada escenario:
+    III: Comensalismo                     87.7% ◄ dominante
+    IV: Parasitismo                       12.1%
+    I: Mutualismo C-limitado               0.1%
+    II: Mutualismo fuerte                  0.1%
+
+BIOMASAS (valor final)
+----------------------------------------
+  Biomasa Planta : 0.070275
+  Biomasa Hongo  : 7.647327
+  Plant_Active   : 0.069662
+  Plant_Limited  : 0.000614
+  Fungus         : 7.647327
+  Mycelium       : 0.000000
+
+INTERCAMBIOS SIMBIÓTICOS (valor final)
+----------------------------------------
+  C (Planta → Hongo) : 0.103082
+  N (Hongo → Planta) : 0.351426
+  P (Hongo → Planta) : 0.003486
+
+RETORNO DE INVERSIÓN (media temporal)
+----------------------------------------
+  ROI Planta (N+P)/C : 1.909733
+  ROI Hongo  C/(N+P) : 1.186808
+  Eficiencia N/C     : 1.875624
+  Eficiencia P/C     : 0.034109
+
+NUTRIENTES EN SUELO (estadísticas)
+----------------------------------------
+  N_soil:
+    min=0.0394  max=0.5000  media=0.0666  std=0.0344
+  P_avail:
+    min=0.0757  max=7.8405  media=1.5038  std=2.3452
+
+INTENSIDADES MEDIAS POR CUADRANTE
+----------------------------------------
+  I: Mutualismo C-limitado            0.000002
+  II: Mutualismo fuerte               0.000000
+  III: Comensalismo                   0.238750
+  IV: Parasitismo                     0.060710
+
+============================================================
+FIN DEL REPORTE
+============================================================

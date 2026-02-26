@@ -1,0 +1,59 @@
+============================================================
+REPORTE ESCENARIO 1: Mutualismo limitado por C (N↓ P↓ C↓)
+============================================================
+
+CONFIGURACIÓN
+----------------------------------------
+  Versión de parámetros : v1
+  Tiempo de simulación  : 0 – 3600 días
+  Pasos de integración  : 1500
+  Umbral N crítico      : 0.1200
+  Umbral P crítico      : 0.1000
+
+CLASIFICACIÓN FUNCIONAL (Trade Balance Model)
+----------------------------------------
+  Escenario dominante   : IV: Parasitismo
+
+  Proporción de tiempo en cada escenario:
+    IV: Parasitismo                       99.9% ◄ dominante
+    II: Mutualismo fuerte                  0.1%
+
+BIOMASAS (valor final)
+----------------------------------------
+  Biomasa Planta : 2.017791
+  Biomasa Hongo  : 3.976312
+  Plant_Active   : 0.804397
+  Plant_Limited  : 1.213394
+  Fungus         : 3.976312
+  Mycelium       : 0.000000
+
+INTERCAMBIOS SIMBIÓTICOS (valor final)
+----------------------------------------
+  C (Planta → Hongo) : 0.299977
+  N (Hongo → Planta) : 0.069993
+  P (Hongo → Planta) : 0.040097
+
+RETORNO DE INVERSIÓN (media temporal)
+----------------------------------------
+  ROI Planta (N+P)/C : 0.591307
+  ROI Hongo  C/(N+P) : 1.923250
+  Eficiencia N/C     : 0.335825
+  Eficiencia P/C     : 0.255482
+
+NUTRIENTES EN SUELO (estadísticas)
+----------------------------------------
+  N_soil:
+    min=0.1500  max=89.3341  media=51.0168  std=24.3952
+  P_avail:
+    min=0.0943  max=0.7355  media=0.4443  std=0.1143
+
+INTENSIDADES MEDIAS POR CUADRANTE
+----------------------------------------
+  I: Mutualismo C-limitado            0.000000
+  II: Mutualismo fuerte               0.000004
+  III: Comensalismo                   0.000000
+  IV: Parasitismo                     0.495899
+
+============================================================
+FIN DEL REPORTE
+============================================================
