@@ -25,8 +25,9 @@ import matplotlib.pyplot as plt
 import warnings
 warnings.filterwarnings('ignore')
 
-# Add the root directory to the PYTHONPATH
-sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))))
+# Add src directory to path for pyCOT imports
+_pycot_root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
+sys.path.insert(0, os.path.join(_pycot_root, 'src'))
 from pyCOT.io.functions import read_txt
 from pyCOT.core.semantic_partition import define_semantic_categories, SemanticPartition
 from pyCOT.analysis.process_analyzer import (classify_process_mode, is_cognitive_domain,
@@ -3087,9 +3088,9 @@ def main():
                   len(GOVERNMENT_STRATEGIES) * len(ARMED_GROUP_STRATEGIES))
     print(f"\nTotal: {total_sims} simulations, each for 20 years")
 
-    # Load the model
-    project_root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
-    model_file = os.path.join(project_root, 'networks/Conflict_Theory/Resource_Community_Insurgency_Loops_model3.txt')
+    # Load the model - Use local model file in scripts/data folder
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    model_file = os.path.join(script_dir, 'data', 'Resource_Community_Insurgency_Loops_model3.txt')
 
     # Run batch simulation
     results = run_batch_simulation(model_file, climate_params, BUDGET_RENEWAL_RATES,

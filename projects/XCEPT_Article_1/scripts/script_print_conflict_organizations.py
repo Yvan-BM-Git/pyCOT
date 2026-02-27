@@ -1,7 +1,8 @@
 import os
 import sys
-# Add the project root directory to the PYTHONPATH (go up 4 levels from scripts/XCEPT_project/Article_1/)
-sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))))
+# Add src directory to path for pyCOT imports
+_pycot_root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
+sys.path.insert(0, os.path.join(_pycot_root, 'src'))
 
 from pyCOT.io.functions import read_txt
 from pyCOT.analysis.Persistent_Modules_Generator import compute_all_organizations
@@ -361,15 +362,9 @@ if __name__ == "__main__":
     print("CONFLICT ORGANIZATION ANALYZER")
     print("=" * 60)
     
-    # Choose your network file
-    # Get the project root directory (where pyCOT is located)
-    project_root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
-    
-    file_path = os.path.join(project_root, 'networks/Conflict_Theory/Resource_Community_Insurgency_Loops_model3.txt')
-    # file_path = os.path.join(project_root, 'networks/Conflict_Theory/conflict_toy_model0.txt')
-    # file_path = os.path.join(project_root, 'networks/Conflict_Theory/cause_driven_conflict_gov.txt')
-    # file_path = os.path.join(project_root, 'networks/Conflict_Theory/Resource_Scarcity_Toy_Model2.txt')
-    # file_path = 'Txt/Farm.txt'  # For testing
+    # Choose your network file - Use local model file in scripts/data folder
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    file_path = os.path.join(script_dir, 'data', 'Resource_Community_Insurgency_Loops_model3.txt')
     
     # Check if file exists
     if not os.path.exists(file_path):

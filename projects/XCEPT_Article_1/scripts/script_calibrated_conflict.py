@@ -32,7 +32,9 @@ from dataclasses import dataclass
 import os
 import sys
 
-sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))))
+# Add src directory to path for pyCOT imports
+_pycot_root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
+sys.path.insert(0, os.path.join(_pycot_root, 'src'))
 
 from pyCOT.io.functions import read_txt
 
@@ -62,7 +64,9 @@ AG_LOW = 0.0002       # 0.02% = 3,400 fighters
 
 # ==================== LOAD NETWORK ====================
 
-FILE_PATH = 'networks/Conflict_Theory/Resource_Community_Insurgency_Loops_model1.txt'
+# Use local model file in scripts/data folder
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+FILE_PATH = os.path.join(SCRIPT_DIR, 'data', 'Resource_Community_Insurgency_Loops_model3.txt')
 
 def load_network():
     rn = read_txt(FILE_PATH)
@@ -777,7 +781,7 @@ def create_calibrated_visualizations(df: pd.DataFrame):
     plt.tight_layout()
     plt.savefig('calibrated_conflict_results.png', dpi=150, bbox_inches='tight')
     print("\nVisualization saved to 'calibrated_conflict_results.png'")
-    plt.show()
+    plt.close()  # Close instead of show for non-interactive execution
 
 # ==================== MAIN ====================
 

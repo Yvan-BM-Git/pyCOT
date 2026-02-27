@@ -6,7 +6,10 @@ import os
 import sys
 
 # Add the project root directory to the PYTHONPATH
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+# Navigate from scripts/experimental/ -> scripts -> pyCOT (root) -> src
+project_root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+src_path = os.path.join(project_root, 'src')
+sys.path.insert(0, src_path)
 
 # Import pyCOT modules
 from pyCOT.io.functions import read_txt, generate_subnetwork_txt
@@ -17,6 +20,7 @@ from pyCOT.analysis.Persistent_Modules_Generator import compute_all_organization
 # 2. CREATING THE REACTION_NETWORK OBJECT
 # ========================================
 file_path = 'Txt/Farm.txt'
+file_path = 'networks/testing/binary_RAF1.txt'
 # file_path = 'Txt/autopoietic.txt'
 # file_path = 'Txt/2007Dittrich-Speroni_fixed_point.txt'
 # file_path = 'Txt/2007Dittrich-Speroni_Ex_HIV.txt'
@@ -35,14 +39,17 @@ file_path = 'Txt/Farm.txt'
 #file_path = 'networks/RandomAlife/RN_Ns_40_Norg_17_id_564.txt'
 # file_path = 'networks/Navarino/RN_IN_05.txt'
 # file_path = 'networks/Marine_Ecosystem/Las_Cruces_251021.txt'
-file_path = 'networks/Conflict_Theory/conflict_toy_model0.txt'
-file_path = 'networks/Conflict_Theory/cause_driven_conflict_gov.txt'
-file_path = 'networks/Conflict_Theory/Resource_Scarcity_Toy_Model2.txt'
-file_path = 'networks/Conflict_Theory/Resource_Community_Insurgency_Loops_model3.txt'  # Conflict model
+# file_path = 'networks/Conflict_Theory/conflict_toy_model0.txt'
+# file_path = 'networks/Conflict_Theory/cause_driven_conflict_gov.txt'
+# file_path = 'networks/Conflict_Theory/Resource_Scarcity_Toy_Model2.txt'
+#file_path = 'data/conflict_theory/Resource_Community_Insurgency_Loops_model3.txt'  # Conflict model
 
+# Convert relative path to absolute path from project root
+file_path = 'data/biomodels/biomodels_interesting/BMID000000141754_url.txt'
+file_path = os.path.join(project_root, file_path)
 
-rn = read_txt(file_path) 
-
+rn = read_txt(file_path)
+rn_visualize_html(rn, filename="rn1.html")
 # ========================================
 # 3. COMPUTE SEMI-ORGANIZATIONS AND ORGANIZATIONS
 # ======================================== 

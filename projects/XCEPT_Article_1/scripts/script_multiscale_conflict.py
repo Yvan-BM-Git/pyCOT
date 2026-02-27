@@ -17,7 +17,9 @@ Usage:
 
 import sys
 import os
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+# Add src directory to path for pyCOT imports
+_pycot_root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
+sys.path.insert(0, os.path.join(_pycot_root, 'src'))
 
 import numpy as np
 import matplotlib.pyplot as plt
@@ -33,13 +35,14 @@ from pyCOT.analysis.process_analyzer import analyze_temporal_scale
 # CONFIGURATION
 # ========================================
 
-# Model loading
-FILE_PATH = 'networks/Conflict_Theory/Resource_Scarcity_Toy_Model2.txt'
+# Model loading - Use local model file in scripts/data folder
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+FILE_PATH = os.path.join(SCRIPT_DIR, 'data', 'Resource_Community_Insurgency_Loops_model3.txt')
 
-# Semantic categories for conflict model
+# Semantic categories for Resource_Community_Insurgency_Loops model
 CATEGORY_DEFINITIONS = {
-    'peace': ['SR', 'R', 'E', 'T'],      # Strong regions, Resources, Economy, Trust
-    'conflict': ['DT', 'V', 'WR']        # Detached, Violence, Weak regions
+    'peace': ['SR_RL', 'SR_SL', 'E', 'T', 'Gov', 'RL'],      # Strong resilient, Economy, Trust, Governance, Restored Land
+    'conflict': ['AG_RL', 'AG_SL', 'V', 'WR_RL', 'WR_SL', 'SL']  # Armed groups, Violence, Weak resilient, Stressed Land
 }
 
 # Temporal scales to analyze (in timesteps)
@@ -48,7 +51,22 @@ WINDOW_SIZES = [1, 5, 10, 20, 40]
 # Simulation parameters
 SIMULATION_TIME = 200
 N_STEPS = 400
-INITIAL_CONDITION = [1.0, 0.0, 0.0, 0.5, 1.5, 0.0, 0.0]  # [SR, R, E, WR, DT, T, V]
+# Initial condition for Resource_Community_Insurgency_Loops model
+# Species: SR_RL, SR_SL, WR_RL, WR_SL, AG_RL, AG_SL, RL, SL, E, T, V, Gov
+INITIAL_CONDITION = [
+    12.0,   # SR_RL - Strong resilient on resource land
+    8.0,    # SR_SL - Strong resilient on stressed land
+    10.0,   # WR_RL - Weak resilient on resource land
+    15.0,   # WR_SL - Weak resilient on stressed land
+    0.5,    # AG_RL - Armed groups on resource land
+    1.5,    # AG_SL - Armed groups on stressed land
+    20.0,   # RL - Restored land
+    100.0,  # SL - Stressed land
+    50.0,   # E - Economy
+    20.0,   # T - Trust
+    30.0,   # V - Violence
+    10.0    # Gov - Governance
+]
 
 # ========================================
 # BASELINE PARAMETERS (REFERENCE)

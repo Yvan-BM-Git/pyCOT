@@ -13,7 +13,8 @@
       "Bash(git config:*)",
       "Bash(python scripts/script_org_computation_pypeline1.py:*)",
       "Bash(python:*)",
-      "Bash(ls:*)"
+      "Bash(ls:*)",
+      "Bash(pip show:*)"
     ],
     "deny": [],
     "ask": [],
