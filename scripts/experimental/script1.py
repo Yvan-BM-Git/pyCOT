@@ -15,14 +15,16 @@ from pyCOT.visualization.rn_visualize import rn_visualize_html, rn_visualize_png
 # ========================================
 # 2. CREATING THE REACTION_NETWORK OBJECT
 # ======================================== 
-# file_path = 'Txt/Farm.txt' 
-file_path = 'Txt/autopoietic.txt'  # Change this path according to the desired file
-# file_path = 'Txt/autopoietic1.txt'
-# file_path = 'Txt/SEIR.txt' 
-# file_path = 'Txt/2007Dittrich-Speroni_E.coli.txt'
-# file_path = 'networks/testing/Lotka_Volterra.txt'  
-file_path = 'networks/Conflict_Theory/Resource_Scarcity_Toy_Model2.txt'
+file_path = 'data/examples/autopoietic.txt'  # Change this path according to the desired file
+# file_path = 'data/examples/Farm.txt'            
+file_path = 'data/ai_generated/EColi.txt'      
+
+# Option 1: Create a ReactionNetwork from a string
 rn = read_txt(file_path)  # Creates the variable rn containing an object of ReactionNetwork class
+
+# Option 2: Create a ReactionNetwork from a .txt file with exact names (case-sensitive)
+# file_path = 'data/examples/PassiveUncomforableIndignated_problemsolution.txt' 
+# rn = read_txt(file_path, exact_names=True) # exact_names=True to preserve the distinction between species with s ≠ S (e.g., 's' and 'S'):
 
 rn_comments = rn.reaction_comments
 print("Diccionario con las reacciones que tienen comentarios:\n",rn_comments)
@@ -46,11 +48,11 @@ The Species object has the following attributes:
 - quantity: The initial quantity or concentration of the species in the reaction network (can be None if not set).
 """
 print("-"*100)
-print("List of Species objects:") 
+# print("List of Species objects:") 
 species_list = rn.species()
-print(species_list)
-for specie in species_list:
-    print(specie) 
+# print(species_list)
+# for specie in species_list:
+#     print(specie) 
 
 species = [specie.name for specie in species_list]
 print("\nSpecies Set =",species) # Prints the list of the set of species 
@@ -76,65 +78,68 @@ The Reaction class has the following attributes:
     - coefficient: The stoichiometric coefficient of the species in the reaction.
 """
 print("-"*100)
-print("List of Reactions objects:")
+# print("List of Reactions objects:")
 reactions_list = rn.reactions()
-print(reactions_list)
+# print(reactions_list)
 
 # Print the reactions set as a list
 reactions = [reaction.name() for reaction in reactions_list]
 print("\nReactions Set =",reactions) # Prints the list of the set of reactions
 print(f"Number of reactions: {len(reactions)}")
 
-# ========================================
-# 5. REACTION NETWORK IN TEXT FORMAT
-# ======================================== 
+# # ========================================
+# # 5. REACTION NETWORK IN TEXT FORMAT
+# # ======================================== 
 # Printing the reaction network
 print("-"*100)
 print("Reaction network:")
 print_reaction_network(rn)
 
-# ========================================
-# 6. STOICHIOMETRIC MATRICES
-# ========================================
-# Print the stoichiometric matrix 
-print("-" * 100)
-print("Stoichiometric matrix (products - reactants):")
-print(rn.stoichiometry_matrix())
+# # # ========================================
+# # # 6. STOICHIOMETRIC MATRICES
+# # # ========================================
+# # Print the stoichiometric matrix 
+# print("-" * 100)
+# print("Stoichiometric matrix (products - reactants):")
+# print(rn.stoichiometry_matrix())
 
-print("\nMatrix of stoichiometric coefficients of the reactants:")
-print(rn.reactants_matrix())
+# print("\nMatrix of stoichiometric coefficients of the reactants:")
+# print(rn.reactants_matrix())
 
-print("\nMatrix of stoichiometric coefficients of the products:")
-print(rn.products_matrix())
+# print("\nMatrix of stoichiometric coefficients of the products:")
+# print(rn.products_matrix())
 
-# ========================================
-# 7. REACTANTS AND PRODUCTS OF EACH REACTION
-# ========================================
-# Print the reactants and products of a reaction
+# # ========================================
+# # 7. REACTANTS AND PRODUCTS OF EACH REACTION
+# # ========================================
+# # Print the reactants and products of a reaction
 # print("-"*100)
-# reaction = rn.get_reaction('R1')
-# print(f"Reactants and products of {reaction.name()}")
+# reaction = rn.get_reaction('R2')
+# print(f"Reaction {reaction}")
 # reactants = [edge.species_name for edge in reaction.support_edges()]
-# print(reactants)
+# coef_r = [edge.coefficient for edge in reaction.support_edges()]
+# print(f"Reactants of {reaction.name()}={reactants}, Coefficients of the reactants={coef_r}")
 # products = [edge.species_name for edge in reaction.products_edges()]
-# print(products)
+# coef_p = [edge.coefficient for edge in reaction.products_edges()]
+# print(f"Products of {reaction.name()}={products}, Coefficients of the products={coef_p}")
 
-# Print reactants and products of all reactions
+# # Print reactants and products of all reactions
+# print("-"*100)
+# print("Reactants of all reactions:")
+# for r in reactions:
+#     reaction = rn.get_reaction(r)
+#     reactants = [edge.species_name for edge in reaction.support_edges()]
+#     print(f"{r}: {reactants}")
+
+# print("-"*100)
+# print("\nProducts of all reactions:")
+# for r in reactions:
+#     reaction = rn.get_reaction(r)
+#     products = [edge.species_name for edge in reaction.products_edges()]
+#     print(f"{r}: {products}")
+
+# # ========================================
+# # 8. VISUALIZATION OF THE REACTION NETWORK
+# # ========================================  
 print("-"*100)
-print("Reactants of all reactions:")
-for r in reactions:
-    reaction = rn.get_reaction(r)
-    reactants = [edge.species_name for edge in reaction.support_edges()]
-    print(f"{r}: {reactants}")
-
-print("\nProducts of all reactions:")
-for r in reactions:
-    reaction = rn.get_reaction(r)
-    products = [edge.species_name for edge in reaction.products_edges()]
-    print(f"{r}: {products}")
-
-# ========================================
-# 8. VISUALIZATION OF THE REACTION NETWORK
-# ========================================  
-rn_visualize_html(rn, filename="reaction_network.html") 
-# rn_visualize_png_in_out(rn, filename="rn_visualize_png_in_out") 
+rn_visualize_html(rn, filename="reaction_network.html")  

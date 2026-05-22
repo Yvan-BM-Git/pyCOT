@@ -185,17 +185,18 @@ class ReactionNetwork(PyDiGraph):
             is_present = True
 
         return is_present
-    
 
-    def add_from_reaction_string(self, string: str) -> int:
+    def add_from_reaction_string(self, string: str, exact_names: bool = False) -> int:
         """
         Add a new species and reaction from a string.
-        
+
         Parameters
         ----------
-        string : str
-            The string to parse.
-        
+        string : str. The string to parse.
+        exact_names : bool, optional. 
+            If True, species names are treated as exact (lower or upper). 
+            Default is False, which merges species that differ. GEMs like E. coli models.
+
         Returns
         -------
         int
@@ -203,49 +204,183 @@ class ReactionNetwork(PyDiGraph):
 
         Details
         -------
-        The string must be in the following format:
-            'reaction_name: coef1*reactant1 + coef2*reactant2 + ... => coef3*product1 + coef4*product2 + ...'
+        Supported formats:
+            Legacy pyCOT:
+                R1: s1+l => 2*s1
+                R2: s1+l => 2s1
+
+            Modern biochemical:
+                R3: ATP + Glucose => ADP + Glucose-6-Phosphate
+
+            Complex biochemical species:
+                1,3-Bisphosphoglycerate
+                3-Phosphoglycerate
+                NAD+
+                NH4+
+                H+
+                2e-
+                S-Adenosyl Methionine
         """
-        reaction_string_error = ValueError("Reaction equation must be in the format 'reaction_name: reactant1 + reactant2 + ... => product1 + product2 + ...'")
-
+        import re
+        reaction_string_error = ValueError(
+            "Reaction equation must be in the format "
+            "'reaction_name: reactant1 + reactant2 + ... => product1 + product2 + ...'"
+        )
         parts = string.split(':')
-
         if len(parts) != 2:
             raise reaction_string_error
-
         reaction_name = parts[0].strip()
         reaction_equation = parts[1].split("=>")
-
         if len(reaction_equation) != 2:
             raise reaction_string_error
 
         if self.has_reaction(reaction_name):
-            raise ValueError(f"Reaction '{reaction_name}' already exists in the ReactionNetwork.")
-        
-        term_regex = compile(r'(\d*(?:\.\d+)?)?\*?([a-zA-Z_]\w*)')
-        support_terms = findall(term_regex, reaction_equation[0]) # TODO: Evaluar en soportes o productos vacíos
-        support_terms = starmap(lambda coef, term: (str2int_or_float(coef) if coef != '' else 1, term), support_terms)
-        support_terms = simplify_terms(support_terms)
+            raise ValueError(
+                f"Reaction '{reaction_name}' already exists in the ReactionNetwork."
+            )
 
-        products_terms = findall(term_regex, reaction_equation[1])
-        products_terms = starmap(lambda coef, term: (str2int_or_float(coef) if coef != '' else 1, term), products_terms)
-        products_terms = simplify_terms(products_terms)
+        # ============================================================
+        # INTERNAL UTILITIES
+        # ============================================================
+        def normalize_legacy_plus(side: str) -> str:
+            """
+            Converts legacy pyCOT notation:
+                s1+l      -> s1 + l
+                s1+s2     -> s1 + s2
+                2*s1+s2   -> 2*s1 + s2
+            while preserving biochemical species:
+                NAD+
+                H+
+                NH4+
+                NADP+
+                2e-
+            """
+            side = re.sub(
+                r'(?<=[A-Za-z0-9_*])\+(?=[A-Za-z0-9_*])',
+                ' + ',
+                side
+            )
+            return side
 
-        # Add species to the ReactionNetwork if they don't already exist
+        def canonicalize_species(species: str) -> str:
+            """
+            Internal normalization for semantic comparison only.
+            """
+            species = species.strip()
+            # normalize spaces -> hyphens
+            species = re.sub(r'\s+', '-', species)
+            # case-insensitive comparison (solo si no es exact_names)
+            if not exact_names:
+                return species.lower()
+            return species  # preservar mayúsculas/minúsculas exactas
+
+        # ============================================================
+        # TERM PARSER
+        # ============================================================
+        def parse_terms(side: str):
+            """
+            Parse one side of a reaction equation.
+            """
+            side = side.strip()
+            if not side:
+                return []
+
+            # Normalize legacy pyCOT syntax
+            side = normalize_legacy_plus(side)
+
+            # Split ONLY on explicit separators
+            tokens = re.split(r'\s+\+\s+', side)
+            terms = []
+            for token in tokens:
+                token = token.strip()
+                if not token:
+                    continue
+                coef = 1
+                species = token
+
+                # -------------------------------------------------
+                # CASE 1:
+                # Explicit coefficient using '*'
+                # 2*s1
+                # 2 * ATP 
+                star_match = re.match(r'^(\d+(?:\.\d+)?)\s*\*\s*(.+)$', token )
+                if star_match:
+                    coef = str2int_or_float(star_match.group(1))
+                    species = star_match.group(2).strip()
+                else: 
+                    # CASE 2:
+                    # Space-separated coefficient
+                    # 2 ATP 
+                    space_match = re.match(r'^(\d+(?:\.\d+)?)\s+(.+)$',token)
+                    if space_match:
+                        coef = str2int_or_float(space_match.group(1))
+                        species = space_match.group(2).strip()
+                    else: 
+                        # CASE 3:
+                        # Legacy compact coefficient
+                        # 2s1
+                        # 3ATP
+                        #
+                        # BUT NOT:
+                        # 3-Phosphoglycerate
+                        # 1,3-Bisphosphoglycerate 
+                        compact_match = re.match(r'^(\d+(?:\.\d+)?)([A-Za-z_].*)$', token)
+                        if compact_match:
+                            coef = str2int_or_float(compact_match.group(1))
+                            species = compact_match.group(2).strip()
+
+                terms.append((coef, species))
+            return simplify_terms(terms)
+
+        # ============================================================
+        # PARSE REACTION
+        # ============================================================
+        support_terms = parse_terms(reaction_equation[0])
+        products_terms = parse_terms(reaction_equation[1])
+
+        # ============================================================
+        # CANONICAL SPECIES REGISTRY
+        # ============================================================
+        if not hasattr(self, "_canonical_species_map"):
+
+            self._canonical_species_map = {}
+
+        def resolve_species_name(species_name: str) -> str:
+            """
+            Resolve semantic duplicates while preserving the
+            FIRST visual representation encountered.
+            """
+            canonical_name = canonicalize_species(species_name)
+            # Species already exists semantically
+            if canonical_name in self._canonical_species_map:
+                return self._canonical_species_map[canonical_name]
+            # First appearance -> preserve formatting
+            self._canonical_species_map[canonical_name] = species_name
+
+            return species_name
+
+        # Replace semantic duplicates by canonical visual species
+        support_terms = [(coef, resolve_species_name(species)) for coef, species in support_terms]
+        products_terms = [(coef, resolve_species_name(species)) for coef, species in products_terms]
+
+        # ============================================================
+        # ADD SPECIES TO NETWORK
+        # ============================================================
         reaction_terms = support_terms + products_terms
         for term in reaction_terms:
-            if not self.has_species(term[1]):
-                self.add_species(term[1], None)
+            species_name = term[1]
+            if not self.has_species(species_name):
+                self.add_species(species_name, None)
 
-
-        # Add reaction to the ReactionNetwork
+        # ============================================================
+        # BUILD REACTION
+        # ============================================================
         support_coefficients = [term[0] for term in support_terms]
         support_species = [term[1] for term in support_terms]
-
         products_coefficients = [term[0] for term in products_terms]
         products_species = [term[1] for term in products_terms]
 
-        return self.add_reaction(reaction_name, support_species, products_species, support_coefficients, products_coefficients, None)
+        return self.add_reaction(reaction_name, support_species, products_species, support_coefficients, products_coefficients, None)    
 
     def is_active_reaction(self, reaction: str | Reaction) -> bool:
         """
