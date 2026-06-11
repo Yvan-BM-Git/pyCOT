@@ -66,7 +66,7 @@ def read_txt(file: str) -> ReactionNetwork:
     reaction_comments = {}  # opcional: guardar comentarios asociados a cada reacción
 
     # Read reactions line by line and add them to the ReactionNetwork
-    with open(file, 'r') as f:
+    with open(file, 'r', encoding='utf-8') as f:
         for line in f:
             line = line.strip()
             if line and not line.startswith('#'):

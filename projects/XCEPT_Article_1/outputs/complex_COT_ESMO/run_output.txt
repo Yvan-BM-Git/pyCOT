@@ -1,0 +1,397 @@
+Output directory : C:\Users\hp\Dropbox\Public\AcademicWork\Europe\CLEA\Postdocs\TempletonPostdoc\sftw\pyCOT\projects\XCEPT_Article_1\outputs\complex_COT_ESMO
+LP settings      : N_RAND_1=2000  N_RAND_3=600  PATIENCE=200
+NEUTRAL_TOL      : 5.0  (|delta| < 5.0 -> neutral)
+
+Loading: c:\Users\hp\Dropbox\Public\AcademicWork\Europe\CLEA\Postdocs\TempletonPostdoc\sftw\pyCOT\projects\XCEPT_Article_1\scripts\data\Complex_example.txt
+  Full network: 14 species, 37 reactions
+  O7 sub-network: 12 species, 35 reactions
+  Reactions: ['r0', 'r1', 'r2', 'r3', 'r4', 'r5', 'r6', 'r7', 'r8', 'r9', 'r10', 'r11', 'r12', 'r13', 'r14', 'r15', 'r16', 'r17', 'r18', 'r19', 'r20', 'r21', 'r22', 'r23', 'r24', 'r25', 'r26', 'r27', 'r28', 'r29', 'r30', 'r31', 'r32', 'r33', 'r34']
+
+Containment verification:
+  Tribe ⊂ Chief: OK  (exclusive to Chief: ['H', 'H_Res', 'P_H'])
+  Tribe ⊂ State: OK  (exclusive to State: ['I', 'I_Res', 'L', 'P_I'])
+  Chief ⊂ ChiefState: OK  (exclusive to ChiefState: ['I', 'I_Res', 'L', 'P_I'])
+  State ⊂ ChiefState: OK  (exclusive to ChiefState: ['H', 'H_Res', 'P_H'])
+
+========================================================================
+  TRANSITION PLAN: 40 directed transitions
+  (4 cover edges x 2 directions x 4 state combos = 32  +  4 orgs x 2 intra combos = 8)
+========================================================================
+
+    #                Edge  dir   combo  label
+  ---  ------------------  ----  -----  -----
+    1         Tribe-Chief    up     pp  TriP->ChfP
+    2         Tribe-Chief    up     pc  TriP->ChfC
+    3         Tribe-Chief    up     cp  TriC->ChfP
+    4         Tribe-Chief    up     cc  TriC->ChfC
+    5         Tribe-Chief  down     pp  ChfP->TriP
+    6         Tribe-Chief  down     pc  ChfP->TriC
+    7         Tribe-Chief  down     cp  ChfC->TriP
+    8         Tribe-Chief  down     cc  ChfC->TriC
+    9         Tribe-State    up     pp  TriP->StaP
+   10         Tribe-State    up     pc  TriP->StaC
+   11         Tribe-State    up     cp  TriC->StaP
+   12         Tribe-State    up     cc  TriC->StaC
+   13         Tribe-State  down     pp  StaP->TriP
+   14         Tribe-State  down     pc  StaP->TriC
+   15         Tribe-State  down     cp  StaC->TriP
+   16         Tribe-State  down     cc  StaC->TriC
+   17    Chief-ChiefState    up     pp  ChfP->CfSP
+   18    Chief-ChiefState    up     pc  ChfP->CfSC
+   19    Chief-ChiefState    up     cp  ChfC->CfSP
+   20    Chief-ChiefState    up     cc  ChfC->CfSC
+   21    Chief-ChiefState  down     pp  CfSP->ChfP
+   22    Chief-ChiefState  down     pc  CfSP->ChfC
+   23    Chief-ChiefState  down     cp  CfSC->ChfP
+   24    Chief-ChiefState  down     cc  CfSC->ChfC
+   25    State-ChiefState    up     pp  StaP->CfSP
+   26    State-ChiefState    up     pc  StaP->CfSC
+   27    State-ChiefState    up     cp  StaC->CfSP
+   28    State-ChiefState    up     cc  StaC->CfSC
+   29    State-ChiefState  down     pp  CfSP->StaP
+   30    State-ChiefState  down     pc  CfSP->StaC
+   31    State-ChiefState  down     cp  CfSC->StaP
+   32    State-ChiefState  down     cc  CfSC->StaC
+   33         Tribe-intra  intra     pc  TriP->TriC
+   34         Tribe-intra  intra     cp  TriC->TriP
+   35         Chief-intra  intra     pc  ChfP->ChfC
+   36         Chief-intra  intra     cp  ChfC->ChfP
+   37         State-intra  intra     pc  StaP->StaC
+   38         State-intra  intra     cp  StaC->StaP
+   39    ChiefState-intra  intra     pc  CfSP->CfSC
+   40    ChiefState-intra  intra     cp  CfSC->CfSP
+
+========================================================================
+  ESMO ENUMERATION
+========================================================================
+
+[1/40] TriP->ChfP
+  edge=Tribe-Chief dir=up combo=pp
+  grow: ['X', 'H', 'H_Res', 'P_H']
+  shrink: ['Res', 'C', 'C_Res']
+    1225 raw  ->  1225 ESMOs  (0 rejected)  [88.0s]
+
+[2/40] TriP->ChfC
+  edge=Tribe-Chief dir=up combo=pc
+  grow: ['X', 'G', 'H', 'H_Res', 'P_H']
+  shrink: ['Res', 'C', 'C_Res']
+    1307 raw  ->  1307 ESMOs  (0 rejected)  [122.6s]
+
+[3/40] TriC->ChfP
+  edge=Tribe-Chief dir=up combo=cp
+  grow: ['Res', 'C', 'C_Res', 'H', 'H_Res', 'P_H']
+  shrink: ['X', 'G']
+    1123 raw  ->  1123 ESMOs  (0 rejected)  [108.3s]
+
+[4/40] TriC->ChfC
+  edge=Tribe-Chief dir=up combo=cc
+  grow: ['H', 'H_Res', 'P_H']
+  shrink: ['X']
+     244 raw  ->   244 ESMOs  (0 rejected)  [30.0s]
+
+[5/40] ChfP->TriP
+  edge=Tribe-Chief dir=down combo=pp
+  grow: ['Res', 'C', 'C_Res']
+  shrink: ['X', 'H', 'H_Res', 'P_H']
+     843 raw  ->   843 ESMOs  (0 rejected)  [68.1s]
+
+[6/40] ChfP->TriC
+  edge=Tribe-Chief dir=down combo=pc
+  grow: ['X', 'G']
+  shrink: ['Res', 'C', 'C_Res', 'H', 'H_Res', 'P_H']
+    1731 raw  ->  1731 ESMOs  (0 rejected)  [150.0s]
+
+[7/40] ChfC->TriP
+  edge=Tribe-Chief dir=down combo=cp
+  grow: ['Res', 'C', 'C_Res']
+  shrink: ['X', 'G', 'H', 'H_Res', 'P_H']
+    1083 raw  ->  1083 ESMOs  (0 rejected)  [84.6s]
+
+[8/40] ChfC->TriC
+  edge=Tribe-Chief dir=down combo=cc
+  grow: ['X']
+  shrink: ['H', 'H_Res', 'P_H']
+     916 raw  ->   916 ESMOs  (0 rejected)  [79.7s]
+
+[9/40] TriP->StaP
+  edge=Tribe-State dir=up combo=pp
+  grow: ['L', 'I_Res', 'I', 'P_I']
+  shrink: ['C', 'C_Res', 'X']
+     250 raw  ->   250 ESMOs  (0 rejected)  [26.4s]
+
+[10/40] TriP->StaC
+  edge=Tribe-State dir=up combo=pc
+  grow: ['X', 'G', 'L', 'I_Res', 'I', 'P_I']
+  shrink: ['Res', 'C', 'C_Res']
+     838 raw  ->   838 ESMOs  (0 rejected)  [65.2s]
+
+[11/40] TriC->StaP
+  edge=Tribe-State dir=up combo=cp
+  grow: ['Res', 'C', 'C_Res', 'L', 'I_Res', 'I', 'P_I']
+  shrink: ['X', 'G']
+     811 raw  ->   811 ESMOs  (0 rejected)  [62.9s]
+
+[12/40] TriC->StaC
+  edge=Tribe-State dir=up combo=cc
+  grow: ['L', 'I_Res', 'I', 'P_I']
+  shrink: ['X']
+      64 raw  ->    64 ESMOs  (0 rejected)  [8.8s]
+
+[13/40] StaP->TriP
+  edge=Tribe-State dir=down combo=pp
+  grow: ['C', 'C_Res', 'X']
+  shrink: ['L', 'I_Res', 'I', 'P_I']
+    1392 raw  ->  1392 ESMOs  (0 rejected)  [107.2s]
+
+[14/40] StaP->TriC
+  edge=Tribe-State dir=down combo=pc
+  grow: ['X', 'G']
+  shrink: ['Res', 'C', 'C_Res', 'L', 'I_Res', 'I', 'P_I']
+    1747 raw  ->  1747 ESMOs  (0 rejected)  [126.6s]
+
+[15/40] StaC->TriP
+  edge=Tribe-State dir=down combo=cp
+  grow: ['Res', 'C', 'C_Res']
+  shrink: ['X', 'G', 'L', 'I_Res', 'I', 'P_I']
+    1218 raw  ->  1218 ESMOs  (0 rejected)  [88.5s]
+
+[16/40] StaC->TriC
+  edge=Tribe-State dir=down combo=cc
+  grow: ['X']
+  shrink: ['L', 'I_Res', 'I', 'P_I']
+     670 raw  ->   670 ESMOs  (0 rejected)  [60.3s]
+
+[17/40] ChfP->CfSP
+  edge=Chief-ChiefState dir=up combo=pp
+  grow: ['L', 'I_Res', 'I', 'P_I']
+  shrink: ['C', 'X', 'H', 'H_Res', 'P_H']
+     441 raw  ->   441 ESMOs  (0 rejected)  [38.2s]
+
+[18/40] ChfP->CfSC
+  edge=Chief-ChiefState dir=up combo=pc
+  grow: ['X', 'G', 'L', 'I_Res', 'I', 'P_I']
+  shrink: ['Res', 'C', 'C_Res', 'H', 'H_Res', 'P_H']
+    1142 raw  ->  1142 ESMOs  (0 rejected)  [78.4s]
+
+[19/40] ChfC->CfSP
+  edge=Chief-ChiefState dir=up combo=cp
+  grow: ['Res', 'C', 'C_Res', 'H', 'H_Res', 'P_H', 'L', 'I_Res', 'I', 'P_I']
+  shrink: ['X', 'G']
+    1015 raw  ->  1015 ESMOs  (0 rejected)  [67.6s]
+
+[20/40] ChfC->CfSC
+  edge=Chief-ChiefState dir=up combo=cc
+  grow: ['X', 'G', 'L', 'I_Res', 'I', 'P_I']
+  shrink: ['C', 'H', 'H_Res']
+     868 raw  ->   868 ESMOs  (0 rejected)  [67.9s]
+
+[21/40] CfSP->ChfP
+  edge=Chief-ChiefState dir=down combo=pp
+  grow: ['C', 'X', 'H', 'H_Res', 'P_H']
+  shrink: ['L', 'I_Res', 'I', 'P_I']
+     954 raw  ->   954 ESMOs  (0 rejected)  [87.6s]
+
+[22/40] CfSP->ChfC
+  edge=Chief-ChiefState dir=down combo=pc
+  grow: ['X', 'G']
+  shrink: ['Res', 'C', 'C_Res', 'H', 'H_Res', 'P_H', 'L', 'I_Res', 'I', 'P_I']
+    1954 raw  ->  1954 ESMOs  (0 rejected)  [148.1s]
+
+[23/40] CfSC->ChfP
+  edge=Chief-ChiefState dir=down combo=cp
+  grow: ['Res', 'C', 'C_Res', 'H', 'H_Res', 'P_H']
+  shrink: ['X', 'G', 'L', 'I_Res', 'I', 'P_I']
+     969 raw  ->   969 ESMOs  (0 rejected)  [61.6s]
+
+[24/40] CfSC->ChfC
+  edge=Chief-ChiefState dir=down combo=cc
+  grow: ['C', 'H', 'H_Res']
+  shrink: ['X', 'G', 'L', 'I_Res', 'I', 'P_I']
+     671 raw  ->   671 ESMOs  (0 rejected)  [52.9s]
+
+[25/40] StaP->CfSP
+  edge=State-ChiefState dir=up combo=pp
+  grow: ['X', 'H', 'H_Res', 'P_H']
+  shrink: ['Res', 'C', 'C_Res', 'L', 'I_Res', 'I', 'P_I']
+    1366 raw  ->  1366 ESMOs  (0 rejected)  [79.3s]
+
+[26/40] StaP->CfSC
+  edge=State-ChiefState dir=up combo=pc
+  grow: ['X', 'G', 'H', 'H_Res', 'P_H']
+  shrink: ['Res', 'C', 'C_Res', 'L', 'I_Res', 'I', 'P_I']
+    1587 raw  ->  1587 ESMOs  (0 rejected)  [87.3s]
+
+[27/40] StaC->CfSP
+  edge=State-ChiefState dir=up combo=cp
+  grow: ['Res', 'C', 'C_Res', 'H', 'H_Res', 'P_H', 'L', 'I_Res', 'I', 'P_I']
+  shrink: ['X', 'G']
+    1015 raw  ->  1015 ESMOs  (0 rejected)  [53.4s]
+
+[28/40] StaC->CfSC
+  edge=State-ChiefState dir=up combo=cc
+  grow: ['X', 'G', 'H', 'H_Res', 'P_H']
+  shrink: ['C', 'L', 'I_Res', 'I', 'P_I']
+    1154 raw  ->  1154 ESMOs  (0 rejected)  [78.6s]
+
+[29/40] CfSP->StaP
+  edge=State-ChiefState dir=down combo=pp
+  grow: ['Res', 'C', 'C_Res', 'L', 'I_Res', 'I', 'P_I']
+  shrink: ['X', 'H', 'H_Res', 'P_H']
+     627 raw  ->   627 ESMOs  (0 rejected)  [42.7s]
+
+[30/40] CfSP->StaC
+  edge=State-ChiefState dir=down combo=pc
+  grow: ['X', 'G']
+  shrink: ['Res', 'C', 'C_Res', 'H', 'H_Res', 'P_H', 'L', 'I_Res', 'I', 'P_I']
+    1954 raw  ->  1954 ESMOs  (0 rejected)  [109.4s]
+
+[31/40] CfSC->StaP
+  edge=State-ChiefState dir=down combo=cp
+  grow: ['Res', 'C', 'C_Res', 'L', 'I_Res', 'I', 'P_I']
+  shrink: ['X', 'G', 'H', 'H_Res', 'P_H']
+     936 raw  ->   936 ESMOs  (0 rejected)  [56.9s]
+
+[32/40] CfSC->StaC
+  edge=State-ChiefState dir=down combo=cc
+  grow: ['C', 'L', 'I_Res', 'I', 'P_I']
+  shrink: ['X', 'G', 'H', 'H_Res', 'P_H']
+     733 raw  ->   733 ESMOs  (0 rejected)  [54.3s]
+
+[33/40] TriP->TriC
+  edge=Tribe-intra dir=intra combo=pc
+  grow: ['X', 'G']
+  shrink: ['Res', 'C', 'C_Res']
+    1251 raw  ->  1251 ESMOs  (0 rejected)  [90.8s]
+
+[34/40] TriC->TriP
+  edge=Tribe-intra dir=intra combo=cp
+  grow: ['Res', 'C', 'C_Res']
+  shrink: ['X', 'G']
+     861 raw  ->   861 ESMOs  (0 rejected)  [56.7s]
+
+[35/40] ChfP->ChfC
+  edge=Chief-intra dir=intra combo=pc
+  grow: ['X', 'G']
+  shrink: ['Res', 'C', 'C_Res', 'H', 'H_Res', 'P_H']
+    1731 raw  ->  1731 ESMOs  (0 rejected)  [98.0s]
+
+[36/40] ChfC->ChfP
+  edge=Chief-intra dir=intra combo=cp
+  grow: ['Res', 'C', 'C_Res', 'H', 'H_Res', 'P_H']
+  shrink: ['X', 'G']
+    1123 raw  ->  1123 ESMOs  (0 rejected)  [66.3s]
+
+[37/40] StaP->StaC
+  edge=State-intra dir=intra combo=pc
+  grow: ['X', 'G']
+  shrink: ['Res', 'C', 'C_Res', 'L', 'I_Res', 'I', 'P_I']
+    1747 raw  ->  1747 ESMOs  (0 rejected)  [99.7s]
+
+[38/40] StaC->StaP
+  edge=State-intra dir=intra combo=cp
+  grow: ['Res', 'C', 'C_Res', 'L', 'I_Res', 'I', 'P_I']
+  shrink: ['X', 'G']
+     811 raw  ->   811 ESMOs  (0 rejected)  [49.8s]
+
+[39/40] CfSP->CfSC
+  edge=ChiefState-intra dir=intra combo=pc
+  grow: ['X', 'G']
+  shrink: ['Res', 'C', 'C_Res', 'H', 'H_Res', 'P_H', 'L', 'I_Res', 'I', 'P_I']
+    1954 raw  ->  1954 ESMOs  (0 rejected)  [104.9s]
+
+[40/40] CfSC->CfSP
+  edge=ChiefState-intra dir=intra combo=cp
+  grow: ['Res', 'C', 'C_Res', 'H', 'H_Res', 'P_H', 'L', 'I_Res', 'I', 'P_I']
+  shrink: ['X', 'G']
+    1015 raw  ->  1015 ESMOs  (0 rejected)  [53.3s]
+
+Summary CSV -> C:\Users\hp\Dropbox\Public\AcademicWork\Europe\CLEA\Postdocs\TempletonPostdoc\sftw\pyCOT\projects\XCEPT_Article_1\outputs\complex_COT_ESMO\transition_summary.csv
+
+========================================================================
+  RESULTS TABLE
+========================================================================
+     short combo  n_targets  n_grow  n_shrink  n_esmos  mean_support  time_s
+TriP->ChfP    pp          7       4         3     1225          6.25    88.0
+TriP->ChfC    pc          8       5         3     1307          6.84   122.6
+TriC->ChfP    cp          8       6         2     1123          7.20   108.3
+TriC->ChfC    cc          4       3         1      244          3.96    30.0
+ChfP->TriP    pp          7       3         4      843          6.03    68.1
+ChfP->TriC    pc          8       2         6     1731          6.71   150.0
+ChfC->TriP    cp          8       3         5     1083          6.88    84.6
+ChfC->TriC    cc          4       1         3      916          4.41    79.7
+TriP->StaP    pp          7       4         3      250          6.60    26.4
+TriP->StaC    pc          9       6         3      838          8.10    65.2
+TriC->StaP    cp          9       7         2      811          8.46    62.9
+TriC->StaC    cc          5       4         1       64          5.02     8.8
+StaP->TriP    pp          7       3         4     1392          5.86   107.2
+StaP->TriC    pc          9       2         7     1747          6.86   126.6
+StaC->TriP    cp          9       3         6     1218          7.67    88.5
+StaC->TriC    cc          5       1         4      670          4.55    60.3
+ChfP->CfSP    pp          9       4         5      441          7.90    38.2
+ChfP->CfSC    pc         12       6         6     1142          9.88    78.4
+ChfC->CfSP    cp         12      10         2     1015         11.32    67.6
+ChfC->CfSC    cc          9       6         3      868          8.19    67.9
+CfSP->ChfP    pp          9       5         4      954          6.71    87.6
+CfSP->ChfC    pc         12       2        10     1954          8.39   148.1
+CfSC->ChfP    cp         12       6         6      969          8.67    61.6
+CfSC->ChfC    cc          9       3         6      671          6.21    52.9
+StaP->CfSP    pp         11       4         7     1366          7.94    79.3
+StaP->CfSC    pc         12       5         7     1587          8.35    87.3
+StaC->CfSP    cp         12      10         2     1015         11.32    53.4
+StaC->CfSC    cc         10       5         5     1154          7.26    78.6
+CfSP->StaP    pp         11       7         4      627          8.99    42.7
+CfSP->StaC    pc         12       2        10     1954          8.39   109.4
+CfSC->StaP    cp         12       7         5      936          9.87    56.9
+CfSC->StaC    cc         10       5         5      733          8.60    54.3
+TriP->TriC    pc          5       2         3     1251          4.82    90.8
+TriC->TriP    cp          5       3         2      861          5.28    56.7
+ChfP->ChfC    pc          8       2         6     1731          6.71    98.0
+ChfC->ChfP    cp          8       6         2     1123          7.20    66.3
+StaP->StaC    pc          9       2         7     1747          6.86    99.7
+StaC->StaP    cp          9       7         2      811          8.46    49.8
+CfSP->CfSC    pc         12       2        10     1954          8.39   104.9
+CfSC->CfSP    cp         12      10         2     1015         11.32    53.3
+  Saved: C:\Users\hp\Dropbox\Public\AcademicWork\Europe\CLEA\Postdocs\TempletonPostdoc\sftw\pyCOT\projects\XCEPT_Article_1\outputs\complex_COT_ESMO\fig1_cover_edge_matrices.png
+  Saved: C:\Users\hp\Dropbox\Public\AcademicWork\Europe\CLEA\Postdocs\TempletonPostdoc\sftw\pyCOT\projects\XCEPT_Article_1\outputs\complex_COT_ESMO\fig2_combo_counts.png
+  Saved: C:\Users\hp\Dropbox\Public\AcademicWork\Europe\CLEA\Postdocs\TempletonPostdoc\sftw\pyCOT\projects\XCEPT_Article_1\outputs\complex_COT_ESMO\fig3_signature_matrix.png
+  Saved: C:\Users\hp\Dropbox\Public\AcademicWork\Europe\CLEA\Postdocs\TempletonPostdoc\sftw\pyCOT\projects\XCEPT_Article_1\outputs\complex_COT_ESMO\fig4_reaction_usage_grid.png
+  Saved: C:\Users\hp\Dropbox\Public\AcademicWork\Europe\CLEA\Postdocs\TempletonPostdoc\sftw\pyCOT\projects\XCEPT_Article_1\outputs\complex_COT_ESMO\fig5_aggregate_reaction_usage.png
+  Saved: C:\Users\hp\Dropbox\Public\AcademicWork\Europe\CLEA\Postdocs\TempletonPostdoc\sftw\pyCOT\projects\XCEPT_Article_1\outputs\complex_COT_ESMO\fig6_nontarget_behavior.png
+  Saved: C:\Users\hp\Dropbox\Public\AcademicWork\Europe\CLEA\Postdocs\TempletonPostdoc\sftw\pyCOT\projects\XCEPT_Article_1\outputs\complex_COT_ESMO\fig7_intra_org_pc_cp.png
+
+========================================================================
+  ASYMMETRY SUMMARY PER COVER EDGE
+========================================================================
+
+  Edge                combo      UP    DOWN  ratio(UP/DOWN)  interpretation
+  ------------------  -----  ------  ------  --------------  ---------------
+  Tribe-Chief          pp    1225     843      1.45    going UP easier  (1225 vs 843)
+  Tribe-Chief          pc    1307    1731      0.76    going DOWN easier (1731 vs 1307)
+  Tribe-Chief          cp    1123    1083      1.04    symmetric
+  Tribe-Chief          cc     244     916      0.27    going DOWN easier (916 vs 244)
+  Tribe-State          pp     250    1392      0.18    going DOWN easier (1392 vs 250)
+  Tribe-State          pc     838    1747      0.48    going DOWN easier (1747 vs 838)
+  Tribe-State          cp     811    1218      0.67    going DOWN easier (1218 vs 811)
+  Tribe-State          cc      64     670      0.10    going DOWN easier (670 vs 64)
+  Chief-ChiefState     pp     441     954      0.46    going DOWN easier (954 vs 441)
+  Chief-ChiefState     pc    1142    1954      0.58    going DOWN easier (1954 vs 1142)
+  Chief-ChiefState     cp    1015     969      1.05    symmetric
+  Chief-ChiefState     cc     868     671      1.29    going UP easier  (868 vs 671)
+  State-ChiefState     pp    1366     627      2.18    going UP easier  (1366 vs 627)
+  State-ChiefState     pc    1587    1954      0.81    going DOWN easier (1954 vs 1587)
+  State-ChiefState     cp    1015     936      1.08    symmetric
+  State-ChiefState     cc    1154     733      1.57    going UP easier  (1154 vs 733)
+
+========================================================================
+  INTRA-ORG PC vs CP SUMMARY
+========================================================================
+
+  Org                 PC      CP  ratio(CP/PC)  interpretation
+  --------------  ------  ------  ------------  ---------------
+  Tribe             1251     861      0.69    destabilisation easier (1251 vs 861)
+  Chief             1731    1123      0.65    destabilisation easier (1731 vs 1123)
+  State             1747     811      0.46    destabilisation easier (1747 vs 811)
+  ChiefState        1954    1015      0.52    destabilisation easier (1954 vs 1015)
+
+All outputs saved to: C:\Users\hp\Dropbox\Public\AcademicWork\Europe\CLEA\Postdocs\TempletonPostdoc\sftw\pyCOT\projects\XCEPT_Article_1\outputs\complex_COT_ESMO
+========================================================================

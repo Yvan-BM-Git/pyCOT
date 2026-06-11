@@ -1,0 +1,628 @@
+% ============================================================
+%  Section: Chemical Organization Theory and the
+%           Statistical Geometry of Regimes
+%  Label:   sec:cot_lp
+%  Figures: hierarchy_complex_orgs.png       (from HTML export)
+%  Inter-org (outputs/complex_COT_ESMO/):
+%           fig_inter1_heatmaps.png           (cover-edge 2x2 matrices)
+%           fig_inter2_combo_counts.png       (bars by combo type)
+%           fig_inter3_struct_entropy.png     (N_in/N_out/dH per org)
+%           fig_inter4_transition_graph.png   (Hasse layout, one panel per combo)
+%  Intra-org (outputs/intra_org_esmo/):
+%           fig1_esmo_distributions.png       (violin plots)
+%           fig2_feasibility.png              (mean N bars + relative freq)
+%           fig3_pc_vs_cp_scatter.png         (PC vs CP scatter)
+% ============================================================
+
+\section{Chemical Organization Theory and the Statistical Geometry of Regimes}
+\label{sec:cot_lp}
+
+% ------------------------------------------------------------------
+\subsection{Organizations, Lattices, and the Conflict Model}
+\label{sec:cot_orgs}
+% ------------------------------------------------------------------
+
+The dynamical analyses of Sections~\ref{sec:bandtribe}--\ref{sec:chiefdom}
+establish what a conflict system \emph{does} under specific parameterisations:
+which trajectories emerge, which modes dominate, and at what timescale
+strategies become distinguishable.  A complementary and deeper question is
+what the system is \emph{structurally capable of}, independent of any
+particular choice of rate constants.  Chemical Organization Theory
+(COT)~\cite{dittrich2007chemical,veloz2014reaction} provides the language
+for this question.
+
+A \textbf{reaction network} consists of a set of species $\mathcal{S}$ and a
+set of reactions $\mathcal{R}$, each mapping a multiset of reactants to a
+multiset of products, encoded in the stoichiometric matrix
+$\mathbf{S} \in \mathbb{R}^{|\mathcal{S}| \times |\mathcal{R}|}$.
+A subset $\mathcal{O} \subseteq \mathcal{S}$ is a \textbf{chemical
+organisation} if it satisfies two structural conditions simultaneously:
+(i)~\emph{closure}---no reaction whose reactants are all in $\mathcal{O}$
+produces a species outside $\mathcal{O}$; and
+(ii)~\emph{self-maintenance}---there exists a strictly positive flux vector
+$\mathbf{v} > \mathbf{0}$ over the reactions enabled by $\mathcal{O}$ such
+that the net production of every species in $\mathcal{O}$ is non-negative:
+$\mathbf{S}_{\mathcal{O}} \mathbf{v} \geq \mathbf{0}$.
+Organizations are thus the subsets of the network that can in principle
+sustain themselves indefinitely.  They form a lattice under set inclusion,
+visualised as a Hasse diagram in which each edge is a direct containment
+step with no intermediate organization.
+
+The conflict model analysed here comprises $|\mathcal{S}| = 14$ species and
+$|\mathcal{R}| = 37$ reactions.  Applying COT to this full network yields
+23~organizations (nodes $X_1$--$X_{23}$ in
+Figure~\ref{fig:cot_hierarchy}), forming a lattice that spans from the
+minimal organization $X_1 = \{\text{Res}\}$ at the base to the maximal
+organization $X_{23}$ encompassing all species including both foreign-aid
+catalysts.  Four of these organizations correspond directly to the
+social-structural regimes studied throughout this paper and anchor the
+remainder of this section:
+
+\begin{description}
+  \item[Tribe ($X_3$)] $\mathcal{T} = \{C,\, C_{\text{Res}},\, G,\,
+    \text{Res},\, X\}$ --- the acephalous community with no hierarchical
+    species.
+  \item[Chief ($X_9$)] $\mathcal{H} = \mathcal{T} \cup \{H,\,
+    H_{\text{Res}},\, P_H\}$ --- the chiefdom layer added to the tribal
+    base.
+  \item[State ($X_{12}$)] $\mathcal{I} = \mathcal{T} \cup \{I,\,
+    I_{\text{Res}},\, L,\, P_I\}$ --- the institutional-state layer.
+  \item[ChiefState ($X_{20}$)] $\mathcal{CS} = \mathcal{H} \cup
+    \mathcal{I} \setminus \mathcal{T}$ --- the dual-hierarchy organization
+    containing all twelve conflict-relevant species.
+\end{description}
+
+The cover edges of the sub-lattice spanned by these four organizations are
+$\mathcal{T} \subset \mathcal{H}$, $\mathcal{T} \subset \mathcal{I}$,
+$\mathcal{H} \subset \mathcal{CS}$, and $\mathcal{I} \subset \mathcal{CS}$.
+Crucially, neither $\mathcal{H} \subseteq \mathcal{I}$ nor
+$\mathcal{I} \subseteq \mathcal{H}$, so no edge exists between Chief and
+State in the Hasse diagram --- they are structurally incomparable
+organizational forms.
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=0.80\linewidth]{figures/hierarchy_complex_orgs}
+  \caption{Hasse diagram of the 23~chemical organizations of the full
+    conflict reaction network (14 species, 37 reactions).
+    \textbf{Green nodes} are \emph{self-maintaining} organizations: they
+    satisfy both closure and the existence of a strictly positive
+    self-sustaining flux.
+    \textbf{Cyan nodes} are organizations whose self-maintenance is
+    boundary-feasible: they satisfy closure and non-negative net production
+    exists, but only at flux configurations where at least one reaction
+    operates at its lower bound.
+    Arrows denote direct set inclusion (cover edges of the lattice).
+    The four regimes used throughout this paper are $X_3$~(Tribe),
+    $X_9$~(Chief), $X_{12}$~(State), and $X_{20}$~(ChiefState);
+    $X_9$ is the only regime that is strictly self-maintaining without
+    external catalytic inputs ($F_H$, $F_I$).}
+  \label{fig:cot_hierarchy}
+\end{figure}
+
+
+% ------------------------------------------------------------------
+\subsection{Elementary Self-Maintaining Modes of Operation}
+\label{sec:esmo_theory}
+% ------------------------------------------------------------------
+
+Organizations characterise the \emph{stable substructures} of a reaction
+network, but they say nothing about how the system moves \emph{between}
+them.  To analyse transitions we introduce the notion of an
+\textbf{Elementary Self-Maintaining Mode of Operation} (ESMO).
+
+\subsubsection*{Flux polytopes and process cones}
+
+Let the $O_7$ sub-network denote the 12-species, 35-reaction sub-system
+supported by the ChiefState organization $\mathcal{CS}$ --- the common
+ambient space for all four regimes.  Its stoichiometric matrix is
+$\mathbf{S} \in \mathbb{R}^{12 \times 35}$.  Admissible flux states are
+non-negative vectors $\mathbf{v} \in \mathbb{R}^{35}_{\geq 0}$,
+i.e.\ reactions can only fire forward.  This defines the \emph{positive
+orthant cone} $\mathcal{K} = \mathbb{R}^{35}_{\geq 0}$.
+
+For a directed transition from an organizational regime $A$ to a regime $B$,
+we define a \textbf{transition signature}
+$\boldsymbol{\sigma}_{A \to B} \in \{-1,\, 0,\, +1\}^{12}$ derived from
+the characteristic states of the two regimes.  Let $\mathbf{x}^A$ and
+$\mathbf{x}^B$ be representative species-abundance vectors for regimes $A$
+and $B$ respectively.  For each species $s$:
+\begin{equation}
+  \sigma_s = \begin{cases}
+    +1  & \text{if } x^B_s - x^A_s >  \theta \\
+    -1  & \text{if } x^B_s - x^A_s < -\theta \\
+    \phantom{+}0 & \text{otherwise,}
+  \end{cases}
+  \label{eq:signature}
+\end{equation}
+where $\theta > 0$ is a neutrality threshold that filters species whose
+abundance difference is negligible relative to the regime contrast.
+The signature encodes a \emph{coverability constraint} in the sense of
+reachability theory~\cite{veloz2022resilience}: species with
+$\sigma_s = +1$ must be produced in net excess ($[\mathbf{S}\mathbf{v}]_s > 0$),
+and species with $\sigma_s = -1$ must be consumed in net excess
+($[\mathbf{S}\mathbf{v}]_s < 0$).  This is a \emph{directional} condition,
+not a quantitative one: it asks whether the stoichiometry supports movement
+in the right direction, not whether it reaches the exact target state.
+
+Because every reaction in the network converts one person-type to another
+without creating or destroying people, the total population
+$P = C + X + H + I + P_H + P_I$ is a conserved quantity.  This structural
+constraint is encoded in the left null-vector of the stoichiometric matrix
+and must be respected when constructing characteristic states for cross-scale
+transitions.  All representative states used in the inter-organizational
+analysis are therefore normalized to a common reference population
+$P_{\text{ref}} = 1000$ before computing signatures, ensuring that the
+LP constraints are satisfiable by construction.
+
+The constrained cone for transition $A \to B$ is
+\begin{equation}
+  \mathcal{C}_{A \to B} \;=\; \bigl\{ \mathbf{v} \in \mathbb{R}^{35}_{\geq 0}
+  \;\big|\; \sigma_s [\mathbf{S}\mathbf{v}]_s > 0 \;\; \forall\, s:\, \sigma_s \neq 0
+  \bigr\},
+\end{equation}
+intersected with the simplex $\mathbf{1}^{\top}\mathbf{v} = 1$ to obtain
+a bounded feasible polytope $\mathcal{P}_{A \to B}$.  An ESMO is a
+\textbf{vertex} of $\mathcal{P}_{A \to B}$: a minimal, non-decomposable
+reaction coalition that simultaneously satisfies all sign constraints.
+Vertices of a linear polytope are the elementary solutions from which all
+feasible flux states can be written as convex combinations; they are the
+direct structural analogue of elementary flux modes in metabolic
+stoichiometry~\cite{schuster1994elementary}.
+
+\subsubsection*{ESMO count as structural entropy}
+
+The number of vertices $N(A \to B) = |\text{vert}(\mathcal{P}_{A \to B})|$
+measures the \emph{microstate count} for the transition macrostate defined
+by signature $\boldsymbol{\sigma}_{A \to B}$.  In the spirit of Boltzmann,
+a larger $N$ means more distinct minimal reaction coalitions can realize the
+required directional change: the transition is structurally richer.
+Conversely, if $\mathcal{P}_{A \to B} = \emptyset$ the transition is
+stoichiometrically infeasible regardless of kinetics.
+
+This is not a statement about probability in the kinetic sense --- a
+transition with $N = 2000$ ESMOs may still be dynamically rare if all
+those ESMOs require co-activation of reactions with small rate constants.
+What it provides is a \textbf{parameter-free lower bound on structural
+accessibility}: a transition with $N = 0$ (infeasible polytope) is
+impossible for any parameterisation; a transition with large $N$ has many
+distinct structural pathways and is in that sense \emph{entropically
+favoured} at the level of network topology.
+
+\subsubsection*{Non-parametric probability and the Markovian framework}
+
+When multiple representative states $\mathbf{x}^A_1, \ldots,
+\mathbf{x}^A_m$ and $\mathbf{x}^B_1, \ldots, \mathbf{x}^B_n$ are
+available for each regime, the pairwise ESMO computations produce a
+\emph{distribution} of vertex counts over all $m \times n$ signature
+problems.  Two quantities of interest emerge without any kinetic
+assumptions:
+\begin{equation}
+  \Pr(A \to B) \;=\; \frac{|\{(i,j)\,:\, N(\mathbf{x}^A_i \to \mathbf{x}^B_j) > 0\}|}{m \cdot n},
+  \quad
+  \bar{N}(A \to B) \;=\; \frac{1}{mn}\sum_{i,j} N(\mathbf{x}^A_i \to \mathbf{x}^B_j).
+  \label{eq:esmo_prob}
+\end{equation}
+$\Pr(A \to B)$ is the \textbf{structural feasibility probability}: the
+fraction of state-pair microstates for which the transition is realizable
+at all.  It depends only on whether the polytope is non-empty, making it
+the most conservative and robust claim.  $\bar{N}(A \to B)$ is the
+\textbf{mean structural accessibility}: the expected number of minimal
+pathway coalitions available, a richer but still fully parameter-free
+quantity.  If $\Pr(A \to B) > \Pr(B \to A)$ we say $A \to B$ is
+\emph{structurally dominant}; if additionally $\bar{N}(A \to B) \gg
+\bar{N}(B \to A)$ the dominance is strong.
+
+This connects directly to the Markovian framework developed
+in~\citet{veloz2023markovian}, where the organizations of a reaction
+network are treated as nodes of a stochastic process and transition
+probabilities encode the tendency of the system to move from one
+organizational attractor to another.  The ESMO distribution provides a
+principled, data-observable basis for estimating these transition
+probabilities without fitting kinetic parameters: states are far easier to
+measure empirically (population counts, resource levels, institutional
+indicators) than reaction rate constants.
+The structural entropy index of an organization,
+$\Delta H_{\mathcal{O}} = \log \overline{N}_{\text{in}}(\mathcal{O}) -
+\log \overline{N}_{\text{out}}(\mathcal{O})$,
+where $\overline{N}_{\text{in}}$ and $\overline{N}_{\text{out}}$ aggregate
+mean accessibility over all incoming and outgoing cover-edge transitions
+respectively, provides a single scalar measure of whether the organization
+acts as a structural attractor ($\Delta H > 0$, centripetal) or as a
+structural transient ($\Delta H < 0$, centrifugal) in the Markovian process
+on the organizational lattice.
+
+
+% ------------------------------------------------------------------
+\subsection{Intra-Organizational Transition Probabilities}
+\label{sec:esmo_intra}
+% ------------------------------------------------------------------
+
+The inter-organizational analysis of Section~\ref{sec:esmo_inter} uses a
+single characteristic state per organizational type.  This is sufficient for
+establishing directional asymmetry, but it raises a legitimate concern: do
+the results depend on the particular choice of representative state?  The
+multi-state ensemble analysis addresses this directly.
+
+\subsubsection*{Multi-state ensemble design}
+
+For each organizational regime and each qualitative type (peace / conflict),
+we define a library of $m = n = 5$ representative states, carefully designed
+so that different pairs $(i, j)$ produce distinct LP sign patterns (signatures).
+The \textbf{non-proportionality criterion} requires that states differ in
+\emph{which} species cross the neutrality threshold $\theta$, not merely in
+overall abundance level: proportional rescaling of a state would yield the
+same LP signature and add no statistical information.  For example, among the
+five Tribe peace states, one has an elevated warrior species ($X = 120$) that
+falls \emph{below} the conflict levels for some conflict states, generating
+a unique signature in which $X$ must \emph{shrink} on the transition to
+conflict --- the opposite of the typical direction.
+
+All $m \times n = 25$ PC pairs and all $n \times m = 25$ CP pairs are
+enumerated per organisation, yielding 200 directed LP problems in total.
+Identical LP signatures are detected by a hash of the sign vector and solved
+only once (cache deduplication), so the computational cost scales with the
+number of distinct signatures, not the number of pairs.
+
+From the distribution of ESMO counts over all pairs, we report:
+\begin{align*}
+  \Pr_{\text{PC}}(\mathcal{O}) &= \frac{|\{(i,j): N(\mathbf{x}^P_i \to \mathbf{x}^C_j) > 0\}|}{25}, &
+  \bar{N}_{\text{PC}}(\mathcal{O}) &= \frac{1}{25}\sum_{i,j} N(\mathbf{x}^P_i \to \mathbf{x}^C_j),
+\end{align*}
+and symmetrically for CP.  Both quantities are fully parameter-free:
+$\Pr_{\text{PC}}$ depends only on polytope non-emptiness,
+while $\bar{N}_{\text{PC}}$ is a structural richness estimate.
+Because $\Pr_{\text{PC}} = \Pr_{\text{CP}} = 1.0$ for all four organizations
+(every state-pair combination yields a feasible polytope), the informative
+comparison across organizations is the \emph{relative frequency} of each
+direction:
+\begin{equation}
+  f_{\text{PC}}(\mathcal{O}) = \frac{\bar{N}_{\text{PC}}}{\bar{N}_{\text{PC}} + \bar{N}_{\text{CP}}},
+  \qquad
+  f_{\text{CP}}(\mathcal{O}) = \frac{\bar{N}_{\text{CP}}}{\bar{N}_{\text{PC}} + \bar{N}_{\text{CP}}},
+  \label{eq:rel_freq}
+\end{equation}
+which measures the structural weight of each transition direction independently
+of absolute ESMO counts.
+
+\subsubsection*{Tribe: a complete example}
+
+Table~\ref{tab:tribe_intra} reports the Tribe results over all 50 pairs.
+Both peace-to-conflict and conflict-to-peace transitions are \emph{fully
+feasible}: $\Pr_{\text{PC}} = \Pr_{\text{CP}} = 1.0$, meaning that for
+every combination of representative states the stoichiometry supports
+the directional change.  This confirms that the Tribe sub-network is
+topologically capable of cycling between peace and conflict regardless of
+the specific state realization, consistent with its role as a baseline
+organizational form.
+
+The mean ESMO counts reveal a directional bias:
+$\bar{N}_{\text{PC}} \approx 1140 > \bar{N}_{\text{CP}} \approx 899$,
+a ratio of approximately $1.27$, corresponding to relative frequencies
+$f_{\text{PC}} = 0.56$ and $f_{\text{CP}} = 0.44$.
+Across the 25 PC pairs, six distinct LP signatures are realized
+(range $711$--$1251$), and likewise six for CP (range $740$--$1114$),
+confirming that the ensemble genuinely samples distinct structural
+microstates rather than collapsing to a single polytope.
+The standard deviations ($\sigma_{\text{PC}} \approx 185$,
+$\sigma_{\text{CP}} \approx 90$) quantify the spread due to the choice of
+representative state.  Their modest size relative to the means (16\% and
+10\% coefficients of variation respectively) indicates that the direction of
+the inequality $\bar{N}_{\text{PC}} > \bar{N}_{\text{CP}}$ is robust to
+state selection.
+
+\begin{table}[ht]
+  \centering
+  \caption{Multi-state ESMO ensemble statistics for Tribe (5 peace
+    $\times$ 5 conflict states; 25 PC and 25 CP directed pairs).}
+  \label{tab:tribe_intra}
+  \begin{tabular}{lrrrrcr}
+    \hline
+    Direction & $\Pr_{\text{feasible}}$ & $\bar{N}$ & $\sigma_N$ &
+    Distinct sigs & Range & $f$ \\
+    \hline
+    PC (peace $\to$ conflict) & 1.000 & 1139.8 & 184.6 & 6 & 711--1251 & 0.559 \\
+    CP (conflict $\to$ peace) & 1.000 &  899.0 &  89.5 & 6 & 740--1114 & 0.441 \\
+    \hline
+  \end{tabular}
+\end{table}
+
+Structurally, the Tribe community is easier to destabilize than to
+recover: the parameter-free ratio $\bar{N}_{\text{PC}} /
+\bar{N}_{\text{CP}} \approx 1.27$ holds robustly across the state
+ensemble.  This complements the simulation results of
+Section~\ref{sec:bandtribe}, where conflict escalation required fewer
+interventions than recovery under the same resource conditions.
+
+\subsubsection*{Chief, State, and ChiefState}
+
+The pattern observed in Tribe extends to all four organizational regimes,
+but with a striking amplification as complexity grows.
+Table~\ref{tab:all_intra} reports the full ensemble statistics for all four
+organizations.
+
+\begin{table}[ht]
+  \centering
+  \caption{Multi-state ESMO ensemble statistics for all four organizational
+    regimes (5 peace $\times$ 5 conflict states; 25 PC and 25 CP pairs per
+    organization; all $\Pr_{\text{feasible}} = 1.000$).
+    $f$ denotes the relative frequency $\bar{N}_{\text{combo}} /
+    (\bar{N}_{\text{PC}} + \bar{N}_{\text{CP}})$.}
+  \label{tab:all_intra}
+  \begin{tabular}{llrrrrr}
+    \hline
+    Organization & Dir. & $\bar{N}$ & $\sigma_N$ & Distinct sigs & Range & $f$ \\
+    \hline
+    Tribe & PC & 1139.8 & 184.6 & 6  & 711--1251   & 0.559 \\
+          & CP &  899.0 &  89.5 & 6  & 740--1114   & 0.441 \\
+    \hline
+    Chief & PC & 1502.7 & 315.4 & 11 & 883--1843   & 0.596 \\
+          & CP & 1018.8 & 139.2 & 11 & 739--1258   & 0.404 \\
+    \hline
+    State & PC & 1606.4 & 191.1 & 14 & 1145--1953  & 0.698 \\
+          & CP &  696.6 & 146.0 & 14 & 380--913    & 0.302 \\
+    \hline
+    ChiefState & PC & 1804.6 & 215.8 & 22 & 1307--2217 & 0.678 \\
+               & CP &  858.7 & 152.2 & 22 & 526--1118  & 0.322 \\
+    \hline
+  \end{tabular}
+\end{table}
+
+Several features of Table~\ref{tab:all_intra} warrant discussion.
+
+\paragraph{The PC/CP ratio gradient.}
+The ratio $\bar{N}_{\text{PC}} / \bar{N}_{\text{CP}}$ increases
+monotonically with organizational complexity: $1.27$ (Tribe), $1.47$
+(Chief), $2.10$ (ChiefState), and $2.31$ (State).  In terms of relative
+frequencies, the structural weight of destabilization grows from 56\%
+(Tribe) to 60\% (Chief) to 70\% (State) and 68\% (ChiefState).
+This is a parameter-free topological result: more complex organizational
+forms have a progressively stronger structural bias toward transitioning
+from peace to conflict than in the reverse direction.  No rate constant
+calibration is required to observe this gradient; it is an intrinsic
+property of the conflict network stoichiometry at each organizational scale.
+
+\paragraph{Signature diversity and robustness.}
+The number of distinct LP signatures realised per direction also scales with
+organizational complexity: 6 for Tribe, 11 for Chief, 14 for State, and 22
+for ChiefState.  A higher signature count means the state ensemble samples
+genuinely distinct structural microstates, not just quantitative variants of
+the same qualitative constraint.  The coefficients of variation
+($\sigma / \bar{N}$) remain moderate in all cases --- at most 21\%
+for Chief PC --- confirming that the directional inequalities are robust
+to state selection even when the distributions have non-trivial spread.
+
+\paragraph{State and ChiefState extremes.}
+The State organization exhibits the sharpest intra-organizational asymmetry
+($\bar{N}_{\text{PC}} / \bar{N}_{\text{CP}} = 2.31$): peace-to-conflict
+transitions average 1606 ESMOs while conflict-to-peace transitions average
+only 697.  ChiefState shows a similar but slightly smaller asymmetry (ratio
+2.10), with the highest absolute mean ESMO counts in both directions
+($\bar{N}_{\text{PC}} = 1805$, $\bar{N}_{\text{CP}} = 859$), reflecting
+the richer reaction set available in the dual-hierarchy organization.
+
+\paragraph{Figures.}
+Figure~\ref{fig:intra_distributions} displays the full ESMO count
+distributions for each organization as violin plots on a shared axis,
+making the within-organization spread and the between-direction asymmetry
+directly comparable.  Figure~\ref{fig:intra_feasibility} compares the
+absolute mean ESMO counts across organizations and directions, annotated
+with their relative frequencies.  Figure~\ref{fig:intra_scatter} shows
+matched PC-vs-CP scatter plots: each point represents one state pair $(i,j)$
+with its N value in both directions; points above the diagonal correspond to
+pairs where recovery (CP) is structurally richer than destabilisation (PC),
+and point density (encoded by overlap transparency) reveals that such
+reversals are rare in all four organizations.
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=\linewidth]{figures/fig1_esmo_distributions}
+  \caption{Distribution of ESMO counts across all 25 state pairs per
+    organization and direction (intra-organizational transitions).
+    Violin plots share a common $y$-axis; the white dot marks the mean.
+    PC (orange) = peace$\to$conflict (destabilisation);
+    CP (blue) = conflict$\to$peace (recovery).
+    All 200 polytopes are feasible ($\Pr = 1.0$).
+    The progressive upward shift of the PC violin and downward shift of
+    the CP violin as organizational complexity increases reflects the
+    growing structural bias toward destabilisation.}
+  \label{fig:intra_distributions}
+\end{figure}
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=0.85\linewidth]{figures/fig2_feasibility}
+  \caption{Mean ESMO count per direction and organization (bars $\pm$ 1 SD).
+    Bar annotations give the absolute mean and the relative frequency
+    $f = \bar{N} / (\bar{N}_{\text{PC}} + \bar{N}_{\text{CP}})$.
+    The right axis shows the relative frequency scale.
+    The systematic dominance of PC over CP, and its amplification with
+    organizational complexity, is evident across all four regimes.}
+  \label{fig:intra_feasibility}
+\end{figure}
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=\linewidth]{figures/fig3_pc_vs_cp_scatter}
+  \caption{Matched PC vs.\ CP ESMO counts per state pair (intra-organizational).
+    Each point corresponds to one $(i,j)$ pair; its $x$-coordinate is
+    $N_{\text{PC}}$ and its $y$-coordinate is $N_{\text{CP}}$.
+    The dashed diagonal marks $N_{\text{PC}} = N_{\text{CP}}$.
+    Points above the diagonal have more recovery pathways than
+    destabilisation pathways; points below the diagonal have more
+    destabilisation pathways.
+    Overlap transparency encodes point density: darker regions indicate
+    many pairs sharing the same $(N_{\text{PC}}, N_{\text{CP}})$ value.
+    In all four organizations the majority of pairs fall below the diagonal,
+    confirming the structural dominance of destabilisation.}
+  \label{fig:intra_scatter}
+\end{figure}
+
+
+% ------------------------------------------------------------------
+\subsection{Inter-Organizational Transitions along the Hasse Diagram}
+\label{sec:esmo_inter}
+% ------------------------------------------------------------------
+
+We computed ESMOs for every directed pair along the four cover edges of the
+sub-lattice $\{\mathcal{T}, \mathcal{H}, \mathcal{I}, \mathcal{CS}\}$,
+in both directions and across all four peace/conflict state combinations
+(PP, PC, CP, CC), yielding 32 structurally distinct LP problems in the
+12-dimensional flux space of the $O_7$ sub-network.  The complete ESMO
+count matrices for each directed edge are shown in
+Figure~\ref{fig:esmo_matrices}; the aggregated counts by transition type
+across all edges are summarised in Figure~\ref{fig:esmo_combos}.  A directed
+graph summary of the lattice, with edge thickness proportional to the square
+root of the ESMO count for each combo, is given in
+Figure~\ref{fig:esmo_graph}.
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=\linewidth]{figures/fig_inter4_transition_graph}
+  \caption{Directed ESMO transition graph for the four organizational
+    regimes, one panel per state-combination type (PP, PC, CP, CC).
+    Nodes are positioned in a diamond Hasse layout: Tribe at the base,
+    Chief and State at mid-level, ChiefState at the apex.  Arrow curvature
+    distinguishes upward (arc right) from downward (arc left) transitions
+    along each cover edge.  Arrow width scales as $\sqrt{N}$, where $N$ is
+    the ESMO count; the label reports the exact $N$ value.  Width
+    asymmetry between opposite arrows along the same edge reveals the
+    directional structural bias discussed in the text.}
+  \label{fig:esmo_graph}
+\end{figure}
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=\linewidth]{figures/fig_inter1_heatmaps}
+  \caption{ESMO count matrices for the four cover edges of the
+    conflict organizational lattice.  Each $2\times 2$ cell shows the
+    number of ESMO vertices for a directed transition, with rows
+    indicating the source state (peace / conflict) and columns the
+    target state.  Left column: going \emph{up} the lattice (smaller
+    $\to$ larger organization); right column: going \emph{down}.
+    Colour intensity encodes ESMO count on a common scale across all
+    eight panels (yellow $\approx 380$, dark red $\approx 2153$).}
+  \label{fig:esmo_matrices}
+\end{figure}
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=\linewidth]{figures/fig_inter2_combo_counts}
+  \caption{ESMO counts disaggregated by state-combination type
+    (PP = peace$\to$peace, PC = peace$\to$conflict,
+    CP = conflict$\to$peace, CC = conflict$\to$conflict)
+    for each cover edge.  Left panel: going up the lattice ($\to$ larger
+    organization); right panel: going down.  Bar height encodes the ESMO
+    count; taller bars indicate greater structural richness.  The PC bars
+    consistently dominate the going-down panels, and CC bars dominate
+    the going-up panels for the ChiefState edges.}
+  \label{fig:esmo_combos}
+\end{figure}
+
+\subsubsection*{Structural entropy and the attractor landscape}
+
+Computing $\Delta H_{\mathcal{O}}$ for each of the four organizations from
+the 32 directed ESMO counts reveals a clear hierarchy of structural
+attraction (Table~\ref{tab:struct_entropy};
+Figure~\ref{fig:esmo_struct_entropy}).
+
+Tribe is the only centripetal organization ($\Delta H_{\mathcal{T}} =
++0.414$): its high mean incoming accessibility
+($\overline{N}_{\text{in}} = 1261$, the largest among all four orgs)
+reflects the abundance of minimal reaction coalitions that drive complex
+organizations downward into the tribal base, while its low outgoing
+accessibility ($\overline{N}_{\text{out}} = 834$, the smallest) reflects
+the stoichiometric difficulty of building institutional layers from a tribal
+starting point.  Tribe is thus the unique \emph{structural attractor} in
+the Markovian process on the lattice, consistent with its role as the robust
+baseline regime in the simulations of
+Sections~\ref{sec:bandtribe}--\ref{sec:chiefdom}.
+
+Chief is very weakly centrifugal ($\Delta H_{\mathcal{H}} = -0.048$),
+essentially balanced: its incoming and outgoing mean accessibilities differ
+by less than 5\% ($\overline{N}_{\text{in}} = 1146$,
+$\overline{N}_{\text{out}} = 1202$).  Chief is a high-throughput conduit
+--- it receives and emits a large number of structural pathways --- but
+without a systematic directional preference.  This structural neutrality
+may reflect the intermediate position of the chiefdom in the lattice:
+equally connected upward (to ChiefState) and downward (to Tribe), it
+acts as a transition hub rather than an attractor.
+
+ChiefState is centrifugal ($\Delta H_{\mathcal{CS}} = -0.136$): despite
+the highest outgoing accessibility ($\overline{N}_{\text{out}} = 1234$,
+driven by the globally maximal $N = 2153$ for the ChiefState-to-State
+descent), its incoming accessibility is lower
+($\overline{N}_{\text{in}} = 1077$), reflecting the stoichiometric
+constraints on assembling dual-hierarchy structures from below.
+ChiefState is a structural transient: the network topology does not
+favour its formation but generously supports its transformation into
+other organizational forms.
+
+The most clear-cut centrifugal organization is State
+($\Delta H_{\mathcal{I}} = -0.209$), which has the lowest mean incoming
+accessibility ($\overline{N}_{\text{in}} = 922$) --- dominated by the
+near-infeasible Tribe-to-State upward pathways (minimum $N = 380$ for
+the CC combo, $N = 521$--$631$ for the others) --- while its outgoing
+accessibility ($\overline{N}_{\text{out}} = 1137$) benefits from the
+large ESMO counts on State-to-Tribe descents ($N = 966$--$1666$).
+State is a structural transient: the network topology does not favour its
+emergence but supports its dissolution in multiple directions.
+
+A striking feature of the normalized results is that \emph{all} organizations
+except Tribe are centrifugal ($\Delta H < 0$).  Under population-consistent
+normalization, the organizational lattice is fundamentally asymmetric: only
+the minimal Tribe regime acts as a structural attractor, while Chief,
+ChiefState, and State all exhibit net structural outflow.  This is consistent
+with the evolutionary pressure toward tribal-level organization observed in the
+simulation collapse scenarios of Section~\ref{sec:chiefdom}.
+
+\begin{table}[ht]
+  \centering
+  \caption{Structural entropy indices for the four organizational regimes,
+    computed from the 32 directed ESMO counts across cover edges.
+    $\overline{N}_{\text{in}}$: mean ESMO count over all incoming transitions;
+    $\overline{N}_{\text{out}}$: mean ESMO count over all outgoing transitions;
+    $\Delta H = \ln\overline{N}_{\text{in}} - \ln\overline{N}_{\text{out}}$:
+    positive = centripetal (structural attractor), negative = centrifugal
+    (structural transient).}
+  \label{tab:struct_entropy}
+  \begin{tabular}{lrrr}
+    \hline
+    Organization   & $\overline{N}_{\text{in}}$ & $\overline{N}_{\text{out}}$ & $\Delta H$ \\
+    \hline
+    Tribe          & 1261.2 &  834.0 & $+0.414$ \\
+    Chief          & 1145.6 & 1201.5 & $-0.048$ \\
+    ChiefState     & 1077.0 & 1233.8 & $-0.136$ \\
+    State          &  922.1 & 1136.8 & $-0.209$ \\
+    \hline
+  \end{tabular}
+\end{table}
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=0.88\linewidth]{figures/fig_inter3_struct_entropy}
+  \caption{\textbf{Top:} Mean incoming ($\overline{N}_{\text{in}}$, blue) and
+    outgoing ($\overline{N}_{\text{out}}$, orange) ESMO counts for each
+    organizational regime, averaged over all 8 directed transitions entering
+    or leaving that regime.  Numbers above each bar give the exact values.
+    \textbf{Bottom:} Structural entropy index
+    $\Delta H_{\mathcal{O}} = \ln\overline{N}_{\text{in}} -
+    \ln\overline{N}_{\text{out}}$ for each regime.
+    Green bar ($\Delta H > 0$): centripetal organizational attractor, with
+    more incoming than outgoing structural pathways.
+    Red bars ($\Delta H < 0$): centrifugal transients, with more outgoing
+    than incoming pathways.
+    Tribe is the sole centripetal regime; Chief, ChiefState, and State
+    are all centrifugal under population-consistent normalization.}
+  \label{fig:esmo_struct_entropy}
+\end{figure}
+
+These results complement the mode-projection analysis of
+Section~\ref{sec:modes} by providing a parameter-free structural
+explanation for the dynamical patterns observed there.  The exploitation
+trajectory's tendency to collapse toward tribal-level organization is not
+merely a consequence of the chosen rate constants: the organizational
+lattice structurally favours downward transitions under conflict conditions,
+particularly along the State and ChiefState edges.  This structural bias
+is a topological property of the conflict reaction network, visible only
+through the ESMO lens.

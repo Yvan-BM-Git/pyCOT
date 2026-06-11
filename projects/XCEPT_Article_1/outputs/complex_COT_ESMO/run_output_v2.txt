@@ -1,0 +1,257 @@
+  Cache: no existing cache found — will create C:\Users\hp\Dropbox\Public\AcademicWork\Europe\CLEA\Postdocs\TempletonPostdoc\sftw\pyCOT\projects\XCEPT_Article_1\outputs\complex_COT_ESMO\esmo_cache_inter.csv
+Output directory : C:\Users\hp\Dropbox\Public\AcademicWork\Europe\CLEA\Postdocs\TempletonPostdoc\sftw\pyCOT\projects\XCEPT_Article_1\outputs\complex_COT_ESMO
+LP settings      : N_RAND_1=2000  N_RAND_3=600  PATIENCE=200
+NEUTRAL_TOL      : 5.0  (|delta| < 5.0 -> neutral)
+
+Loading: c:\Users\hp\Dropbox\Public\AcademicWork\Europe\CLEA\Postdocs\TempletonPostdoc\sftw\pyCOT\projects\XCEPT_Article_1\scripts\data\Complex_example.txt
+  Full network: 14 species, 37 reactions
+  O7 sub-network: 12 species, 35 reactions
+  Reactions: ['r0', 'r1', 'r2', 'r3', 'r4', 'r5', 'r6', 'r7', 'r8', 'r9', 'r10', 'r11', 'r12', 'r13', 'r14', 'r15', 'r16', 'r17', 'r18', 'r19', 'r20', 'r21', 'r22', 'r23', 'r24', 'r25', 'r26', 'r27', 'r28', 'r29', 'r30', 'r31', 'r32', 'r33', 'r34']
+
+Containment verification:
+  Tribe ⊂ Chief: OK  (exclusive to Chief: ['H', 'H_Res', 'P_H'])
+  Tribe ⊂ State: OK  (exclusive to State: ['I', 'I_Res', 'L', 'P_I'])
+  Chief ⊂ ChiefState: OK  (exclusive to ChiefState: ['I', 'I_Res', 'L', 'P_I'])
+  State ⊂ ChiefState: OK  (exclusive to ChiefState: ['H', 'H_Res', 'P_H'])
+
+========================================================================
+  TRANSITION PLAN: 32 directed transitions
+  (4 cover edges x 2 directions x 4 state combos = 32)
+========================================================================
+
+    #                Edge  dir   combo  label
+  ---  ------------------  ----  -----  -----
+    1         Tribe-Chief    up     pp  TriP->ChfP
+    2         Tribe-Chief    up     pc  TriP->ChfC
+    3         Tribe-Chief    up     cp  TriC->ChfP
+    4         Tribe-Chief    up     cc  TriC->ChfC
+    5         Tribe-Chief  down     pp  ChfP->TriP
+    6         Tribe-Chief  down     pc  ChfP->TriC
+    7         Tribe-Chief  down     cp  ChfC->TriP
+    8         Tribe-Chief  down     cc  ChfC->TriC
+    9         Tribe-State    up     pp  TriP->StaP
+   10         Tribe-State    up     pc  TriP->StaC
+   11         Tribe-State    up     cp  TriC->StaP
+   12         Tribe-State    up     cc  TriC->StaC
+   13         Tribe-State  down     pp  StaP->TriP
+   14         Tribe-State  down     pc  StaP->TriC
+   15         Tribe-State  down     cp  StaC->TriP
+   16         Tribe-State  down     cc  StaC->TriC
+   17    Chief-ChiefState    up     pp  ChfP->CfSP
+   18    Chief-ChiefState    up     pc  ChfP->CfSC
+   19    Chief-ChiefState    up     cp  ChfC->CfSP
+   20    Chief-ChiefState    up     cc  ChfC->CfSC
+   21    Chief-ChiefState  down     pp  CfSP->ChfP
+   22    Chief-ChiefState  down     pc  CfSP->ChfC
+   23    Chief-ChiefState  down     cp  CfSC->ChfP
+   24    Chief-ChiefState  down     cc  CfSC->ChfC
+   25    State-ChiefState    up     pp  StaP->CfSP
+   26    State-ChiefState    up     pc  StaP->CfSC
+   27    State-ChiefState    up     cp  StaC->CfSP
+   28    State-ChiefState    up     cc  StaC->CfSC
+   29    State-ChiefState  down     pp  CfSP->StaP
+   30    State-ChiefState  down     pc  CfSP->StaC
+   31    State-ChiefState  down     cp  CfSC->StaP
+   32    State-ChiefState  down     cc  CfSC->StaC
+
+========================================================================
+  ESMO ENUMERATION
+========================================================================
+
+[1/32] TriP->ChfP  (run_id=Tribe::peace::canonical::Chief::peace::canonical)
+  grow: ['X', 'H', 'H_Res', 'P_H']   shrink: ['Res', 'C', 'C_Res']
+    1225 raw  ->  1225 ESMOs  (0 rejected)  [84.5s]
+
+[2/32] TriP->ChfC  (run_id=Tribe::peace::canonical::Chief::conflict::canonical)
+  grow: ['X', 'G', 'H', 'H_Res', 'P_H']   shrink: ['Res', 'C', 'C_Res']
+    1307 raw  ->  1307 ESMOs  (0 rejected)  [87.5s]
+
+[3/32] TriC->ChfP  (run_id=Tribe::conflict::canonical::Chief::peace::canonical)
+  grow: ['Res', 'C', 'C_Res', 'H', 'H_Res', 'P_H']   shrink: ['X', 'G']
+    1123 raw  ->  1123 ESMOs  (0 rejected)  [75.5s]
+
+[4/32] TriC->ChfC  (run_id=Tribe::conflict::canonical::Chief::conflict::canonical)
+  grow: ['H', 'H_Res', 'P_H']   shrink: ['X']
+     244 raw  ->   244 ESMOs  (0 rejected)  [26.2s]
+
+[5/32] ChfP->TriP  (run_id=Chief::peace::canonical::Tribe::peace::canonical)
+  grow: ['Res', 'C', 'C_Res']   shrink: ['X', 'H', 'H_Res', 'P_H']
+     843 raw  ->   843 ESMOs  (0 rejected)  [60.5s]
+
+[6/32] ChfP->TriC  (run_id=Chief::peace::canonical::Tribe::conflict::canonical)
+  grow: ['X', 'G']   shrink: ['Res', 'C', 'C_Res', 'H', 'H_Res', 'P_H']
+    1731 raw  ->  1731 ESMOs  (0 rejected)  [130.6s]
+
+[7/32] ChfC->TriP  (run_id=Chief::conflict::canonical::Tribe::peace::canonical)
+  grow: ['Res', 'C', 'C_Res']   shrink: ['X', 'G', 'H', 'H_Res', 'P_H']
+    1083 raw  ->  1083 ESMOs  (0 rejected)  [84.1s]
+
+[8/32] ChfC->TriC  (run_id=Chief::conflict::canonical::Tribe::conflict::canonical)
+  grow: ['X']   shrink: ['H', 'H_Res', 'P_H']
+     916 raw  ->   916 ESMOs  (0 rejected)  [70.2s]
+
+[9/32] TriP->StaP  (run_id=Tribe::peace::canonical::State::peace::canonical)
+  grow: ['L', 'I_Res', 'I', 'P_I']   shrink: ['C', 'C_Res', 'X']
+     250 raw  ->   250 ESMOs  (0 rejected)  [23.3s]
+
+[10/32] TriP->StaC  (run_id=Tribe::peace::canonical::State::conflict::canonical)
+  grow: ['X', 'G', 'L', 'I_Res', 'I', 'P_I']   shrink: ['Res', 'C', 'C_Res']
+     838 raw  ->   838 ESMOs  (0 rejected)  [60.5s]
+
+[11/32] TriC->StaP  (run_id=Tribe::conflict::canonical::State::peace::canonical)
+  grow: ['Res', 'C', 'C_Res', 'L', 'I_Res', 'I', 'P_I']   shrink: ['X', 'G']
+     811 raw  ->   811 ESMOs  (0 rejected)  [57.8s]
+
+[12/32] TriC->StaC  (run_id=Tribe::conflict::canonical::State::conflict::canonical)
+  grow: ['L', 'I_Res', 'I', 'P_I']   shrink: ['X']
+      64 raw  ->    64 ESMOs  (0 rejected)  [7.3s]
+
+[13/32] StaP->TriP  (run_id=State::peace::canonical::Tribe::peace::canonical)
+  grow: ['C', 'C_Res', 'X']   shrink: ['L', 'I_Res', 'I', 'P_I']
+    1392 raw  ->  1392 ESMOs  (0 rejected)  [91.9s]
+
+[14/32] StaP->TriC  (run_id=State::peace::canonical::Tribe::conflict::canonical)
+  grow: ['X', 'G']   shrink: ['Res', 'C', 'C_Res', 'L', 'I_Res', 'I', 'P_I']
+    1747 raw  ->  1747 ESMOs  (0 rejected)  [106.9s]
+
+[15/32] StaC->TriP  (run_id=State::conflict::canonical::Tribe::peace::canonical)
+  grow: ['Res', 'C', 'C_Res']   shrink: ['X', 'G', 'L', 'I_Res', 'I', 'P_I']
+    1218 raw  ->  1218 ESMOs  (0 rejected)  [64.2s]
+
+[16/32] StaC->TriC  (run_id=State::conflict::canonical::Tribe::conflict::canonical)
+  grow: ['X']   shrink: ['L', 'I_Res', 'I', 'P_I']
+     670 raw  ->   670 ESMOs  (0 rejected)  [41.5s]
+
+[17/32] ChfP->CfSP  (run_id=Chief::peace::canonical::ChiefState::peace::canonical)
+  grow: ['L', 'I_Res', 'I', 'P_I']   shrink: ['C', 'X', 'H', 'H_Res', 'P_H']
+     441 raw  ->   441 ESMOs  (0 rejected)  [28.2s]
+
+[18/32] ChfP->CfSC  (run_id=Chief::peace::canonical::ChiefState::conflict::canonical)
+  grow: ['X', 'G', 'L', 'I_Res', 'I', 'P_I']   shrink: ['Res', 'C', 'C_Res', 'H', 'H_Res', 'P_H']
+    1142 raw  ->  1142 ESMOs  (0 rejected)  [56.4s]
+
+[19/32] ChfC->CfSP  (run_id=Chief::conflict::canonical::ChiefState::peace::canonical)
+  grow: ['Res', 'C', 'C_Res', 'H', 'H_Res', 'P_H', 'L', 'I_Res', 'I', 'P_I']   shrink: ['X', 'G']
+    1015 raw  ->  1015 ESMOs  (0 rejected)  [45.8s]
+
+[20/32] ChfC->CfSC  (run_id=Chief::conflict::canonical::ChiefState::conflict::canonical)
+  grow: ['X', 'G', 'L', 'I_Res', 'I', 'P_I']   shrink: ['C', 'H', 'H_Res']
+     868 raw  ->   868 ESMOs  (0 rejected)  [46.7s]
+
+[21/32] CfSP->ChfP  (run_id=ChiefState::peace::canonical::Chief::peace::canonical)
+  grow: ['C', 'X', 'H', 'H_Res', 'P_H']   shrink: ['L', 'I_Res', 'I', 'P_I']
+     954 raw  ->   954 ESMOs  (0 rejected)  [62.0s]
+
+[22/32] CfSP->ChfC  (run_id=ChiefState::peace::canonical::Chief::conflict::canonical)
+  grow: ['X', 'G']   shrink: ['Res', 'C', 'C_Res', 'H', 'H_Res', 'P_H', 'L', 'I_Res', 'I', 'P_I']
+    1954 raw  ->  1954 ESMOs  (0 rejected)  [113.4s]
+
+[23/32] CfSC->ChfP  (run_id=ChiefState::conflict::canonical::Chief::peace::canonical)
+  grow: ['Res', 'C', 'C_Res', 'H', 'H_Res', 'P_H']   shrink: ['X', 'G', 'L', 'I_Res', 'I', 'P_I']
+     969 raw  ->   969 ESMOs  (0 rejected)  [52.2s]
+
+[24/32] CfSC->ChfC  (run_id=ChiefState::conflict::canonical::Chief::conflict::canonical)
+  grow: ['C', 'H', 'H_Res']   shrink: ['X', 'G', 'L', 'I_Res', 'I', 'P_I']
+     671 raw  ->   671 ESMOs  (0 rejected)  [38.8s]
+
+[25/32] StaP->CfSP  (run_id=State::peace::canonical::ChiefState::peace::canonical)
+  grow: ['X', 'H', 'H_Res', 'P_H']   shrink: ['Res', 'C', 'C_Res', 'L', 'I_Res', 'I', 'P_I']
+    1366 raw  ->  1366 ESMOs  (0 rejected)  [68.4s]
+
+[26/32] StaP->CfSC  (run_id=State::peace::canonical::ChiefState::conflict::canonical)
+  grow: ['X', 'G', 'H', 'H_Res', 'P_H']   shrink: ['Res', 'C', 'C_Res', 'L', 'I_Res', 'I', 'P_I']
+    1587 raw  ->  1587 ESMOs  (0 rejected)  [84.6s]
+
+[27/32] StaC->CfSP  (run_id=State::conflict::canonical::ChiefState::peace::canonical)
+  [SIG_MATCH -> Chief::conflict::canonical::ChiefState::peace::canonical]  n_esmos=1015  mean_support=11.32
+
+[28/32] StaC->CfSC  (run_id=State::conflict::canonical::ChiefState::conflict::canonical)
+  grow: ['X', 'G', 'H', 'H_Res', 'P_H']   shrink: ['C', 'L', 'I_Res', 'I', 'P_I']
+    1154 raw  ->  1154 ESMOs  (0 rejected)  [81.7s]
+
+[29/32] CfSP->StaP  (run_id=ChiefState::peace::canonical::State::peace::canonical)
+  grow: ['Res', 'C', 'C_Res', 'L', 'I_Res', 'I', 'P_I']   shrink: ['X', 'H', 'H_Res', 'P_H']
+     627 raw  ->   627 ESMOs  (0 rejected)  [38.6s]
+
+[30/32] CfSP->StaC  (run_id=ChiefState::peace::canonical::State::conflict::canonical)
+  [SIG_MATCH -> ChiefState::peace::canonical::Chief::conflict::canonical]  n_esmos=1954  mean_support=8.39
+
+[31/32] CfSC->StaP  (run_id=ChiefState::conflict::canonical::State::peace::canonical)
+  grow: ['Res', 'C', 'C_Res', 'L', 'I_Res', 'I', 'P_I']   shrink: ['X', 'G', 'H', 'H_Res', 'P_H']
+     936 raw  ->   936 ESMOs  (0 rejected)  [50.2s]
+
+[32/32] CfSC->StaC  (run_id=ChiefState::conflict::canonical::State::conflict::canonical)
+  grow: ['C', 'L', 'I_Res', 'I', 'P_I']   shrink: ['X', 'G', 'H', 'H_Res', 'P_H']
+     733 raw  ->   733 ESMOs  (0 rejected)  [41.8s]
+
+Summary CSV -> C:\Users\hp\Dropbox\Public\AcademicWork\Europe\CLEA\Postdocs\TempletonPostdoc\sftw\pyCOT\projects\XCEPT_Article_1\outputs\complex_COT_ESMO\transition_summary.csv
+
+========================================================================
+  RESULTS TABLE
+========================================================================
+     short combo  n_targets  n_grow  n_shrink  n_esmos  mean_support  time_s
+TriP->ChfP    pp          7       4         3     1225          6.25    84.5
+TriP->ChfC    pc          8       5         3     1307          6.84    87.5
+TriC->ChfP    cp          8       6         2     1123          7.20    75.5
+TriC->ChfC    cc          4       3         1      244          3.96    26.2
+ChfP->TriP    pp          7       3         4      843          6.03    60.5
+ChfP->TriC    pc          8       2         6     1731          6.71   130.6
+ChfC->TriP    cp          8       3         5     1083          6.88    84.1
+ChfC->TriC    cc          4       1         3      916          4.41    70.2
+TriP->StaP    pp          7       4         3      250          6.60    23.3
+TriP->StaC    pc          9       6         3      838          8.10    60.5
+TriC->StaP    cp          9       7         2      811          8.46    57.8
+TriC->StaC    cc          5       4         1       64          5.02     7.3
+StaP->TriP    pp          7       3         4     1392          5.86    91.9
+StaP->TriC    pc          9       2         7     1747          6.86   106.9
+StaC->TriP    cp          9       3         6     1218          7.67    64.2
+StaC->TriC    cc          5       1         4      670          4.55    41.5
+ChfP->CfSP    pp          9       4         5      441          7.90    28.2
+ChfP->CfSC    pc         12       6         6     1142          9.88    56.4
+ChfC->CfSP    cp         12      10         2     1015         11.32    45.8
+ChfC->CfSC    cc          9       6         3      868          8.19    46.7
+CfSP->ChfP    pp          9       5         4      954          6.71    62.0
+CfSP->ChfC    pc         12       2        10     1954          8.39   113.4
+CfSC->ChfP    cp         12       6         6      969          8.67    52.2
+CfSC->ChfC    cc          9       3         6      671          6.21    38.8
+StaP->CfSP    pp         11       4         7     1366          7.94    68.4
+StaP->CfSC    pc         12       5         7     1587          8.35    84.6
+StaC->CfSP    cp         12      10         2     1015         11.32     0.0
+StaC->CfSC    cc         10       5         5     1154          7.26    81.7
+CfSP->StaP    pp         11       7         4      627          8.99    38.6
+CfSP->StaC    pc         12       2        10     1954          8.39     0.0
+CfSC->StaP    cp         12       7         5      936          9.87    50.2
+CfSC->StaC    cc         10       5         5      733          8.60    41.8
+  Saved: C:\Users\hp\Dropbox\Public\AcademicWork\Europe\CLEA\Postdocs\TempletonPostdoc\sftw\pyCOT\projects\XCEPT_Article_1\outputs\complex_COT_ESMO\fig1_cover_edge_matrices.png
+  Saved: C:\Users\hp\Dropbox\Public\AcademicWork\Europe\CLEA\Postdocs\TempletonPostdoc\sftw\pyCOT\projects\XCEPT_Article_1\outputs\complex_COT_ESMO\fig2_combo_counts.png
+  Saved: C:\Users\hp\Dropbox\Public\AcademicWork\Europe\CLEA\Postdocs\TempletonPostdoc\sftw\pyCOT\projects\XCEPT_Article_1\outputs\complex_COT_ESMO\fig3_signature_matrix.png
+  Saved: C:\Users\hp\Dropbox\Public\AcademicWork\Europe\CLEA\Postdocs\TempletonPostdoc\sftw\pyCOT\projects\XCEPT_Article_1\outputs\complex_COT_ESMO\fig4_reaction_usage_grid.png
+  Saved: C:\Users\hp\Dropbox\Public\AcademicWork\Europe\CLEA\Postdocs\TempletonPostdoc\sftw\pyCOT\projects\XCEPT_Article_1\outputs\complex_COT_ESMO\fig5_aggregate_reaction_usage.png
+  Saved: C:\Users\hp\Dropbox\Public\AcademicWork\Europe\CLEA\Postdocs\TempletonPostdoc\sftw\pyCOT\projects\XCEPT_Article_1\outputs\complex_COT_ESMO\fig6_nontarget_behavior.png
+  Saved: C:\Users\hp\Dropbox\Public\AcademicWork\Europe\CLEA\Postdocs\TempletonPostdoc\sftw\pyCOT\projects\XCEPT_Article_1\outputs\complex_COT_ESMO\fig7_transition_graph.png
+
+========================================================================
+  ASYMMETRY SUMMARY PER COVER EDGE
+========================================================================
+
+  Edge                combo      UP    DOWN  ratio(UP/DOWN)  interpretation
+  ------------------  -----  ------  ------  --------------  ---------------
+  Tribe-Chief          pp    1225     843      1.45    going UP easier  (1225 vs 843)
+  Tribe-Chief          pc    1307    1731      0.76    going DOWN easier (1731 vs 1307)
+  Tribe-Chief          cp    1123    1083      1.04    symmetric
+  Tribe-Chief          cc     244     916      0.27    going DOWN easier (916 vs 244)
+  Tribe-State          pp     250    1392      0.18    going DOWN easier (1392 vs 250)
+  Tribe-State          pc     838    1747      0.48    going DOWN easier (1747 vs 838)
+  Tribe-State          cp     811    1218      0.67    going DOWN easier (1218 vs 811)
+  Tribe-State          cc      64     670      0.10    going DOWN easier (670 vs 64)
+  Chief-ChiefState     pp     441     954      0.46    going DOWN easier (954 vs 441)
+  Chief-ChiefState     pc    1142    1954      0.58    going DOWN easier (1954 vs 1142)
+  Chief-ChiefState     cp    1015     969      1.05    symmetric
+  Chief-ChiefState     cc     868     671      1.29    going UP easier  (868 vs 671)
+  State-ChiefState     pp    1366     627      2.18    going UP easier  (1366 vs 627)
+  State-ChiefState     pc    1587    1954      0.81    going DOWN easier (1954 vs 1587)
+  State-ChiefState     cp    1015     936      1.08    symmetric
+  State-ChiefState     cc    1154     733      1.57    going UP easier  (1154 vs 733)
+
+All outputs saved to: C:\Users\hp\Dropbox\Public\AcademicWork\Europe\CLEA\Postdocs\TempletonPostdoc\sftw\pyCOT\projects\XCEPT_Article_1\outputs\complex_COT_ESMO
+========================================================================

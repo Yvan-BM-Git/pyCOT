@@ -122,12 +122,6 @@ def generators(RN):
     
     return gen_pairs
 
-
-
-
-
-
-
 class ERC:
     def __init__(self, min_generators, label, all_generators=None):
         """Initialize an ERC object."""

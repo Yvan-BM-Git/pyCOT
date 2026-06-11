@@ -1,0 +1,683 @@
+Output directory : C:\Users\hp\Dropbox\Public\AcademicWork\Europe\CLEA\Postdocs\TempletonPostdoc\sftw\pyCOT\projects\XCEPT_Article_1\outputs\intra_org_esmo
+Cache file       : C:\Users\hp\Dropbox\Public\AcademicWork\Europe\CLEA\Postdocs\TempletonPostdoc\sftw\pyCOT\projects\XCEPT_Article_1\outputs\intra_org_esmo\esmo_cache_intra.csv
+LP settings      : N_RAND_1=2000  N_RAND_3=600  PATIENCE=200
+NEUTRAL_TOL      : 5.0
+
+Loading: c:\Users\hp\Dropbox\Public\AcademicWork\Europe\CLEA\Postdocs\TempletonPostdoc\sftw\pyCOT\projects\XCEPT_Article_1\scripts\data\Complex_example.txt
+  Full network: 14 species, 37 reactions
+  O7 sub-network: 12 species, 35 reactions
+  Cache: starting fresh
+
+Building pair list ...
+  Total pairs    : 200
+  Already cached : 0
+  To compute     : 200
+
+========================================================================
+  ESMO ENUMERATION (intra-org PC / CP pairs)
+========================================================================
+
+[1/200] Tribe PC  peace_v1 -> conflict_v1
+  grow: ['G', 'X']
+  shrink: ['C', 'C_Res', 'Res']
+    1251 raw  ->  1251 ESMOs  (0 rejected)  [73.9s]
+
+[2/200] Tribe CP  conflict_v1 -> peace_v1
+  grow: ['C', 'C_Res', 'Res']
+  shrink: ['G', 'X']
+     861 raw  ->   861 ESMOs  (0 rejected)  [39.3s]
+[3/200] Tribe PC  peace_v1 -> conflict_v2  [SIG_MATCH n=1251]
+[4/200] Tribe CP  conflict_v2 -> peace_v1  [SIG_MATCH n=861]
+[5/200] Tribe PC  peace_v1 -> conflict_v3  [SIG_MATCH n=1251]
+[6/200] Tribe CP  conflict_v3 -> peace_v1  [SIG_MATCH n=861]
+[7/200] Tribe PC  peace_v1 -> conflict_v4  [SIG_MATCH n=1251]
+[8/200] Tribe CP  conflict_v4 -> peace_v1  [SIG_MATCH n=861]
+[9/200] Tribe PC  peace_v1 -> conflict_v5  [SIG_MATCH n=1251]
+[10/200] Tribe CP  conflict_v5 -> peace_v1  [SIG_MATCH n=861]
+[11/200] Tribe PC  peace_v2 -> conflict_v1  [SIG_MATCH n=1251]
+[12/200] Tribe CP  conflict_v1 -> peace_v2  [SIG_MATCH n=861]
+[13/200] Tribe PC  peace_v2 -> conflict_v2  [SIG_MATCH n=1251]
+[14/200] Tribe CP  conflict_v2 -> peace_v2  [SIG_MATCH n=861]
+[15/200] Tribe PC  peace_v2 -> conflict_v3  [SIG_MATCH n=1251]
+[16/200] Tribe CP  conflict_v3 -> peace_v2  [SIG_MATCH n=861]
+
+[17/200] Tribe PC  peace_v2 -> conflict_v4
+  grow: ['G', 'Res', 'X']
+  shrink: ['C', 'C_Res']
+     824 raw  ->   824 ESMOs  (0 rejected)  [35.7s]
+
+[18/200] Tribe CP  conflict_v4 -> peace_v2
+  grow: ['C', 'C_Res']
+  shrink: ['G', 'Res', 'X']
+    1114 raw  ->  1114 ESMOs  (0 rejected)  [46.0s]
+[19/200] Tribe PC  peace_v2 -> conflict_v5  [SIG_MATCH n=1251]
+[20/200] Tribe CP  conflict_v5 -> peace_v2  [SIG_MATCH n=861]
+[21/200] Tribe PC  peace_v3 -> conflict_v1  [SIG_MATCH n=1251]
+[22/200] Tribe CP  conflict_v1 -> peace_v3  [SIG_MATCH n=861]
+[23/200] Tribe PC  peace_v3 -> conflict_v2  [SIG_MATCH n=1251]
+[24/200] Tribe CP  conflict_v2 -> peace_v3  [SIG_MATCH n=861]
+[25/200] Tribe PC  peace_v3 -> conflict_v3  [SIG_MATCH n=1251]
+[26/200] Tribe CP  conflict_v3 -> peace_v3  [SIG_MATCH n=861]
+
+[27/200] Tribe PC  peace_v3 -> conflict_v4
+  grow: ['C_Res', 'G', 'X']
+  shrink: ['C', 'Res']
+    1042 raw  ->  1042 ESMOs  (0 rejected)  [48.4s]
+
+[28/200] Tribe CP  conflict_v4 -> peace_v3
+  grow: ['C', 'Res']
+  shrink: ['C_Res', 'G', 'X']
+     740 raw  ->   740 ESMOs  (0 rejected)  [37.8s]
+[29/200] Tribe PC  peace_v3 -> conflict_v5  [SIG_MATCH n=1251]
+[30/200] Tribe CP  conflict_v5 -> peace_v3  [SIG_MATCH n=861]
+[31/200] Tribe PC  peace_v4 -> conflict_v1  [SIG_MATCH n=1251]
+[32/200] Tribe CP  conflict_v1 -> peace_v4  [SIG_MATCH n=861]
+[33/200] Tribe PC  peace_v4 -> conflict_v2  [SIG_MATCH n=1251]
+[34/200] Tribe CP  conflict_v2 -> peace_v4  [SIG_MATCH n=861]
+[35/200] Tribe PC  peace_v4 -> conflict_v3  [SIG_MATCH n=1251]
+[36/200] Tribe CP  conflict_v3 -> peace_v4  [SIG_MATCH n=861]
+
+[37/200] Tribe PC  peace_v4 -> conflict_v4
+  grow: ['G', 'Res', 'X']
+  shrink: ['C']
+     711 raw  ->   711 ESMOs  (0 rejected)  [41.0s]
+
+[38/200] Tribe CP  conflict_v4 -> peace_v4
+  grow: ['C']
+  shrink: ['G', 'Res', 'X']
+    1015 raw  ->  1015 ESMOs  (0 rejected)  [58.6s]
+[39/200] Tribe PC  peace_v4 -> conflict_v5  [SIG_MATCH n=1251]
+[40/200] Tribe CP  conflict_v5 -> peace_v4  [SIG_MATCH n=861]
+
+[41/200] Tribe PC  peace_v5 -> conflict_v1
+  grow: ['G', 'X']
+  shrink: ['C', 'C_Res']
+     861 raw  ->   861 ESMOs  (0 rejected)  [59.7s]
+
+[42/200] Tribe CP  conflict_v1 -> peace_v5
+  grow: ['C', 'C_Res']
+  shrink: ['G', 'X']
+     950 raw  ->   950 ESMOs  (0 rejected)  [64.6s]
+[43/200] Tribe PC  peace_v5 -> conflict_v2  [SIG_MATCH n=1251]
+[44/200] Tribe CP  conflict_v2 -> peace_v5  [SIG_MATCH n=861]
+[45/200] Tribe PC  peace_v5 -> conflict_v3  [SIG_MATCH n=861]
+[46/200] Tribe CP  conflict_v3 -> peace_v5  [SIG_MATCH n=950]
+
+[47/200] Tribe PC  peace_v5 -> conflict_v4
+  grow: ['C_Res', 'G', 'Res', 'X']
+  shrink: ['C']
+     855 raw  ->   855 ESMOs  (0 rejected)  [57.1s]
+
+[48/200] Tribe CP  conflict_v4 -> peace_v5
+  grow: ['C']
+  shrink: ['C_Res', 'G', 'Res', 'X']
+    1094 raw  ->  1094 ESMOs  (0 rejected)  [66.7s]
+[49/200] Tribe PC  peace_v5 -> conflict_v5  [SIG_MATCH n=824]
+[50/200] Tribe CP  conflict_v5 -> peace_v5  [SIG_MATCH n=1114]
+
+[51/200] Chief PC  peace_v1 -> conflict_v1
+  grow: ['G', 'X']
+  shrink: ['C', 'C_Res', 'H', 'H_Res', 'P_H', 'Res']
+    1731 raw  ->  1731 ESMOs  (0 rejected)  [98.6s]
+
+[52/200] Chief CP  conflict_v1 -> peace_v1
+  grow: ['C', 'C_Res', 'H', 'H_Res', 'P_H', 'Res']
+  shrink: ['G', 'X']
+    1123 raw  ->  1123 ESMOs  (0 rejected)  [74.1s]
+
+[53/200] Chief PC  peace_v1 -> conflict_v2
+  grow: ['G', 'P_H', 'X']
+  shrink: ['C', 'C_Res', 'H', 'H_Res', 'Res']
+    1301 raw  ->  1301 ESMOs  (0 rejected)  [80.5s]
+
+[54/200] Chief CP  conflict_v2 -> peace_v1
+  grow: ['C', 'C_Res', 'H', 'H_Res', 'Res']
+  shrink: ['G', 'P_H', 'X']
+     935 raw  ->   935 ESMOs  (0 rejected)  [59.9s]
+
+[55/200] Chief PC  peace_v1 -> conflict_v3
+  grow: ['G', 'X']
+  shrink: ['C_Res', 'H', 'H_Res', 'P_H', 'Res']
+    1780 raw  ->  1780 ESMOs  (0 rejected)  [129.8s]
+
+[56/200] Chief CP  conflict_v3 -> peace_v1
+  grow: ['C_Res', 'H', 'H_Res', 'P_H', 'Res']
+  shrink: ['G', 'X']
+     739 raw  ->   739 ESMOs  (0 rejected)  [52.7s]
+[57/200] Chief PC  peace_v1 -> conflict_v4  [SIG_MATCH n=1780]
+[58/200] Chief CP  conflict_v4 -> peace_v1  [SIG_MATCH n=739]
+[59/200] Chief PC  peace_v1 -> conflict_v5  [SIG_MATCH n=1731]
+[60/200] Chief CP  conflict_v5 -> peace_v1  [SIG_MATCH n=1123]
+
+[61/200] Chief PC  peace_v2 -> conflict_v1
+  grow: ['G', 'X']
+  shrink: ['C', 'C_Res', 'H', 'H_Res', 'Res']
+    1839 raw  ->  1839 ESMOs  (0 rejected)  [111.8s]
+
+[62/200] Chief CP  conflict_v1 -> peace_v2
+  grow: ['C', 'C_Res', 'H', 'H_Res', 'Res']
+  shrink: ['G', 'X']
+     924 raw  ->   924 ESMOs  (0 rejected)  [69.0s]
+[63/200] Chief PC  peace_v2 -> conflict_v2  [SIG_MATCH n=1301]
+[64/200] Chief CP  conflict_v2 -> peace_v2  [SIG_MATCH n=935]
+[65/200] Chief PC  peace_v2 -> conflict_v3  [SIG_MATCH n=1731]
+[66/200] Chief CP  conflict_v3 -> peace_v2  [SIG_MATCH n=1123]
+
+[67/200] Chief PC  peace_v2 -> conflict_v4
+  grow: ['G', 'X']
+  shrink: ['C', 'C_Res', 'H', 'H_Res', 'P_H']
+    1322 raw  ->  1322 ESMOs  (0 rejected)  [97.5s]
+
+[68/200] Chief CP  conflict_v4 -> peace_v2
+  grow: ['C', 'C_Res', 'H', 'H_Res', 'P_H']
+  shrink: ['G', 'X']
+    1236 raw  ->  1236 ESMOs  (0 rejected)  [89.7s]
+
+[69/200] Chief PC  peace_v2 -> conflict_v5
+  grow: ['G', 'H', 'X']
+  shrink: ['C', 'C_Res', 'H_Res', 'P_H', 'Res']
+     990 raw  ->   990 ESMOs  (0 rejected)  [76.8s]
+
+[70/200] Chief CP  conflict_v5 -> peace_v2
+  grow: ['C', 'C_Res', 'H_Res', 'P_H', 'Res']
+  shrink: ['G', 'H', 'X']
+    1091 raw  ->  1091 ESMOs  (0 rejected)  [79.5s]
+[71/200] Chief PC  peace_v3 -> conflict_v1  [SIG_MATCH n=1839]
+[72/200] Chief CP  conflict_v1 -> peace_v3  [SIG_MATCH n=924]
+[73/200] Chief PC  peace_v3 -> conflict_v2  [SIG_MATCH n=1301]
+[74/200] Chief CP  conflict_v2 -> peace_v3  [SIG_MATCH n=935]
+[75/200] Chief PC  peace_v3 -> conflict_v3  [SIG_MATCH n=1731]
+[76/200] Chief CP  conflict_v3 -> peace_v3  [SIG_MATCH n=1123]
+
+[77/200] Chief PC  peace_v3 -> conflict_v4
+  grow: ['G', 'H', 'H_Res', 'X']
+  shrink: ['C', 'C_Res', 'P_H', 'Res']
+    1194 raw  ->  1194 ESMOs  (0 rejected)  [101.7s]
+
+[78/200] Chief CP  conflict_v4 -> peace_v3
+  grow: ['C', 'C_Res', 'P_H', 'Res']
+  shrink: ['G', 'H', 'H_Res', 'X']
+     831 raw  ->   831 ESMOs  (0 rejected)  [58.5s]
+[79/200] Chief PC  peace_v3 -> conflict_v5  [SIG_MATCH n=990]
+[80/200] Chief CP  conflict_v5 -> peace_v3  [SIG_MATCH n=1091]
+[81/200] Chief PC  peace_v4 -> conflict_v1  [SIG_MATCH n=1731]
+[82/200] Chief CP  conflict_v1 -> peace_v4  [SIG_MATCH n=1123]
+[83/200] Chief PC  peace_v4 -> conflict_v2  [SIG_MATCH n=1839]
+[84/200] Chief CP  conflict_v2 -> peace_v4  [SIG_MATCH n=924]
+[85/200] Chief PC  peace_v4 -> conflict_v3  [SIG_MATCH n=1731]
+[86/200] Chief CP  conflict_v3 -> peace_v4  [SIG_MATCH n=1123]
+
+[87/200] Chief PC  peace_v4 -> conflict_v4
+  grow: ['G', 'Res', 'X']
+  shrink: ['C', 'C_Res', 'H_Res', 'P_H']
+     883 raw  ->   883 ESMOs  (0 rejected)  [63.6s]
+
+[88/200] Chief CP  conflict_v4 -> peace_v4
+  grow: ['C', 'C_Res', 'H_Res', 'P_H']
+  shrink: ['G', 'Res', 'X']
+    1258 raw  ->  1258 ESMOs  (0 rejected)  [90.5s]
+[89/200] Chief PC  peace_v4 -> conflict_v5  [SIG_MATCH n=990]
+[90/200] Chief CP  conflict_v5 -> peace_v4  [SIG_MATCH n=1091]
+[91/200] Chief PC  peace_v5 -> conflict_v1  [SIG_MATCH n=1301]
+[92/200] Chief CP  conflict_v1 -> peace_v5  [SIG_MATCH n=935]
+
+[93/200] Chief PC  peace_v5 -> conflict_v2
+  grow: ['G', 'P_H', 'X']
+  shrink: ['C_Res', 'H', 'H_Res', 'Res']
+    1323 raw  ->  1323 ESMOs  (0 rejected)  [108.5s]
+
+[94/200] Chief CP  conflict_v2 -> peace_v5
+  grow: ['C_Res', 'H', 'H_Res', 'Res']
+  shrink: ['G', 'P_H', 'X']
+     842 raw  ->   842 ESMOs  (0 rejected)  [59.2s]
+
+[95/200] Chief PC  peace_v5 -> conflict_v3
+  grow: ['C', 'G', 'X']
+  shrink: ['C_Res', 'H', 'H_Res', 'P_H', 'Res']
+    1843 raw  ->  1843 ESMOs  (0 rejected)  [150.8s]
+
+[96/200] Chief CP  conflict_v3 -> peace_v5
+  grow: ['C_Res', 'H', 'H_Res', 'P_H', 'Res']
+  shrink: ['C', 'G', 'X']
+    1079 raw  ->  1079 ESMOs  (0 rejected)  [88.0s]
+
+[97/200] Chief PC  peace_v5 -> conflict_v4
+  grow: ['C', 'G', 'X']
+  shrink: ['H', 'H_Res', 'P_H', 'Res']
+    1635 raw  ->  1635 ESMOs  (0 rejected)  [133.1s]
+
+[98/200] Chief CP  conflict_v4 -> peace_v5
+  grow: ['H', 'H_Res', 'P_H', 'Res']
+  shrink: ['C', 'G', 'X']
+    1101 raw  ->  1101 ESMOs  (0 rejected)  [77.4s]
+[99/200] Chief PC  peace_v5 -> conflict_v5  [SIG_MATCH n=1731]
+[100/200] Chief CP  conflict_v5 -> peace_v5  [SIG_MATCH n=1123]
+
+[101/200] State PC  peace_v1 -> conflict_v1
+  grow: ['C', 'G', 'X']
+  shrink: ['C_Res', 'I', 'I_Res', 'L', 'Res']
+    1782 raw  ->  1782 ESMOs  (0 rejected)  [97.5s]
+
+[102/200] State CP  conflict_v1 -> peace_v1
+  grow: ['C_Res', 'I', 'I_Res', 'L', 'Res']
+  shrink: ['C', 'G', 'X']
+     690 raw  ->   690 ESMOs  (0 rejected)  [43.7s]
+[103/200] State PC  peace_v1 -> conflict_v2  [SIG_MATCH n=1782]
+[104/200] State CP  conflict_v2 -> peace_v1  [SIG_MATCH n=690]
+
+[105/200] State PC  peace_v1 -> conflict_v3
+  grow: ['C', 'G', 'P_I', 'X']
+  shrink: ['C_Res', 'I', 'I_Res', 'L', 'Res']
+    1953 raw  ->  1953 ESMOs  (0 rejected)  [124.5s]
+
+[106/200] State CP  conflict_v3 -> peace_v1
+  grow: ['C_Res', 'I', 'I_Res', 'L', 'Res']
+  shrink: ['C', 'G', 'P_I', 'X']
+     913 raw  ->   913 ESMOs  (0 rejected)  [54.5s]
+[107/200] State PC  peace_v1 -> conflict_v4  [SIG_MATCH n=1782]
+[108/200] State CP  conflict_v4 -> peace_v1  [SIG_MATCH n=690]
+
+[109/200] State PC  peace_v1 -> conflict_v5
+  grow: ['G', 'X']
+  shrink: ['C_Res', 'I', 'I_Res', 'L', 'P_I', 'Res']
+    1519 raw  ->  1519 ESMOs  (0 rejected)  [98.9s]
+
+[110/200] State CP  conflict_v5 -> peace_v1
+  grow: ['C_Res', 'I', 'I_Res', 'L', 'P_I', 'Res']
+  shrink: ['G', 'X']
+     471 raw  ->   471 ESMOs  (0 rejected)  [33.6s]
+
+[111/200] State PC  peace_v2 -> conflict_v1
+  grow: ['G', 'X']
+  shrink: ['C', 'C_Res', 'I', 'I_Res', 'L', 'P_I', 'Res']
+    1747 raw  ->  1747 ESMOs  (0 rejected)  [113.4s]
+
+[112/200] State CP  conflict_v1 -> peace_v2
+  grow: ['C', 'C_Res', 'I', 'I_Res', 'L', 'P_I', 'Res']
+  shrink: ['G', 'X']
+     811 raw  ->   811 ESMOs  (0 rejected)  [57.0s]
+[113/200] State PC  peace_v2 -> conflict_v2  [SIG_MATCH n=1747]
+[114/200] State CP  conflict_v2 -> peace_v2  [SIG_MATCH n=811]
+
+[115/200] State PC  peace_v2 -> conflict_v3
+  grow: ['G', 'P_I', 'X']
+  shrink: ['C', 'C_Res', 'I', 'I_Res', 'L', 'Res']
+    1572 raw  ->  1572 ESMOs  (0 rejected)  [105.8s]
+
+[116/200] State CP  conflict_v3 -> peace_v2
+  grow: ['C', 'C_Res', 'I', 'I_Res', 'L', 'Res']
+  shrink: ['G', 'P_I', 'X']
+     837 raw  ->   837 ESMOs  (0 rejected)  [69.9s]
+
+[117/200] State PC  peace_v2 -> conflict_v4
+  grow: ['G', 'X']
+  shrink: ['C', 'C_Res', 'I', 'I_Res', 'L', 'P_I']
+    1373 raw  ->  1373 ESMOs  (0 rejected)  [91.3s]
+
+[118/200] State CP  conflict_v4 -> peace_v2
+  grow: ['C', 'C_Res', 'I', 'I_Res', 'L', 'P_I']
+  shrink: ['G', 'X']
+     834 raw  ->   834 ESMOs  (0 rejected)  [60.1s]
+
+[119/200] State PC  peace_v2 -> conflict_v5
+  grow: ['G', 'X']
+  shrink: ['C', 'C_Res', 'I_Res', 'L', 'P_I', 'Res']
+    1823 raw  ->  1823 ESMOs  (0 rejected)  [113.3s]
+
+[120/200] State CP  conflict_v5 -> peace_v2
+  grow: ['C', 'C_Res', 'I_Res', 'L', 'P_I', 'Res']
+  shrink: ['G', 'X']
+     764 raw  ->   764 ESMOs  (0 rejected)  [58.4s]
+[121/200] State PC  peace_v3 -> conflict_v1  [SIG_MATCH n=1572]
+[122/200] State CP  conflict_v1 -> peace_v3  [SIG_MATCH n=837]
+
+[123/200] State PC  peace_v3 -> conflict_v2
+  grow: ['G', 'I', 'P_I', 'X']
+  shrink: ['C', 'C_Res', 'I_Res', 'L', 'Res']
+    1500 raw  ->  1500 ESMOs  (0 rejected)  [105.2s]
+
+[124/200] State CP  conflict_v2 -> peace_v3
+  grow: ['C', 'C_Res', 'I_Res', 'L', 'Res']
+  shrink: ['G', 'I', 'P_I', 'X']
+     734 raw  ->   734 ESMOs  (0 rejected)  [48.4s]
+[125/200] State PC  peace_v3 -> conflict_v3  [SIG_MATCH n=1500]
+[126/200] State CP  conflict_v3 -> peace_v3  [SIG_MATCH n=734]
+
+[127/200] State PC  peace_v3 -> conflict_v4
+  grow: ['G', 'P_I', 'X']
+  shrink: ['C', 'C_Res', 'I_Res', 'L', 'Res']
+    1615 raw  ->  1615 ESMOs  (0 rejected)  [104.8s]
+
+[128/200] State CP  conflict_v4 -> peace_v3
+  grow: ['C', 'C_Res', 'I_Res', 'L', 'Res']
+  shrink: ['G', 'P_I', 'X']
+     687 raw  ->   687 ESMOs  (0 rejected)  [46.1s]
+
+[129/200] State PC  peace_v3 -> conflict_v5
+  grow: ['G', 'I', 'X']
+  shrink: ['C', 'C_Res', 'L', 'P_I', 'Res']
+    1169 raw  ->  1169 ESMOs  (0 rejected)  [71.2s]
+
+[130/200] State CP  conflict_v5 -> peace_v3
+  grow: ['C', 'C_Res', 'L', 'P_I', 'Res']
+  shrink: ['G', 'I', 'X']
+     727 raw  ->   727 ESMOs  (0 rejected)  [40.6s]
+[131/200] State PC  peace_v4 -> conflict_v1  [SIG_MATCH n=1519]
+[132/200] State CP  conflict_v1 -> peace_v4  [SIG_MATCH n=471]
+
+[133/200] State PC  peace_v4 -> conflict_v2
+  grow: ['C', 'G', 'X']
+  shrink: ['C_Res', 'I', 'I_Res', 'L', 'P_I', 'Res']
+    1666 raw  ->  1666 ESMOs  (0 rejected)  [106.8s]
+
+[134/200] State CP  conflict_v2 -> peace_v4
+  grow: ['C_Res', 'I', 'I_Res', 'L', 'P_I', 'Res']
+  shrink: ['C', 'G', 'X']
+     521 raw  ->   521 ESMOs  (0 rejected)  [42.2s]
+
+[135/200] State PC  peace_v4 -> conflict_v3
+  grow: ['G', 'X']
+  shrink: ['C_Res', 'I', 'I_Res', 'L', 'Res']
+    1418 raw  ->  1418 ESMOs  (0 rejected)  [80.8s]
+
+[136/200] State CP  conflict_v3 -> peace_v4
+  grow: ['C_Res', 'I', 'I_Res', 'L', 'Res']
+  shrink: ['G', 'X']
+     540 raw  ->   540 ESMOs  (0 rejected)  [33.1s]
+
+[137/200] State PC  peace_v4 -> conflict_v4
+  grow: ['C', 'G', 'Res', 'X']
+  shrink: ['I', 'I_Res', 'L', 'P_I']
+    1145 raw  ->  1145 ESMOs  (0 rejected)  [63.8s]
+
+[138/200] State CP  conflict_v4 -> peace_v4
+  grow: ['I', 'I_Res', 'L', 'P_I']
+  shrink: ['C', 'G', 'Res', 'X']
+     380 raw  ->   380 ESMOs  (0 rejected)  [25.6s]
+[139/200] State PC  peace_v4 -> conflict_v5  [SIG_MATCH n=1747]
+[140/200] State CP  conflict_v5 -> peace_v4  [SIG_MATCH n=811]
+[141/200] State PC  peace_v5 -> conflict_v1  [SIG_MATCH n=1747]
+[142/200] State CP  conflict_v1 -> peace_v5  [SIG_MATCH n=811]
+[143/200] State PC  peace_v5 -> conflict_v2  [SIG_MATCH n=1666]
+[144/200] State CP  conflict_v2 -> peace_v5  [SIG_MATCH n=521]
+[145/200] State PC  peace_v5 -> conflict_v3  [SIG_MATCH n=1572]
+[146/200] State CP  conflict_v3 -> peace_v5  [SIG_MATCH n=837]
+
+[147/200] State PC  peace_v5 -> conflict_v4
+  grow: ['C', 'C_Res', 'G', 'X']
+  shrink: ['I', 'I_Res', 'L', 'P_I', 'Res']
+    1496 raw  ->  1496 ESMOs  (0 rejected)  [95.7s]
+
+[148/200] State CP  conflict_v4 -> peace_v5
+  grow: ['I', 'I_Res', 'L', 'P_I', 'Res']
+  shrink: ['C', 'C_Res', 'G', 'X']
+     483 raw  ->   483 ESMOs  (0 rejected)  [35.8s]
+[149/200] State PC  peace_v5 -> conflict_v5  [SIG_MATCH n=1747]
+[150/200] State CP  conflict_v5 -> peace_v5  [SIG_MATCH n=811]
+
+[151/200] ChiefState PC  peace_v1 -> conflict_v1
+  grow: ['G', 'X']
+  shrink: ['C', 'C_Res', 'H', 'H_Res', 'I', 'I_Res', 'L', 'P_I', 'Res']
+    2085 raw  ->  2085 ESMOs  (0 rejected)  [132.4s]
+
+[152/200] ChiefState CP  conflict_v1 -> peace_v1
+  grow: ['C', 'C_Res', 'H', 'H_Res', 'I', 'I_Res', 'L', 'P_I', 'Res']
+  shrink: ['G', 'X']
+     764 raw  ->   764 ESMOs  (0 rejected)  [42.2s]
+
+[153/200] ChiefState PC  peace_v1 -> conflict_v2
+  grow: ['G', 'H', 'P_H', 'X']
+  shrink: ['C_Res', 'H_Res', 'I', 'I_Res', 'L', 'P_I', 'Res']
+    1791 raw  ->  1791 ESMOs  (0 rejected)  [92.2s]
+
+[154/200] ChiefState CP  conflict_v2 -> peace_v1
+  grow: ['C_Res', 'H_Res', 'I', 'I_Res', 'L', 'P_I', 'Res']
+  shrink: ['G', 'H', 'P_H', 'X']
+     788 raw  ->   788 ESMOs  (0 rejected)  [72.4s]
+
+[155/200] ChiefState PC  peace_v1 -> conflict_v3
+  grow: ['C', 'G', 'X']
+  shrink: ['C_Res', 'H', 'H_Res', 'I', 'I_Res', 'L', 'P_H', 'P_I', 'Res']
+    2153 raw  ->  2153 ESMOs  (0 rejected)  [138.6s]
+
+[156/200] ChiefState CP  conflict_v3 -> peace_v1
+  grow: ['C_Res', 'H', 'H_Res', 'I', 'I_Res', 'L', 'P_H', 'P_I', 'Res']
+  shrink: ['C', 'G', 'X']
+     939 raw  ->   939 ESMOs  (0 rejected)  [59.6s]
+
+[157/200] ChiefState PC  peace_v1 -> conflict_v4
+  grow: ['G', 'P_H', 'X']
+  shrink: ['C_Res', 'H', 'H_Res', 'I', 'I_Res', 'L', 'Res']
+    1646 raw  ->  1646 ESMOs  (0 rejected)  [88.9s]
+
+[158/200] ChiefState CP  conflict_v4 -> peace_v1
+  grow: ['C_Res', 'H', 'H_Res', 'I', 'I_Res', 'L', 'Res']
+  shrink: ['G', 'P_H', 'X']
+     732 raw  ->   732 ESMOs  (0 rejected)  [42.1s]
+
+[159/200] ChiefState PC  peace_v1 -> conflict_v5
+  grow: ['C', 'G', 'X']
+  shrink: ['H', 'H_Res', 'I', 'I_Res', 'L', 'P_I']
+    1722 raw  ->  1722 ESMOs  (0 rejected)  [98.5s]
+
+[160/200] ChiefState CP  conflict_v5 -> peace_v1
+  grow: ['H', 'H_Res', 'I', 'I_Res', 'L', 'P_I']
+  shrink: ['C', 'G', 'X']
+     526 raw  ->   526 ESMOs  (0 rejected)  [31.5s]
+
+[161/200] ChiefState PC  peace_v2 -> conflict_v1
+  grow: ['G', 'P_I', 'X']
+  shrink: ['C', 'C_Res', 'H', 'H_Res', 'I', 'I_Res', 'L', 'P_H', 'Res']
+    2108 raw  ->  2108 ESMOs  (0 rejected)  [134.4s]
+
+[162/200] ChiefState CP  conflict_v1 -> peace_v2
+  grow: ['C', 'C_Res', 'H', 'H_Res', 'I', 'I_Res', 'L', 'P_H', 'Res']
+  shrink: ['G', 'P_I', 'X']
+     958 raw  ->   958 ESMOs  (0 rejected)  [56.8s]
+
+[163/200] ChiefState PC  peace_v2 -> conflict_v2
+  grow: ['C', 'G', 'P_H', 'X']
+  shrink: ['C_Res', 'H', 'H_Res', 'I', 'I_Res', 'L', 'Res']
+    1863 raw  ->  1863 ESMOs  (0 rejected)  [136.5s]
+
+[164/200] ChiefState CP  conflict_v2 -> peace_v2
+  grow: ['C_Res', 'H', 'H_Res', 'I', 'I_Res', 'L', 'Res']
+  shrink: ['C', 'G', 'P_H', 'X']
+     950 raw  ->   950 ESMOs  (0 rejected)  [72.0s]
+
+[165/200] ChiefState PC  peace_v2 -> conflict_v3
+  grow: ['C', 'G', 'I', 'P_I', 'X']
+  shrink: ['C_Res', 'H', 'H_Res', 'I_Res', 'L', 'P_H', 'Res']
+    2067 raw  ->  2067 ESMOs  (0 rejected)  [149.1s]
+
+[166/200] ChiefState CP  conflict_v3 -> peace_v2
+  grow: ['C_Res', 'H', 'H_Res', 'I_Res', 'L', 'P_H', 'Res']
+  shrink: ['C', 'G', 'I', 'P_I', 'X']
+    1118 raw  ->  1118 ESMOs  (0 rejected)  [87.0s]
+
+[167/200] ChiefState PC  peace_v2 -> conflict_v4
+  grow: ['C', 'G', 'P_H', 'P_I', 'X']
+  shrink: ['C_Res', 'H', 'H_Res', 'I', 'I_Res', 'L', 'Res']
+    1816 raw  ->  1816 ESMOs  (0 rejected)  [1985.0s]
+
+[168/200] ChiefState CP  conflict_v4 -> peace_v2
+  grow: ['C_Res', 'H', 'H_Res', 'I', 'I_Res', 'L', 'Res']
+  shrink: ['C', 'G', 'P_H', 'P_I', 'X']
+    1008 raw  ->  1008 ESMOs  (0 rejected)  [165.9s]
+
+[169/200] ChiefState PC  peace_v2 -> conflict_v5
+  grow: ['C', 'C_Res', 'G', 'P_I', 'Res', 'X']
+  shrink: ['H', 'H_Res', 'I', 'I_Res', 'L', 'P_H']
+    1408 raw  ->  1408 ESMOs  (0 rejected)  [240.1s]
+
+[170/200] ChiefState CP  conflict_v5 -> peace_v2
+  grow: ['H', 'H_Res', 'I', 'I_Res', 'L', 'P_H']
+  shrink: ['C', 'C_Res', 'G', 'P_I', 'Res', 'X']
+     892 raw  ->   892 ESMOs  (0 rejected)  [149.5s]
+
+[171/200] ChiefState PC  peace_v3 -> conflict_v1
+  grow: ['G', 'P_H', 'X']
+  shrink: ['C', 'C_Res', 'H', 'H_Res', 'I', 'I_Res', 'L', 'P_I', 'Res']
+    1880 raw  ->  1880 ESMOs  (0 rejected)  [315.3s]
+
+[172/200] ChiefState CP  conflict_v1 -> peace_v3
+  grow: ['C', 'C_Res', 'H', 'H_Res', 'I', 'I_Res', 'L', 'P_I', 'Res']
+  shrink: ['G', 'P_H', 'X']
+     774 raw  ->   774 ESMOs  (0 rejected)  [134.0s]
+
+[173/200] ChiefState PC  peace_v3 -> conflict_v2
+  grow: ['G', 'H', 'P_H', 'X']
+  shrink: ['C', 'C_Res', 'H_Res', 'I', 'I_Res', 'L', 'P_I', 'Res']
+    1854 raw  ->  1854 ESMOs  (0 rejected)  [310.6s]
+
+[174/200] ChiefState CP  conflict_v2 -> peace_v3
+  grow: ['C', 'C_Res', 'H_Res', 'I', 'I_Res', 'L', 'P_I', 'Res']
+  shrink: ['G', 'H', 'P_H', 'X']
+     841 raw  ->   841 ESMOs  (0 rejected)  [152.9s]
+
+[175/200] ChiefState PC  peace_v3 -> conflict_v3
+  grow: ['G', 'P_H', 'X']
+  shrink: ['C_Res', 'H', 'H_Res', 'I', 'I_Res', 'L', 'P_I', 'Res']
+    1778 raw  ->  1778 ESMOs  (0 rejected)  [322.2s]
+
+[176/200] ChiefState CP  conflict_v3 -> peace_v3
+  grow: ['C_Res', 'H', 'H_Res', 'I', 'I_Res', 'L', 'P_I', 'Res']
+  shrink: ['G', 'P_H', 'X']
+     575 raw  ->   575 ESMOs  (0 rejected)  [106.0s]
+
+[177/200] ChiefState PC  peace_v3 -> conflict_v4
+  grow: ['G', 'H', 'P_H', 'P_I', 'X']
+  shrink: ['C', 'C_Res', 'H_Res', 'I', 'I_Res', 'L', 'Res']
+    1828 raw  ->  1828 ESMOs  (0 rejected)  [573.2s]
+
+[178/200] ChiefState CP  conflict_v4 -> peace_v3
+  grow: ['C', 'C_Res', 'H_Res', 'I', 'I_Res', 'L', 'Res']
+  shrink: ['G', 'H', 'P_H', 'P_I', 'X']
+     932 raw  ->   932 ESMOs  (0 rejected)  [155.0s]
+[179/200] ChiefState PC  peace_v3 -> conflict_v5  [SIG_MATCH n=1791]
+[180/200] ChiefState CP  conflict_v5 -> peace_v3  [SIG_MATCH n=788]
+
+[181/200] ChiefState PC  peace_v4 -> conflict_v1
+  grow: ['G', 'X']
+  shrink: ['C', 'C_Res', 'H', 'H_Res', 'I', 'I_Res', 'L', 'P_H', 'P_I', 'Res']
+    1954 raw  ->  1954 ESMOs  (0 rejected)  [324.4s]
+
+[182/200] ChiefState CP  conflict_v1 -> peace_v4
+  grow: ['C', 'C_Res', 'H', 'H_Res', 'I', 'I_Res', 'L', 'P_H', 'P_I', 'Res']
+  shrink: ['G', 'X']
+    1015 raw  ->  1015 ESMOs  (0 rejected)  [161.9s]
+
+[183/200] ChiefState PC  peace_v4 -> conflict_v2
+  grow: ['G', 'H', 'X']
+  shrink: ['C_Res', 'H_Res', 'I', 'I_Res', 'L', 'P_H', 'P_I', 'Res']
+    1546 raw  ->  1546 ESMOs  (0 rejected)  [2133.3s]
+
+[184/200] ChiefState CP  conflict_v2 -> peace_v4
+  grow: ['C_Res', 'H_Res', 'I', 'I_Res', 'L', 'P_H', 'P_I', 'Res']
+  shrink: ['G', 'H', 'X']
+     792 raw  ->   792 ESMOs  (0 rejected)  [53.6s]
+
+[185/200] ChiefState PC  peace_v4 -> conflict_v3
+  grow: ['C', 'G', 'I', 'X']
+  shrink: ['C_Res', 'H', 'H_Res', 'I_Res', 'L', 'P_H', 'P_I', 'Res']
+    1746 raw  ->  1746 ESMOs  (0 rejected)  [100.3s]
+
+[186/200] ChiefState CP  conflict_v3 -> peace_v4
+  grow: ['C_Res', 'H', 'H_Res', 'I_Res', 'L', 'P_H', 'P_I', 'Res']
+  shrink: ['C', 'G', 'I', 'X']
+    1011 raw  ->  1011 ESMOs  (0 rejected)  [68.2s]
+
+[187/200] ChiefState PC  peace_v4 -> conflict_v4
+  grow: ['G', 'X']
+  shrink: ['C_Res', 'H', 'H_Res', 'I', 'I_Res', 'L', 'P_I', 'Res']
+    2217 raw  ->  2217 ESMOs  (0 rejected)  [179.1s]
+
+[188/200] ChiefState CP  conflict_v4 -> peace_v4
+  grow: ['C_Res', 'H', 'H_Res', 'I', 'I_Res', 'L', 'P_I', 'Res']
+  shrink: ['G', 'X']
+     597 raw  ->   597 ESMOs  (0 rejected)  [47.1s]
+
+[189/200] ChiefState PC  peace_v4 -> conflict_v5
+  grow: ['C', 'C_Res', 'G', 'Res', 'X']
+  shrink: ['H_Res', 'I', 'I_Res', 'L', 'P_H', 'P_I']
+    1307 raw  ->  1307 ESMOs  (0 rejected)  [98.6s]
+
+[190/200] ChiefState CP  conflict_v5 -> peace_v4
+  grow: ['H_Res', 'I', 'I_Res', 'L', 'P_H', 'P_I']
+  shrink: ['C', 'C_Res', 'G', 'Res', 'X']
+    1065 raw  ->  1065 ESMOs  (0 rejected)  [116.2s]
+
+[191/200] ChiefState PC  peace_v5 -> conflict_v1
+  grow: ['G', 'P_H', 'P_I', 'X']
+  shrink: ['C', 'C_Res', 'H', 'H_Res', 'I', 'I_Res', 'L', 'Res']
+    1632 raw  ->  1632 ESMOs  (0 rejected)  [109.8s]
+
+[192/200] ChiefState CP  conflict_v1 -> peace_v5
+  grow: ['C', 'C_Res', 'H', 'H_Res', 'I', 'I_Res', 'L', 'Res']
+  shrink: ['G', 'P_H', 'P_I', 'X']
+     821 raw  ->   821 ESMOs  (0 rejected)  [58.1s]
+[193/200] ChiefState PC  peace_v5 -> conflict_v2  [SIG_MATCH n=1854]
+[194/200] ChiefState CP  conflict_v2 -> peace_v5  [SIG_MATCH n=841]
+
+[195/200] ChiefState PC  peace_v5 -> conflict_v3
+  grow: ['G', 'I', 'X']
+  shrink: ['C', 'C_Res', 'H', 'H_Res', 'I_Res', 'L', 'P_H', 'P_I', 'Res']
+    1636 raw  ->  1636 ESMOs  (0 rejected)  [114.2s]
+
+[196/200] ChiefState CP  conflict_v3 -> peace_v5
+  grow: ['C', 'C_Res', 'H', 'H_Res', 'I_Res', 'L', 'P_H', 'P_I', 'Res']
+  shrink: ['G', 'I', 'X']
+    1098 raw  ->  1098 ESMOs  (0 rejected)  [74.4s]
+[197/200] ChiefState PC  peace_v5 -> conflict_v4  [SIG_MATCH n=1632]
+[198/200] ChiefState CP  conflict_v4 -> peace_v5  [SIG_MATCH n=821]
+
+[199/200] ChiefState PC  peace_v5 -> conflict_v5
+  grow: ['G', 'P_H', 'P_I', 'X']
+  shrink: ['C', 'C_Res', 'H_Res', 'I', 'I_Res', 'L', 'Res']
+    1802 raw  ->  1802 ESMOs  (0 rejected)  [114.6s]
+
+[200/200] ChiefState CP  conflict_v5 -> peace_v5
+  grow: ['C', 'C_Res', 'H_Res', 'I', 'I_Res', 'L', 'Res']
+  shrink: ['G', 'P_H', 'P_I', 'X']
+     822 raw  ->   822 ESMOs  (0 rejected)  [58.1s]
+
+========================================================================
+  STRUCTURAL FEASIBILITY ANALYSIS
+========================================================================
+
+  Org             combo  pairs  Pr_feas  mean_N   std_N   min  max  CP/PC_ratio
+  --------------  -----  -----  -------  ------  ------  ---  ---  -----------
+  Tribe           pc     25  1.000    1140     185  711  1251
+                  cp     25  1.000     899      90  740  1114  ratio=0.79  PC>CP (destab.)
+
+  Chief           pc     25  1.000    1503     315  883  1843
+                  cp     25  1.000    1019     139  739  1258  ratio=0.68  PC>CP (destab.)
+
+  State           pc     25  1.000    1606     191  1145  1953
+                  cp     25  1.000     697     146  380  913  ratio=0.43  PC>CP (destab.)
+
+  ChiefState      pc     25  1.000    1805     216  1307  2217
+                  cp     25  1.000     859     152  526  1118  ratio=0.48  PC>CP (destab.)
+
+
+Stats CSV -> C:\Users\hp\Dropbox\Public\AcademicWork\Europe\CLEA\Postdocs\TempletonPostdoc\sftw\pyCOT\projects\XCEPT_Article_1\outputs\intra_org_esmo\intra_stats.csv
+
+========================================================================
+  SIGNATURE DIVERSITY (distinct LP problems per org/combo)
+========================================================================
+  Org             combo  n_pairs  n_distinct_sigs  coverage
+  --------------  -----  -------  ---------------  --------
+  Tribe           pc      25               6    0.24
+  Tribe           cp      25               6    0.24
+  Chief           pc      25              11    0.44
+  Chief           cp      25              11    0.44
+  State           pc      25              14    0.56
+  State           cp      25              14    0.56
+  ChiefState      pc      25              22    0.88
+  ChiefState      cp      25              22    0.88
+  Saved: C:\Users\hp\Dropbox\Public\AcademicWork\Europe\CLEA\Postdocs\TempletonPostdoc\sftw\pyCOT\projects\XCEPT_Article_1\outputs\intra_org_esmo\fig1_esmo_distributions.png
+  Saved: C:\Users\hp\Dropbox\Public\AcademicWork\Europe\CLEA\Postdocs\TempletonPostdoc\sftw\pyCOT\projects\XCEPT_Article_1\outputs\intra_org_esmo\fig2_feasibility_and_mean.png
+  Saved: C:\Users\hp\Dropbox\Public\AcademicWork\Europe\CLEA\Postdocs\TempletonPostdoc\sftw\pyCOT\projects\XCEPT_Article_1\outputs\intra_org_esmo\fig3_pc_vs_cp_scatter.png
+
+All outputs saved to: C:\Users\hp\Dropbox\Public\AcademicWork\Europe\CLEA\Postdocs\TempletonPostdoc\sftw\pyCOT\projects\XCEPT_Article_1\outputs\intra_org_esmo
+========================================================================

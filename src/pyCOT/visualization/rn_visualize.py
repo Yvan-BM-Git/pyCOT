@@ -340,10 +340,10 @@ def hierarchy_get_visualization_html(
     Set_of_sets.sort(key=lambda x: len(x))
     
     # Create set names based on their level
-    Set_names = [f"X{i+1}" for i in range(len(Set_of_sets))]
-    
+    Set_names = [f"O{i+1}" for i in range(len(Set_of_sets))]
+
     # Create a dictionary of labels for the nodes
-    labels = {f"X{i+1}": f"{', '.join(sorted(s))}" for i, s in enumerate(Set_of_sets)}
+    labels = {f"O{i+1}": f"{', '.join(sorted(s))}" for i, s in enumerate(Set_of_sets)}
 
     # Create set labels to display when hovering over nodes
     cursor_labels = [
@@ -979,6 +979,214 @@ def rn_visualize_html_in_out(graph, lst_color_spcs=None, lst_color_reacs=None,
     
     # Inform the user about the file's location
     print(f"\nThe visualization of the bipartite graph of the metabolic network was saved in HTML format:\n{abs_path}\n")
-    
+
+
+##################################################################
+# Weighted hierarchy: Hasse diagram with directional reachability
+# edge labels.
+##################################################################
+
+def _reachability_to_color(r):
+    """Map r in [0,1] to a hex color: low=blue, mid=yellow, high=green."""
+    r = max(0.0, min(1.0, r))
+    if r < 0.5:
+        t = r / 0.5
+        red   = int(68  + t * (220 - 68))
+        green = int(68  + t * (200 - 68))
+        blue  = int(200 + t * (60  - 200))
+    else:
+        t = (r - 0.5) / 0.5
+        red   = int(220 - t * (220 - 40))
+        green = int(200 - t * (200 - 160))
+        blue  = int(60  - t * (60  - 40))
+    return f'#{red:02X}{green:02X}{blue:02X}'
+
+
+def hierarchy_get_visualization_html_weighted(
+    input_data,
+    edge_weights=None,
+    node_size=20,
+    node_color="cyan",
+    edge_color="gray",
+    shape_node='dot',
+    lst_color_subsets=None,
+    node_font_size=14,
+    edge_width=2,
+    filename="hierarchy_weighted.html"
+):
+    """
+    Hasse-diagram visualisation identical to hierarchy_get_visualization_html
+    but with directed reachability labels on every cover edge.
+
+    Parameters
+    ----------
+    input_data : list of sets / frozensets
+        The organisations to display.
+    edge_weights : dict, optional
+        Maps ``(frozenset_A, frozenset_B)`` — where A ⊂ B — to a tuple
+        ``(r_AtoB, r_BtoA)`` of reachability coefficients in [0, 1].
+        A is the smaller set (lower node), B the larger (upper node).
+        Edge label: "↑{r_AtoB:.2f} ↓{r_BtoA:.2f}".
+        Edge width and colour are scaled by ``max(r_AtoB, r_BtoA)``.
+    All other parameters identical to hierarchy_get_visualization_html.
+
+    Returns
+    -------
+    (net, label_set_pairs) — same as the unweighted version.
+    """
+    unique_subsets = []
+    for sublist in input_data:
+        if set(sublist) not in [set(x) for x in unique_subsets]:
+            unique_subsets.append(sublist)
+
+    Set_of_sets = [set(s) for s in unique_subsets]
+    Set_of_sets.sort(key=lambda x: len(x))
+    Set_names = [f"O{i+1}" for i in range(len(Set_of_sets))]
+    labels = {f"O{i+1}": f"{', '.join(sorted(s))}" for i, s in enumerate(Set_of_sets)}
+    cursor_labels = [
+        ', '.join(sorted(list(s))) if s else '∅'
+        for s in Set_of_sets
+    ]
+
+    net = Network(height="750px", width="100%", directed=True, notebook=False)
+    net.set_options(f"""
+    {{
+      "nodes": {{
+        "shape": "{shape_node}",
+        "font": {{"size": {node_font_size}, "align": "center"}},
+        "borderWidth": 2
+      }},
+      "edges": {{
+        "smooth": false,
+        "font": {{"size": 11, "align": "middle"}},
+        "arrows": {{"to": {{"enabled": true, "scaleFactor": 0.6}}}}
+      }},
+      "physics": {{
+        "enabled": false,
+        "stabilization": {{"enabled": false}}
+      }},
+      "layout": {{
+        "hierarchical": {{
+          "enabled": true,
+          "direction": "DU",
+          "sortMethod": "directed"
+        }}
+      }}
+    }}
+    """)
+
+    color_map = {}
+    if lst_color_subsets:
+        for color, subsets in lst_color_subsets:
+            for subset in subsets:
+                for i, s in enumerate(Set_of_sets):
+                    if s == set(subset):
+                        color_map[Set_names[i]] = color
+
+    for name, hover_text in zip(Set_names, cursor_labels):
+        color = color_map.get(name, node_color)
+        net.add_node(
+            name, label=name, title=hover_text,
+            color=color, size=node_size,
+            font={"size": node_font_size}, shape=shape_node
+        )
+
+    for i, child_set in enumerate(Set_of_sets):
+        for j, parent_set in enumerate(Set_of_sets):
+            if i >= j or not child_set.issubset(parent_set):
+                continue
+            is_direct = not any(
+                i < k < j
+                and child_set.issubset(Set_of_sets[k])
+                and Set_of_sets[k].issubset(parent_set)
+                for k in range(len(Set_of_sets))
+            )
+            if not is_direct:
+                continue
+
+            key = (frozenset(child_set), frozenset(parent_set))
+            if edge_weights and key in edge_weights:
+                w = edge_weights[key]
+                if len(w) == 6:
+                    r_fwd, r_min_fwd, r_max_fwd, r_bwd, r_min_bwd, r_max_bwd = w
+                    r_avg  = (r_fwd + r_bwd) / 2.0
+                    label  = (f"↑{r_fwd:.2f}[{r_min_fwd:.2f}–{r_max_fwd:.2f}]\n"
+                              f"↓{r_bwd:.2f}[{r_min_bwd:.2f}–{r_max_bwd:.2f}]")
+                    title  = (f"{Set_names[i]}→{Set_names[j]}: avg={r_fwd:.3f} "
+                              f"[{r_min_fwd:.3f}–{r_max_fwd:.3f}]\n"
+                              f"{Set_names[j]}→{Set_names[i]}: avg={r_bwd:.3f} "
+                              f"[{r_min_bwd:.3f}–{r_max_bwd:.3f}]")
+                else:
+                    r_fwd, r_bwd = w
+                    r_avg  = (r_fwd + r_bwd) / 2.0
+                    label  = f"↑{r_fwd:.2f} ↓{r_bwd:.2f}"
+                    title  = (f"{Set_names[i]}→{Set_names[j]}: {r_fwd:.3f}\n"
+                              f"{Set_names[j]}→{Set_names[i]}: {r_bwd:.3f}")
+                ecolor = _reachability_to_color(r_avg)
+                ewidth = 1.0 + 5.0 * r_avg
+            else:
+                label  = ""
+                title  = ""
+                ecolor = edge_color
+                ewidth = float(edge_width)
+
+            net.add_edge(
+                Set_names[i], Set_names[j],
+                label=label, title=title,
+                color=ecolor, width=ewidth
+            )
+
+    label_set_pairs = [(label, s) for label, s in zip(Set_names, Set_of_sets)]
+    print(f"\nTuples of Labels and Subsets:\n{label_set_pairs}")
+
+    net.html = net.generate_html()
+    with open(filename, "w", encoding="utf-8") as f:
+        f.write(net.html)
+    return net, label_set_pairs
+
+
+def hierarchy_visualize_html_weighted(
+    input_data,
+    edge_weights=None,
+    node_size=20,
+    node_color="cyan",
+    edge_color="gray",
+    shape_node='dot',
+    lst_color_subsets=None,
+    node_font_size=14,
+    edge_width=2,
+    filename="hierarchy_weighted.html"
+):
+    """
+    Wrapper: generate weighted Hasse diagram and open it in the default browser.
+
+    Parameters identical to hierarchy_get_visualization_html_weighted.
+    File is saved under visualizations/hierarchy_visualize_html/<filename>.
+    """
+    target_dir = "visualizations/hierarchy_visualize_html"
+    os.makedirs(target_dir, exist_ok=True)
+    full_path = os.path.join(target_dir, filename)
+
+    hierarchy_get_visualization_html_weighted(
+        input_data,
+        edge_weights=edge_weights,
+        node_size=node_size,
+        node_color=node_color,
+        edge_color=edge_color,
+        shape_node=shape_node,
+        lst_color_subsets=lst_color_subsets,
+        node_font_size=node_font_size,
+        edge_width=edge_width,
+        filename=full_path,
+    )
+
+    abs_path = os.path.abspath(full_path)
+    if not os.path.isfile(abs_path):
+        raise FileNotFoundError(
+            f"Weighted hierarchy file not found at {abs_path}."
+        )
+    print(f"\nWeighted hierarchy visualization saved to:\n{abs_path}\n")
+    webbrowser.open(f"file://{abs_path}")
+
     # Open the HTML file in the default browser
     webbrowser.open(f"file://{abs_path}")

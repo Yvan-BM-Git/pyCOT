@@ -394,51 +394,49 @@ class OrganizationHierarchy:
 # ============================================================================
 # SELF-MAINTENANCE VERIFICATION
 # ============================================================================
+def minimize_sv(S, epsilon=1e-9, method='highs', margin=1e-9):
+    """
+    Check self-maintenance: is there v ≥ 0, sum(v) = n_reactions, with S·v ≥ -margin?
 
-def minimize_sv(S, epsilon=0.01, method='highs'):
+    Mathematical condition (COT): ∃ v ≥ 0 such that S·v ≥ 0.
+    Numerically: S·v ≥ -margin  (margin very small, default 1e-9).
+
+    Key design choices:
+      - v ≥ 0, NOT v ≥ epsilon: individual reactions are allowed to have zero flux.
+        This is required by the COT definition — not all reactions need to fire.
+      - sum(v) = n_reactions: normalization prevents the trivial v = 0 solution.
+      - S·v ≥ -margin: small negative tolerance replaces the wrong S·v ≥ +margin,
+        which previously caused zero-sum exchange pairs (e.g. C/X) to fail
+        even though they satisfy the mathematical condition with net = 0.
     """
-    Solve the linear programming problem to find self-maintaining vector.
-    
-    Parameters
-    ----------
-    S : numpy.ndarray
-        Stoichiometric matrix (species x reactions)
-    epsilon : float
-        Minimum value for active reactions
-    method : str
-        LP solver method
-        
-    Returns
-    -------
-    list
-        [is_feasible (bool), solution_vector (np.array or None)]
-    """
-    # Convert to numpy array if needed
-    if hasattr(S, '__array__'):
-        S_array = np.asarray(S)
-    else:
-        S_array = S
-    
+    S_array = np.asarray(S)
     n_species, n_reactions = S_array.shape
-    
     if n_reactions == 0:
         return [False, None]
-    
-    # Objective: minimize sum of reaction rates (find feasible solution)
+
+    # Objective: minimise total flux (LP feasibility — any feasible point works)
     c = np.ones(n_reactions)
-    
-    # Inequality constraints: -S @ v <= 0  (i.e., S @ v >= 0)
+
+    # S·v ≥ -margin  ↔  -S·v ≤ +margin
     A_ub = -S_array
-    b_ub = np.zeros(n_species)
-    
-    # Bounds: v >= epsilon for all reactions (all must be active)
-    bounds = [(epsilon, None) for _ in range(n_reactions)]
-    
+    b_ub = margin * np.ones(n_species)
+
+    # Normalization: sum(v) = n_reactions  (prevents trivial v = 0)
+    A_eq = np.ones((1, n_reactions))
+    b_eq = [float(n_reactions)]
+
+    # v ≥ 0 — reactions may be off; not all must fire
+    bounds = [(0, None) for _ in range(n_reactions)]
+
     try:
-        # Solve linear program
-        result = linprog(c, A_ub=A_ub, b_ub=b_ub, bounds=bounds, method=method)
-        
+        result = linprog(c, A_ub=A_ub, b_ub=b_ub, A_eq=A_eq, b_eq=b_eq,
+                         bounds=bounds, method=method)
         if result.success:
+            # Trust the LP solver: HiGHS reports success iff the primal
+            # constraints are satisfied within its internal feasibility
+            # tolerance (~1e-7).  Re-checking with our tighter margin=1e-9
+            # would spuriously reject boundary solutions due to floating-point
+            # rounding when recomputing S @ v.
             return [True, result.x]
         else:
             return [False, None]
@@ -446,7 +444,52 @@ def minimize_sv(S, epsilon=0.01, method='highs'):
         print(f"Linear programming error: {e}")
         return [False, None]
 
-def check_self_maintenance(species_set, RN, epsilon=1e-6):
+# def minimize_sv(S, epsilon=1e-7, method='highs'):
+#     """
+#     Solve the linear programming problem to find self-maintaining vector.
+    
+#     Parameters
+#     ----------
+#     S : numpy.ndarray
+#         Stoichiometric matrix (species x reactions)
+#     epsilon : float
+#         Minimum value for active reactions
+#     method : str
+#         LP solver method
+        
+#     Returns
+#     -------
+#     list
+#         [is_feasible (bool), solution_vector (np.array or None)]
+#     """
+#     # Convert to numpy array if needed
+#     if hasattr(S, '__array__'):
+#         S_array = np.asarray(S)
+#     else:
+#         S_array = S
+    
+#     n_species, n_reactions = S_array.shape
+    
+#     if n_reactions == 0:
+#         return [False, None]
+    
+#     c = np.zeros(n_reactions)                     # no objective
+#     # Inequality constraints: -S @ v <= 0  (i.e., S @ v >= 0)
+#     A_ub = -S_array
+#     b_ub = np.zeros(n_species)
+#     A_eq = np.ones((1, n_reactions))              # sum(v) = n_reactions
+#     b_eq = [n_reactions]
+#     bounds = [(epsilon, None)] * n_reactions
+
+#     result = linprog(c, A_ub=A_ub, b_ub=b_ub, A_eq=A_eq, b_eq=b_eq,
+#                      bounds=bounds, method=method)
+#     if result.success:
+#         return [True, result.x]
+#     else:
+#         return [False, None]
+
+
+def check_self_maintenance(species_set, RN, epsilon=1e-7):
     """
     Check if a set of species is self-maintaining using linear programming.
     
@@ -487,10 +530,95 @@ def check_self_maintenance(species_set, RN, epsilon=1e-6):
             return (True, flux_vector, production_vector)
         else:
             return (False, None, None)
-            
+
     except Exception as e:
         print(f"Error in check_self_maintenance: {e}")
         return (False, None, None)
+
+
+def diagnose_self_maintenance(species_set, RN, epsilon=1e-7):
+    """
+    Return a human-readable diagnosis of the self-maintenance status of a
+    species set.
+
+    Parameters
+    ----------
+    species_set : list of Species
+        Species forming the semi-organisation to test.
+    RN : ReactionNetwork
+        The full reaction network.
+    epsilon : float
+        Minimum flux threshold (same as used by compute_all_organizations).
+
+    Returns
+    -------
+    dict with keys:
+        'is_org'    : bool
+        'reactions' : {rxn_name: flux}    -- present only when is_org=True
+        'production': {sp_name: net_prod} -- present only when is_org=True
+        'blocking'  : {sp_name: slack}    -- present only when is_org=False;
+                      slack > 0 means that species has a production deficit.
+                      Value 'no_producer' means no reaction in the sub-network
+                      can produce it at all.
+    """
+    if not species_set:
+        return {'is_org': False, 'blocking': {}}
+
+    sub_RN = RN.sub_reaction_network(species_set)
+    S_obj  = sub_RN.stoichiometry_matrix()
+    S      = np.asarray(S_obj, dtype=float)
+    n_sp, n_rx = S.shape
+    sp_names = list(S_obj.species)
+    rx_names = list(S_obj.reactions)
+
+    if n_rx == 0:
+        return {'is_org': False,
+                'blocking': {sp.name: 'no_reactions' for sp in species_set}}
+
+    # ── Pass 1: standard SM check ──────────────────────────────────────────
+    res = minimize_sv(S, epsilon=epsilon)
+    if res[0]:
+        flux   = res[1]
+        prod   = S @ flux
+        return {
+            'is_org':     True,
+            'reactions':  {rx_names[j]: float(flux[j]) for j in range(n_rx)},
+            'production': {sp_names[i]: float(prod[i]) for i in range(n_sp)},
+        }
+
+    # ── Pass 2: structural no-producer check ──────────────────────────────
+    # Exclude all-zero rows (pure catalysts in this sub-network): their LP
+    # constraint is 0·v ≥ 0, trivially satisfied, so they are not blockers.
+    blocking = {}
+    for i, sp in enumerate(sp_names):
+        if np.all(S[i, :] <= 0) and np.any(S[i, :] < 0):
+            blocking[sp] = 'no_producer'
+
+    # ── Pass 3: slack LP — find species with production deficit ───────────
+    # min  sum(s)
+    # s.t. S·v + s >= -margin  (i.e. -S·v - s <= margin)
+    #      sum(v) = n_rx  (normalization — avoid trivial v = 0)
+    #      v >= 0,  s >= 0
+    # slack > 0 for species i means even the best v ≥ 0 leaves species i
+    # with a production deficit that must be covered by the slack variable.
+    margin_diag = 1e-9
+    c    = np.concatenate([np.zeros(n_rx), np.ones(n_sp)])
+    A_ub = np.hstack([-S, -np.eye(n_sp)])
+    b_ub = margin_diag * np.ones(n_sp)
+    A_eq_d = np.concatenate([np.ones(n_rx), np.zeros(n_sp)])[np.newaxis, :]
+    b_eq_d = [float(n_rx)]
+    bds  = [(0, None)] * n_rx + [(0, None)] * n_sp
+
+    r2 = linprog(c, A_ub=A_ub, b_ub=b_ub, A_eq=A_eq_d, b_eq=b_eq_d,
+                 bounds=bds, method='highs')
+    if r2.success:
+        for i, sp in enumerate(sp_names):
+            slack = float(r2.x[n_rx + i])
+            if slack > 1e-7 and sp not in blocking:
+                blocking[sp] = round(slack, 6)
+
+    return {'is_org': False, 'blocking': blocking}
+
 
 # ============================================================================
 # MAIN FUNCTIONS
@@ -856,3 +984,131 @@ def compute_all_organizations(RN, max_generator_size=8, max_organization_size=5,
         print("="*80)
     
     return results
+
+
+# ============================================================================
+# BRUTE FORCE ORGANIZATION CALCULATOR
+# ============================================================================
+
+def brute_force_organizations(RN, max_combo_size=None, early_stop=True, verbose=True):
+    """
+    Compute all closures, semi-organizations, and organizations by exhaustively
+    enumerating all combinations of ERCs in lexicographic order.
+
+    For each combination, the closure is computed; if new, it is stored and
+    checked for semi-self-maintenance (structural) and self-maintenance (LP).
+
+    Parameters
+    ----------
+    RN : ReactionNetwork
+        The reaction network.
+    max_combo_size : int or None
+        Maximum number of ERCs per combination.  None = all sizes.
+    early_stop : bool
+        Stop increasing combo size once a full size-k pass produces no new
+        closures (default True).  Keeps runtime practical for most networks.
+    verbose : bool
+        Print progress.
+
+    Returns
+    -------
+    dict with keys:
+        'closures'          : list of frozenset (species names), sorted by size
+        'semi_organizations': list of frozenset  (SSM closures)
+        'organizations'     : list of frozenset  (SM closures)
+    """
+    # ── Step 1: get ERCs, sort by label for deterministic ordering ──────────
+    ercs = ERC.ERCs(RN)
+    ercs.sort(key=lambda e: e.label)
+    n = len(ercs)
+    cap = min(max_combo_size, n) if max_combo_size is not None else n
+
+    if verbose:
+        print(f"\n{'='*60}")
+        print(f"  BRUTE FORCE ORGANIZATION CALCULATOR")
+        print(f"{'='*60}")
+        print(f"  ERCs found : {n}  |  max combo size : {cap}")
+
+    all_closures_set = set()   # frozensets already processed
+    closures     = []          # all unique closures (frozensets)
+    semi_orgs    = []          # SSM closures
+    orgs         = []          # SM closures
+
+    checked  = 0
+    new_found = 0
+
+    # ── Step 2: enumerate combinations in lexicographic order ───────────────
+    for size in range(1, cap + 1):
+        new_this_size = 0
+        for combo_idx in combinations(range(n), size):
+            checked += 1
+
+            # union of species names from the selected ERC closures
+            sp_names_union = set()
+            for i in combo_idx:
+                sp_names_union.update(ercs[i]._closure_names)
+
+            # compute closure of the union
+            sp_objects = [sp for sp in RN.species() if sp.name in sp_names_union]
+            cl_objects = closure(RN, sp_objects)
+            cl_frozen  = frozenset(sp.name for sp in cl_objects)
+
+            if cl_frozen in all_closures_set:
+                continue
+
+            all_closures_set.add(cl_frozen)
+            closures.append(cl_frozen)
+            new_found  += 1
+            new_this_size += 1
+
+            cl_sp = [sp for sp in RN.species() if sp.name in cl_frozen]
+
+            # ── SSM check (structural) ───────────────────────────────────
+            if not is_semi_self_maintaining(RN, cl_sp):
+                continue
+            semi_orgs.append(cl_frozen)
+
+            # ── SM check: structural pre-check + LP ──────────────────────
+            sub_RN = RN.sub_reaction_network(cl_sp)
+            S_obj  = sub_RN.stoichiometry_matrix()
+            S      = np.asarray(S_obj, dtype=float)
+
+            # species with no producer are always blocking — skip LP
+            structurally_blocked = any(
+                np.all(S[i, :] <= 0) and np.any(S[i, :] < 0)
+                for i in range(S.shape[0])
+            )
+            if structurally_blocked:
+                continue
+
+            sm_result = check_self_maintenance(cl_sp, RN)
+            if sm_result[0]:
+                orgs.append(cl_frozen)
+
+        if verbose:
+            print(f"  size {size:2d}: {new_this_size} new closures  "
+                  f"(total {new_found}, checked {checked})")
+
+        # early stop: if no new closures at this size, larger combos won't add any
+        if early_stop and new_this_size == 0:
+            if verbose:
+                print(f"  → no new closures at size {size}; stopping early.")
+            break
+
+    _key = lambda s: (len(s), sorted(s))
+    closures  = sorted(closures,  key=_key)
+    semi_orgs = sorted(semi_orgs, key=_key)
+    orgs      = sorted(orgs,      key=_key)
+
+    if verbose:
+        print(f"\n  Combinations checked : {checked}")
+        print(f"  Unique closures      : {new_found}")
+        print(f"  Semi-organizations   : {len(semi_orgs)}")
+        print(f"  Organizations        : {len(orgs)}")
+        print(f"{'='*60}\n")
+
+    return {
+        'closures'          : closures,
+        'semi_organizations': semi_orgs,
+        'organizations'     : orgs,
+    }

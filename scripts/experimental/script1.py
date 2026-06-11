@@ -6,7 +6,8 @@
 # Import necessary libraries
 import os
 import sys 
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))) # Add the root directory to the PYTHONPATH
+root_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+sys.path.append(os.path.join(root_dir, 'src'))  # Add src/ to PYTHONPATH for pyCOT package
 
 # Import the necessary modules from pyCOT  
 from pyCOT.io.functions import read_txt, print_reaction_network
@@ -16,12 +17,12 @@ from pyCOT.visualization.rn_visualize import rn_visualize_html, rn_visualize_png
 # 2. CREATING THE REACTION_NETWORK OBJECT
 # ======================================== 
 # file_path = 'Txt/Farm.txt' 
-file_path = 'Txt/autopoietic.txt'  # Change this path according to the desired file
+file_path = 'networks/testing/autopoietic.txt'  # Change this path according to the desired file
 # file_path = 'Txt/autopoietic1.txt'
 # file_path = 'Txt/SEIR.txt' 
 # file_path = 'Txt/2007Dittrich-Speroni_E.coli.txt'
 # file_path = 'networks/testing/Lotka_Volterra.txt'  
-file_path = 'networks/Conflict_Theory/Resource_Scarcity_Toy_Model2.txt'
+#file_path = 'networks/Conflict_Theory/Resource_Scarcity_Toy_Model2.txt'
 rn = read_txt(file_path)  # Creates the variable rn containing an object of ReactionNetwork class
 
 rn_comments = rn.reaction_comments

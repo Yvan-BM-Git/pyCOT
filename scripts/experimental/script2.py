@@ -7,8 +7,8 @@ import os
 import sys
 import pandas as pd
 
-# Add the root directory to the PYTHONPATH
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+root_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+sys.path.append(os.path.join(root_dir, 'src'))  # Add src/ to PYTHONPATH for pyCOT package
 
 # Import pyCOT modules - UPDATED IMPORTS
 from pyCOT.io.functions import read_txt
@@ -35,6 +35,7 @@ import matplotlib.pyplot as plt
 print(os.path.dirname(os.path.abspath(__file__)))
 
 file_path = 'networks/Conflict_Theory/Resource_Scarcity_Toy_Model2.txt'
+file_path = 'networks/testing/Eigen_simple.txt'
 
 rn = read_txt(file_path)
 
@@ -47,10 +48,13 @@ additional_laws = {
 # ========================================
 # DEFINE SEMANTIC CATEGORIES
 # ========================================
-species_list = ['SR', 'R', 'E', 'WR', 'DT', 'T', 'V']
+#species_list = ['SR', 'R', 'E', 'WR', 'DT', 'T', 'V']
+species_list = ['f', 'a', 'p1', 'p2']
 category_dict = {
-    'peace': ['SR', 'R', 'E', 'T'],
-    'conflict': ['DT', 'V', 'WR']
+    #'peace': ['SR', 'R', 'E', 'T'],
+    #'conflict': ['DT', 'V', 'WR']
+    'Hypercycle':['p1', 'p2','f'],
+    'Autocatalytic_cycle':['a','f']
 }
 semantic_partition = define_semantic_categories(species_list, category_dict)
 
@@ -65,8 +69,8 @@ def plot_dynamics_separated(time_series, semantic_partition, species_list, title
     fig, axes = plt.subplots(1, 2, figsize=(14, 5))
 
     # Get species indices for each category
-    peace_species = semantic_partition.category_indices['peace']
-    conflict_species = semantic_partition.category_indices['conflict']
+    peace_species = semantic_partition.category_indices['Hypercycle']
+    conflict_species = semantic_partition.category_indices['Autocatalytic_cycle']
 
     time = time_series['Time'].values
 
@@ -124,105 +128,115 @@ def plot_dynamics_separated(time_series, semantic_partition, species_list, title
 # CONFIGURE KINETICS
 # ========================================
 
-rate_list = [
-    'saturated',           # r1:  SR + R => E + SR (production saturates)
-    'threshold_memory',           # r2:  E + WR => SR (economic strengthening, LOW threshold)
-    'threshold_memory',           # r3:  E + DT => WR (economic re-engagement, HIGH threshold)
-    'threshold_memory',           # r4:  T + WR => SR (trust strengthening, LOW threshold)
-    'threshold_memory',           # r5:  T + DT => WR (trust re-engagement, HIGH threshold)
-    'mak',                 # r6:  SR => WR (natural degradation)
-    'threshold_memory',    # r7:  WR + V => DT (violence-driven detachment)
-    'saturated',           # r8:  SR + 2E => T + SR + 2E (trust generation needs prosperity)
-    'mak',                 # r9:  V + T => (violence-trust annihilation)
-    'mak',                 # r10: 2T => (trust decay)
-    'mak',                 # r11: 2WR => 2WR + V (weak tensions - catalytic)
-    'mak',                 # r12: DT + WR => DT + WR + V (detached-weak conflict)
-    'mak',                 # r13: 2DT => 2DT + V (detached frustration)
-    'mak',                 # r14: 2V => (violence decay)
-    'cosine',              # r15: => R (seasonal resources)
-    'mak',                 # r16: 2R => (resource depletion)
-    'mak'                  # r17: 2E => (economic decay)
-]
+rate_list = ['mak', 'mak','mak','mak','mak','mak','mak']
+
+# rate_list = [
+#     'saturated',           # r1:  SR + R => E + SR (production saturates)
+#     'threshold_memory',           # r2:  E + WR => SR (economic strengthening, LOW threshold)
+#     'threshold_memory',           # r3:  E + DT => WR (economic re-engagement, HIGH threshold)
+#     'threshold_memory',           # r4:  T + WR => SR (trust strengthening, LOW threshold)
+#     'threshold_memory',           # r5:  T + DT => WR (trust re-engagement, HIGH threshold)
+#     'mak',                 # r6:  SR => WR (natural degradation)
+#     'threshold_memory',    # r7:  WR + V => DT (violence-driven detachment)
+#     'saturated',           # r8:  SR + 2E => T + SR + 2E (trust generation needs prosperity)
+#     'mak',                 # r9:  V + T => (violence-trust annihilation)
+#     'mak',                 # r10: 2T => (trust decay)
+#     'mak',                 # r11: 2WR => 2WR + V (weak tensions - catalytic)
+#     'mak',                 # r12: DT + WR => DT + WR + V (detached-weak conflict)
+#     'mak',                 # r13: 2DT => 2DT + V (detached frustration)
+#     'mak',                 # r14: 2V => (violence decay)
+#     'cosine',              # r15: => R (seasonal resources)
+#     'mak',                 # r16: 2R => (resource depletion)
+#     'mak'                  # r17: 2E => (economic decay)
+# ]
 
 # ==========================================
 # SHARED PARAMETER DEFINITIONS
 # ==========================================
 
 # Production & Saturation
-Vmax_production = 0.5      # Maximum production rate
-Km_production = 0.5         # Half-saturation for production
+#Vmax_production = 0.5      # Maximum production rate
+#Km_production = 0.5         # Half-saturation for production
 # Recovery Thresholds (KEY ASYMMETRY)
 # Economic pathway: SAME FOR BOTH CASEE
-E_threshold = 0.1    # LOW - easier to strengthen weak
+#E_threshold = 0.1    # LOW - easier to strengthen weak
 # Trust pathway: ASYMMETRIC
-T_threshold_weak_strong = 1.5    # LOW - easier with trust
-T_threshold_detached_weak = 1.5  # HIGH - detached need more trust
+#T_threshold_weak_strong = 1.5    # LOW - easier with trust
+#T_threshold_detached_weak = 1.5  # HIGH - detached need more trust
 # Base rates for recovery
-k_recovery = 0.1               # Base recovery rate (same for all pathways)
+#k_recovery = 0.1               # Base recovery rate (same for all pathways)
 # Degradation
-k_degradation = 0.1            # Natural SR->WR rate
+#k_degradation = 0.1            # Natural SR->WR rate
 # Violence-driven detachment
-detachment_threshold = 1.5      # WR*V threshold for detachment
-k_detachment_base=5          # Base detachment rate
+#detachment_threshold = 1.5      # WR*V threshold for detachment
+#k_detachment_base=5          # Base detachment rate
 # Trust generation
-Vmax_trust = 0.1              # Max trust generation rate
-Km_trust_economy = 0.2         # Needs substantial economy (2E ~ 4)
+#Vmax_trust = 0.1              # Max trust generation rate
+#Km_trust_economy = 0.2         # Needs substantial economy (2E ~ 4)
 # Trust-Violence annihilation
-k_trust_destruction = 0.01     # Violence destroys trust
+#k_trust_destruction = 0.01     # Violence destroys trust
 # Trust and violence decay
-k_trust_decay = 0.01           # Natural trust erosion
-k_violence_decay = 0.01        # Violence dissipation
+#k_trust_decay = 0.01           # Natural trust erosion
+#k_violence_decay = 0.01        # Violence dissipation
 # Violence generation
-k_violence_weak = 0.01         # Weak-weak violence
-k_violence_detached_weak = 0.05  # Detached-weak violence
-k_violence_detached = 0.1     # Detached-detached violence
+#k_violence_weak = 0.01         # Weak-weak violence
+#k_violence_detached_weak = 0.05  # Detached-weak violence
+#k_violence_detached = 0.1     # Detached-detached violence
 # Resources
-R_amplitude = 0.5             # Seasonal variation amplitude
-R_frequency = 1           # ~12 month period (2π/12)
-k_resource_depletion = 0.02    # Resource consumption rate
+#R_amplitude = 0.5             # Seasonal variation amplitude
+#R_frequency = 1           # ~12 month period (2π/12)
+#k_resource_depletion = 0.02    # Resource consumption rate
 # Economy
-k_economic_decay = 0.02        # Economic output decay rate
-
+#_economic_decay = 0.02        # Economic output decay rate
+k0=10
+k1=0.15
+k2=0.1
+k3=0.1
+k4=0.01
+k5=0.01
+k6=0.01
+# Eigen_simple.txt has 7 reactions (r0-r6); each MAK entry needs a [k] list
+spec_vector=[[k0], [k1], [k2], [k3], [k4], [k5], [k6]]
 
 # ==========================================
 # SPEC_VECTOR CONSTRUCTION
 # ==========================================
-spec_vector = [
-    # r1: SR + R => E + SR (saturated)
-    [Vmax_production, Km_production],
-    # r2: E + WR => SR (threshold - EASY)
-    [E_threshold, k_recovery],
-    # r3: E + DT => WR (threshold - HARD)
-    [E_threshold, k_recovery],
-    # r4: T + WR => SR (threshold - EASY)
-    [T_threshold_weak_strong, k_recovery], 
-    # r5: T + DT => WR (threshold - HARD)
-    [T_threshold_detached_weak, k_recovery],
-    # r6: SR => WR (mak)
-    [k_degradation],
-    # r7: WR + V => DT (threshold_memory)
-    [detachment_threshold, k_detachment_base],
-    # r8: SR + 2E => T + SR + 2E (saturated)
-    [Vmax_trust, Km_trust_economy],    
-    # r9: V + T => (mak)
-    [k_trust_destruction],
-    # r10: 2T => (mak)
-    [k_trust_decay],
-    # r11: 2WR => 2WR + V (mak)
-    [k_violence_weak],
-    # r12: DT + WR => DT + WR + V (mak)
-    [k_violence_detached_weak],
-    # r13: 2DT => 2DT + V (mak)
-    [k_violence_detached],
-    # r14: 2V => (mak)
-    [k_violence_decay],
-    # r15: => R (cosine)
-    [R_amplitude, R_frequency],
-    # r16: 2R => (mak)
-    [k_resource_depletion],
-    # r17: 2E => (mak)
-    [k_economic_decay]
-]
+# spec_vector = [
+#     # r1: SR + R => E + SR (saturated)
+#     [Vmax_production, Km_production],
+#     # r2: E + WR => SR (threshold - EASY)
+#     [E_threshold, k_recovery],
+#     # r3: E + DT => WR (threshold - HARD)
+#     [E_threshold, k_recovery],
+#     # r4: T + WR => SR (threshold - EASY)
+#     [T_threshold_weak_strong, k_recovery], 
+#     # r5: T + DT => WR (threshold - HARD)
+#     [T_threshold_detached_weak, k_recovery],
+#     # r6: SR => WR (mak)
+#     [k_degradation],
+#     # r7: WR + V => DT (threshold_memory)
+#     [detachment_threshold, k_detachment_base],
+#     # r8: SR + 2E => T + SR + 2E (saturated)
+#     [Vmax_trust, Km_trust_economy],    
+#     # r9: V + T => (mak)
+#     [k_trust_destruction],
+#     # r10: 2T => (mak)
+#     [k_trust_decay],
+#     # r11: 2WR => 2WR + V (mak)
+#     [k_violence_weak],
+#     # r12: DT + WR => DT + WR + V (mak)
+#     [k_violence_detached_weak],
+#     # r13: 2DT => 2DT + V (mak)
+#     [k_violence_detached],
+#     # r14: 2V => (mak)
+#     [k_violence_decay],
+#     # r15: => R (cosine)
+#     [R_amplitude, R_frequency],
+#     # r16: 2R => (mak)
+#     [k_resource_depletion],
+#     # r17: 2E => (mak)
+#     [k_economic_decay]
+# ]
 
 # ========================================
 # SCENARIO 1: STABLE REGIME
@@ -233,15 +247,20 @@ print("=" * 80)
 
 # SCENARIO 1: STABLE PRODUCTIVE REGIME
 #[SR,R,E,WR,DT,T,V]
-SR0=1.0
-WR0=0.5
-DT0=1.5
-R0=0
-E0=0
-T0=0
-V0=0
-x0_stable = [SR0, R0, E0, WR0, DT0, T0, V0]
-print(f"  Total Population        = {x0_stable[0] + x0_stable[3] + x0_stable[4]}")
+# SR0=1.0
+# WR0=0.5
+# DT0=1.5
+# R0=0
+# E0=0
+# T0=0
+# V0=0
+f0=0
+a0=10
+p10=4
+p20=1
+x0_stable = [f0, a0, p10, p20]
+#x0_stable = SR0, R0, E0, WR0, DT0, T0, V0]
+# #print(f"  Total Population        = {x0_stable[0] + x0_stable[3] + x0_stable[4]}")
 
 ts_stable, fv_stable = simulation(
     rn,
@@ -249,8 +268,8 @@ ts_stable, fv_stable = simulation(
     spec_vector=spec_vector,
     x0=x0_stable,
     t_span=(0, 200),
-    n_steps=400,
-    additional_laws=additional_laws
+    n_steps=400
+#    additional_laws=additional_laws
 )
 
 

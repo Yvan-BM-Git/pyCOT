@@ -1,0 +1,444 @@
+% ============================================================
+% Appendix: Computational Details
+% XCEPT Article 1 — All three sections
+% ============================================================
+
+\section{Computational Details}
+\label{app:computational}
+
+This appendix documents all modelling choices, parameter values, and
+algorithmic decisions for the three analytical sections of the paper.
+The full source code is available in the accompanying repository;
+the three scripts \texttt{script\_section3.py}, \texttt{script\_section4.py},
+and \texttt{script\_section5.py} reproduce every figure directly.
+
+% ============================================================
+\subsection{Section~3 — Band-Tribe Conflict Dynamics}
+\label{app:sec3}
+
+\subsubsection*{Reaction Network}
+
+The model consists of five species
+$\mathcal{S} = \{C, X, \textit{Res}, C\_\textit{Res}, G\}$
+and eleven reactions $r_0$--$r_{10}$, loaded from
+\texttt{data/Basic\_example.txt}.  Table~\ref{tab:s3_reactions} lists
+each reaction, its biological interpretation, and its kinetic law.
+
+\begin{table}[h]
+\centering
+\small
+\caption{Band-tribe model reactions.  MM = Michaelis-Menten saturation;
+         MA = mass-action.  $\alpha_S$ and $\alpha_R$ are scenario
+         modifiers for solidarity and reactivity respectively.}
+\label{tab:s3_reactions}
+\begin{tabular}{lllll}
+\toprule
+ID   & Stoichiometry                        & Interpretation                 & Kinetic law         & Type \\
+\midrule
+$r_0$ & $\varnothing \to \textit{Res}$       & Constant resource inflow        & $\kappa_0$          & MA   \\
+$r_1$ & $C + \textit{Res} \to C$             & Band consumption                & $\kappa_1 \cdot C \cdot \frac{\textit{Res}}{\textit{Res}+K_{r1}}$ & MM \\
+$r_2$ & $C + \textit{Res} + C\_\textit{Res} \to C + 2\,C\_\textit{Res}$ & Solidarity: surplus growth & $\alpha_S\,\kappa_2 \cdot C \cdot \frac{\textit{Res}}{\textit{Res}+K_{r2}} \cdot C\_\textit{Res}$ & MM \\
+$r_3$ & $C\_\textit{Res} \to \textit{Res}$   & Resilience redistribution       & $\kappa_3 \cdot \frac{C\_\textit{Res}}{C\_\textit{Res}+K_{r3}}$ & MM \\
+$r_4$ & $C \to X$                             & Spontaneous displacement        & $\kappa_4 \cdot C$  & MA   \\
+$r_5$ & $X + C\_\textit{Res} \to C$           & Solidarity: reintegration       & $\alpha_S\,\kappa_5 \cdot X \cdot C\_\textit{Res}$ & MA \\
+$r_6$ & $2\,\textit{Res} \to \varnothing$     & Resource decay (second-order)   & $\kappa_6 \cdot \textit{Res}^2$ & MA \\
+$r_7$ & $2\,C\_\textit{Res} \to \varnothing$  & Resilience decay (second-order) & $\kappa_7 \cdot C\_\textit{Res}^2$ & MA \\
+$r_8$ & $X+C+\textit{Res} \to X+C+G$         & Reactivity: grievance generation & $\alpha_R\,\kappa_8 \cdot X \cdot C \cdot \frac{\textit{Res}}{\textit{Res}+K_{r8}}$ & MM \\
+$r_9$ & $2G + C \to X$                        & Reactivity: displacement by grievance & $\alpha_R\,\kappa_9 \cdot G^2 \cdot C$ & MA \\
+$r_{10}$ & $2G \to \varnothing$              & Grievance decay (second-order)  & $\kappa_{10} \cdot G^2$ & MA \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsubsection*{ODE Kinetic Parameters}
+
+\begin{table}[h]
+\centering
+\caption{Base rate constants and Michaelis-Menten saturation constants for the ODE.}
+\label{tab:s3_ode_params}
+\begin{tabular}{lll}
+\toprule
+Parameter         & Value   & Description \\
+\midrule
+$\kappa_0$        & 0.200   & Constant resource inflow \\
+$\kappa_1$        & 0.020   & Band consumption rate \\
+$\kappa_2$        & 0.100   & Surplus growth (scaled by $\alpha_S$) \\
+$\kappa_3$        & 0.010   & Resilience redistribution \\
+$\kappa_4$        & 0.010   & Spontaneous displacement \\
+$\kappa_5$        & 0.100   & Reintegration (scaled by $\alpha_S$) \\
+$\kappa_6$        & 0.005   & Res decay (second-order) \\
+$\kappa_7$        & 0.010   & $C\_\textit{Res}$ decay (second-order) \\
+$\kappa_8$        & 0.010   & Grievance generation (scaled by $\alpha_R$) \\
+$\kappa_9$        & 0.050   & Displacement by grievance (scaled by $\alpha_R$) \\
+$\kappa_{10}$     & 0.005   & Grievance decay (second-order) \\
+\midrule
+$K_{r1}$          & 3.0     & MM saturation in $r_1$ (Res) \\
+$K_{r2}$          & 3.0     & MM saturation in $r_2$ (Res) \\
+$K_{r3}$          & 2.0     & MM saturation in $r_3$ ($C\_\textit{Res}$) \\
+$K_{r8}$          & 3.0     & MM saturation in $r_8$ (Res) \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsubsection*{Two Scenarios}
+
+The solidarity modifier $\alpha_S$ scales reactions $r_2$ and $r_5$;
+the reactivity modifier $\alpha_R$ scales reactions $r_8$ and $r_9$.
+Two contrasting scenarios are compared:
+
+\begin{itemize}
+    \item \textbf{Scenario A} (high solidarity, low reactivity):
+          $\alpha_S = 2.0$, $\alpha_R = 0.5$.
+    \item \textbf{Scenario B} (low solidarity, high reactivity):
+          $\alpha_S = 0.3$, $\alpha_R = 3.0$.
+\end{itemize}
+
+Both scenarios share the initial condition
+$\mathbf{x}_0 = (C, X, \textit{Res}, C\_\textit{Res}, G) = (10, 3, 5, 2, 1)$.
+
+\subsubsection*{ODE Integration}
+
+The ODE is integrated using \texttt{scipy.integrate.solve\_ivp} with the
+LSODA method, tolerances $\texttt{rtol}=10^{-8}$, $\texttt{atol}=10^{-10}$,
+and evaluation at $N = 2000$ evenly spaced points on $[0, T_{\text{end}}]$
+with $T_{\text{end}} = 400$.
+All denominators are protected by a floor of $10^{-9}$ to avoid division by zero.
+
+\subsubsection*{Stochastic Simulation (Poisson Tau-Leaping)}
+
+The stochastic simulation uses Poisson tau-leaping with a fixed step size
+$\Delta t = 1.0$ for $N_{\text{steps}} = 300$ steps.
+The propensity of reaction $j$ at state $\mathbf{x}$ is
+\begin{equation}
+    \lambda_j = \kappa^{\text{stoch}}_j \cdot \pi_j(\mathbf{x}),
+    \qquad
+    \pi_j(\mathbf{x}) = \min_{s:\,S^-_{sj}>0} \frac{x_s}{S^-_{sj}},
+    \label{eq:s3_propensity}
+\end{equation}
+where $S^-_{sj}$ is the input stoichiometry (reactant coefficient) and
+$\pi_j$ is the enabling degree (bottleneck reactant).  At each step,
+firing counts are drawn as $n_j \sim \mathrm{Poisson}(\lambda_j \Delta t)$,
+capped at $\lfloor\pi_j\rfloor$, and then rescaled by an iterative contention
+resolver (maximum 20 iterations) that prevents any species from going negative.
+
+The stochastic rate constants $\kappa^{\text{stoch}}$ differ from the ODE
+constants because the enabling-degree propensity underestimates multiplicative
+product kinetics.  At initial conditions, the ratio of the ODE rate to the
+enabling degree can reach 6$\times$ for three-reactant reactions such as $r_2$.
+Both parameter sets are independent calibrations of the same qualitative model.
+
+\begin{table}[h]
+\centering
+\caption{Stochastic rate constants $\kappa^{\text{stoch}}$.  Modifier
+         reactions carry the same $\alpha$ factors as the ODE.}
+\label{tab:s3_stoch_params}
+\begin{tabular}{lll}
+\toprule
+Reaction  & $\kappa^{\text{stoch}}$ & Note \\
+\midrule
+$r_0$     & 2.000   & Source (no reactant; $\pi_j=1$) \\
+$r_1$     & 0.025   & ODE/enabling ratio $\approx 1$ at $\mathbf{x}_0$ \\
+$r_2$     & 0.500   & Solidarity; $\pi=\min(C,\textit{Res},C\_\textit{Res})=2$ at $\mathbf{x}_0$ \\
+$r_3$     & 0.020   & \\
+$r_4$     & 0.010   & Matches ODE \\
+$r_5$     & 0.100   & Solidarity; $\pi=\min(X,C\_\textit{Res})=2$ at $\mathbf{x}_0$ \\
+$r_6$     & 0.050   & Second-order; $\pi=\textit{Res}/2$ \\
+$r_7$     & 0.020   & Second-order \\
+$r_8$     & 0.050   & Reactivity; $\pi=\min(X,C,\textit{Res})=3$ \\
+$r_9$     & 0.100   & Reactivity; $\pi=\min(G/2,C)=0.5$ \\
+$r_{10}$  & 0.010   & Grievance decay \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+% ============================================================
+\subsection{Section~4 — Chiefdom Emergence and Strategy}
+\label{app:sec4}
+
+\subsubsection*{Reaction Network}
+
+The chiefdom model extends the band-tribe network by adding a hierarchy
+species $H$, its resource pool $H\_\textit{Res}$, a police force $P_H$,
+and an external aid signal $F_H$ (catalytic; never consumed).  The full
+system has nine species
+\begin{equation*}
+    \mathcal{S} = \{C,\;X,\;H,\;\textit{Res},\;C\_\textit{Res},\;
+                    H\_\textit{Res},\;G,\;P_H,\;F_H\}
+\end{equation*}
+and twenty-two reactions $r_0$--$r_{21}$ loaded from
+\texttt{data/Intrmediate\_example.txt}.
+Reactions $r_0$--$r_{10}$ are the band-tribe baseline (parameterised at
+Scenario~A: $\alpha_S=2$, $\alpha_R=0.5$ baked into $\kappa^{\text{stoch}}$).
+Reactions $r_{11}$--$r_{21}$ govern the chiefdom.
+
+\subsubsection*{Initial Conditions}
+
+\begin{equation*}
+    \mathbf{x}_0 = (C,\;X,\;H,\;\textit{Res},\;C\_\textit{Res},\;
+                    H\_\textit{Res},\;G,\;P_H,\;F_H)
+                 = (500,\;50,\;50,\;10,\;50,\;100,\;30,\;10,\;0).
+\end{equation*}
+The chiefdom starts as a small perturbation ($H=50$, $H\_\textit{Res}=100$)
+on top of a harmonious band-tribe baseline.
+
+\subsubsection*{Stochastic Simulation}
+
+Simulation uses Poisson tau-leaping with $\Delta t = 1.0$ and
+$N_{\text{steps}} = 5000$, with $N_{\text{seeds}} = 10$ independent
+replicates per scenario.
+Foreign aid $F_H$ is injected adaptively: $F_H = 100$ whenever
+$x_X \geq 50$ or $x_G \geq 10$; otherwise $F_H = 0$ (aid decays
+immediately when conditions are not met).
+
+\subsubsection*{Chiefdom Allocation Strategies}
+
+Eight chiefdom-controlled reactions are scaled by allocation multipliers
+$A \in \mathbb{R}_{>0}^8$ (index order: $r_{12}, r_{13}, r_{15}, r_{16},
+r_{17}, r_{18}, r_{19}, r_{20}$):
+
+\begin{table}[h]
+\centering
+\caption{Chiefdom allocation multipliers for the two strategies.
+         Bold entries indicate reactions that are central to the mode
+         definition ($\times$\,weight in mode vector shown in parentheses).}
+\label{tab:s4_allocation}
+\begin{tabular}{llrrl}
+\toprule
+Reaction & Role & $A_\text{protect}$ & $A_\text{exploit}$ & Mode membership \\
+\midrule
+$r_{12}$: $C+H+\textit{Res}\to H\_\textit{Res}$   & Res extraction       & \textbf{8.0} & 3.0          & Protection $(\times 2)$; Exploitation $(\times 1)$ \\
+$r_{13}$: $H+C\_\textit{Res}\to H\_\textit{Res}$ & $C\_\textit{Res}$ extraction & 1.0 & \textbf{10.0} & Exploitation $(\times 1)$ \\
+$r_{15}$: $C+H+H\_\textit{Res}\to 2H$             & Hierarchy expansion  & 5.0          & \textbf{8.0} & Exploitation $(\times 2)$ \\
+$r_{16}$: $H+X+H\_\textit{Res}\to P_H$            & Militarize displaced & \textbf{8.0} & 0.5          & Protection $(\times 1)$ \\
+$r_{17}$: $P_H+H\_\textit{Res}\to P_H$            & Police upkeep        & 1.0          & 1.0          & (neutral) \\
+$r_{18}$: $2H\_\textit{Res}\to H\_\textit{Res}+C\_\textit{Res}$ & Redistribution & \textbf{5.0} & 0.05 & Protection $(\times 1)$ \\
+$r_{19}$: $P_H+G\to P_H$                          & Grievance suppression & 2.0         & 5.0          & (background) \\
+$r_{20}$: $P_H\to C$                               & Demobilize police    & 1.0          & 0.1          & (background) \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsubsection*{Mode Definitions}
+
+Five canonical process-vector modes are defined as directions in
+reaction-rate space.  Each mode is a non-negative vector
+$\mathbf{d} \in \mathbb{R}_{\geq 0}^{22}$; entries are reaction weights:
+
+\begin{description}
+    \item[Community recovery:]
+          $\mathbf{d}_{\text{comm}} = r_0 + r_2 + r_5$. \\
+          Self-reinforcing band-tribe loop: resource inflow $\to$ $C\_\textit{Res}$
+          surplus $\to$ reintegration of displaced.
+
+    \item[Conflict amplification:]
+          $\mathbf{d}_{\text{conf}} = r_4 + 2r_8 + r_9$. \\
+          Destabilising spiral: $C\to X$, grievance accumulation, and
+          grievance-driven further displacement.  $r_8$ is double-weighted
+          because it drives both grievance accumulation and feeds $r_9$.
+
+    \item[Chiefdom protection:]
+          $\mathbf{d}_{\text{prot}} = 2r_{12} + r_{16} + r_{18}$. \\
+          Fuel path ($2r_{12}$): double-weight Res extraction builds $H\_\textit{Res}$;
+          $r_{13}$ is \emph{not} in this mode (no $C\_\textit{Res}$ drain).
+          Redistribution path ($r_{18}$, KEY): returns wealth to community.
+          Protective-force path ($r_{16}$): absorbs displaced into police.
+
+    \item[Chiefdom exploitation:]
+          $\mathbf{d}_{\text{expl}} = r_{12} + r_{13} + 2r_{15}$. \\
+          Dual extraction fuel ($r_{12}+r_{13}$) feeds hierarchy expansion
+          cycle ($2r_{15}$): $C+H+H\_\textit{Res}\to 2H$.
+          $r_{18}$ is suppressed; no wealth returns to the community.
+
+    \item[Foreign aid:]
+          $\mathbf{d}_{\text{aid}} = r_{21}$. \\
+          Catalytic $H\_\textit{Res}$ injection.  Excluded from all projection
+          computations so that the four main modes are comparable across
+          aid and no-aid scenarios.
+\end{description}
+
+\subsubsection*{Mode Projection Analysis}
+
+For a non-overlapping window of $w$ steps ending at step $t$, the
+per-step average process vector is
+\begin{equation}
+    \bar{\mathbf{v}} = \frac{1}{w}\sum_{s=t-w+1}^{t} \mathbf{n}_s,
+\end{equation}
+where $\mathbf{n}_s \in \mathbb{Z}_{\geq 0}^{22}$ is the reaction-firing
+count vector at step $s$.  For mode $\mathbf{d}$ with unit vector
+$\hat{\mathbf{d}} = \mathbf{d}/\|\mathbf{d}\|$, two summary statistics are
+computed:
+\begin{equation}
+    \text{proj} = \hat{\mathbf{d}} \cdot \bar{\mathbf{v}},
+    \qquad
+    \text{cos-sim} = \frac{\hat{\mathbf{d}} \cdot \bar{\mathbf{v}}}
+                          {\|\bar{\mathbf{v}}\|}.
+\end{equation}
+The projection magnitude measures absolute mode activity; the cosine
+similarity measures mode dominance relative to all other reactions firing
+simultaneously.  The scatter plots in Section~4 show one point per
+non-overlapping block per seed for each window size
+$w \in \{10, 50, 200, 500\}$.
+
+\subsubsection*{Timescale Mode Classification}
+
+Each species group is classified into one of four qualitative modes
+based on the net change of each species within the window:
+\begin{itemize}
+    \item \textbf{problem} — all $\Delta x_s < 0$ (net decline);
+    \item \textbf{overproduction} — all $\Delta x_s > 0$ (net growth);
+    \item \textbf{challenge} — mixed (some species grow, some decline);
+    \item \textbf{steady-state} — all $|\Delta x_s| < \tau_{\text{tol}}$
+          (near-zero change, $\tau_{\text{tol}} = 0.05$).
+\end{itemize}
+Three species groups are tracked:
+$M_P = \{C, C\_\textit{Res}\}$ (community production),
+$M_H = \{H, H\_\textit{Res}\}$ (chiefdom),
+$M_C = \{X, G\}$ (conflict indicators).
+Cell opacity in the raster figures encodes the primary species' share of
+the total human population $C + H + X$, with parameters
+$\alpha_{\min} = 0.25$, $\alpha_{\max} = 1.0$, and full opacity at
+a share $\geq 0.5$.
+
+\subsubsection*{H\textsubscript{Res} Community-Benefit Routing}
+
+The routing fraction measures what fraction of total $H\_\textit{Res}$
+outflow benefits the community:
+\begin{equation}
+    \rho = \frac{n_{16} \cdot 1 + n_{18} \cdot 2}
+               {n_{11} \cdot 1 + n_{15} \cdot 1 + n_{16} \cdot 1
+                + n_{17} \cdot 1 + n_{18} \cdot 2},
+\end{equation}
+where $n_j$ is the cumulative firing count of reaction $j$ in the window
+and the integer weights are the $H\_\textit{Res}$ input stoichiometry
+coefficients.  $\rho = 1$ means all $H\_\textit{Res}$ flows to redistribution
+and peacekeeping; $\rho = 0$ means all flows to elite maintenance or
+expansion.  Summary statistics use $w = 200$ averaged over the last 50\%
+of simulation steps.
+
+% ============================================================
+\subsection{Section~5 — Structural Markov Graph and ESMO Analysis}
+\label{app:sec5}
+
+\subsubsection*{Overview}
+
+Section~5 analyses transitions between organisational states using
+Extreme Stochastic Mode Objects (ESMOs).  An ESMO is a vertex of the
+polytope defined by all non-negative flow vectors
+$\mathbf{v} \geq \mathbf{0}$ that are consistent with the stoichiometry
+of a given transition signature.  The number of ESMOs for a source--target
+state pair is used as a proxy for the structural accessibility of that
+transition.
+
+\subsubsection*{Organisational Lattice}
+
+Four organisational types form a cover lattice under the inclusion relation:
+\begin{equation*}
+    \text{Tribe} \subset \text{Chief},\quad
+    \text{Tribe} \subset \text{State},\quad
+    \text{Chief} \subset \text{ChiefState},\quad
+    \text{State} \subset \text{ChiefState}.
+\end{equation*}
+Each organisation can be in peace ($P$) or conflict ($C$) state, yielding
+eight nodes: TrP, TrC, ChP, ChC, StP, StC, CSP, CSC.
+Inter-organisational transitions follow the four cover edges
+(\emph{up} = smaller $\to$ larger org; \emph{down} = larger $\to$ smaller),
+and each directed cover edge carries two \emph{combo} types (PP/PC for peace
+sources; CP/CC for conflict sources).
+
+\subsubsection*{ESMO Computation}
+
+For each (edge, direction, combo) triple, the LP solver enumerates all
+vertices of the transition-feasibility cone.  Vertex enumeration is
+performed using pyCOT's \texttt{Persistent\_Modules\_Generator}, which
+builds the reaction network from the transition signature and calls an
+external vertex-enumeration routine.  The output is the number of vertices
+$N_{\text{ESMO}}$ — a count of structurally distinct pathways through which
+the transition can be realised.
+
+Results are cached in \texttt{outputs/complex\_COT\_ESMO/transition\_summary.csv}
+and \texttt{outputs/intra\_org\_esmo/esmo\_cache\_intra.csv} to avoid
+recomputation (which can take several hours).  The cache files are read
+directly by \texttt{script\_section5.py} to regenerate all figures.
+
+\subsubsection*{Conditional Relative Frequency ($f$-value)}
+
+For a directed cover edge and a given source-state type, the conditional
+relative frequency is:
+\begin{equation}
+    f(\text{combo}) = \frac{N_{\text{ESMO}}(\text{combo})}
+                          {N_{\text{ESMO}}(\text{combo}) + N_{\text{ESMO}}(\text{complement})},
+\end{equation}
+where the complement swaps only the target-state component
+(PP$\leftrightarrow$PC; CP$\leftrightarrow$CC).
+Thus $f(\text{PP}) + f(\text{PC}) = 1$ for peace sources and
+$f(\text{CP}) + f(\text{CC}) = 1$ for conflict sources on the same
+directed edge.  Each node has two outgoing cover edges; summing $f$-values
+across both edges gives 2, not 1.
+
+\subsubsection*{Normalised Transition Probability ($P$-value)}
+
+To obtain probabilities that sum to 1 per source node across all four
+outgoing transitions, we compute:
+\begin{equation}
+    P(u \to v) = \frac{N_{\text{ESMO}}(u \to v)}
+                      {\displaystyle\sum_{v':\,(u,v')\in E} N_{\text{ESMO}}(u \to v')},
+\end{equation}
+where the denominator sums over all four outgoing directed transitions
+from node $u$.  The $P$-values reported in the Markov graph and in the
+inter-organisational bar charts (Section~5, Figures~5--7) are all
+computed with this normalisation.
+
+\subsubsection*{Markov Graph Visualisation}
+
+The Markov graph is rendered in two formats by \texttt{plot\_markov\_hierarchy.py}:
+\begin{itemize}
+    \item An interactive HTML file (\texttt{markov\_hierarchy.html}) using
+          the PyVis library.
+    \item A static PNG (\texttt{fig\_markov\_loops.png}) using Matplotlib.
+\end{itemize}
+
+Arrow properties are driven by the $P$-value via a single unified formula:
+\begin{equation}
+    \text{line width} = 12\,P,
+    \qquad
+    \text{opacity} = 2.2\,P.
+\end{equation}
+With $P \in [0.10, 0.40]$, this maps to line widths $[1.2, 4.8]$ and
+opacities $[0.22, 0.88]$.  All 32 arrows use the same formula with curvature
+$\text{rad} = 0.15$; bidirectional pairs curve to opposite sides automatically
+because the arc direction is relative to the travel direction.
+
+Arrow colours encode the combo type:
+\begin{center}
+\begin{tabular}{lll}
+\toprule
+Combo & Direction & Colour \\
+\midrule
+PP & peace $\to$ peace     & forest green \texttt{\#3D7A4A} \\
+PC & peace $\to$ conflict  & amber \texttt{\#C8810A} \\
+CP & conflict $\to$ peace  & steel blue \texttt{\#2563A6} \\
+CC & conflict $\to$ conflict & brick red \texttt{\#A83232} \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+The configuration variable \texttt{SHOW\_VALUE = 'P'} controls which
+value appears as edge labels (options: \texttt{'P'}, \texttt{'f'}, or
+\texttt{'both'}).  The variable \texttt{WEIGHT\_COL = 'P'} independently
+controls which value drives arrow thickness and opacity.
+
+\subsubsection*{Dominant Structural Cycle}
+
+Greedy path-tracing from TrC (the most conflict-prone tribal node)
+following the maximum-$P$ outgoing transition at each step reveals
+the dominant 4-cycle:
+\begin{equation}
+    \text{TrC} \xrightarrow{P=0.344,\;\text{PC}} \text{ChC}
+    \xrightarrow{P=0.374,\;\text{CC}} \text{CSC}
+    \xrightarrow{P=0.352,\;\text{CC}} \text{StP}
+    \xrightarrow{P=0.308,\;\text{CP}} \text{TrC}.
+    \label{eq:dominant_cycle}
+\end{equation}
+This cycle captures a structural attractor in which tribal conflict escalates
+through hierarchical layers before a fragile state-level peace formation
+collapses back to tribal conflict.
